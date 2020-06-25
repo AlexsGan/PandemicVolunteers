@@ -6,6 +6,8 @@ import './App.css';
 
 // Import components
 import View from "./components/LandingView";
+import Register from "./components/Register";
+import ProfileWizard from "./components/Register/ProfileWizard";
 
 class App extends React.Component {
 
@@ -16,6 +18,10 @@ class App extends React.Component {
           <Switch>
             <Route exact path='/' render={() => 
                             (<View/>)}/>
+            <Route exact path ='/register' render ={() => 
+                            (<Register/>)}/>
+            <Route exact path ='/register/create-profile' render = {() =>
+                            (<ProfileWizard/>)}/>
           </Switch>
         </BrowserRouter>
       </div>

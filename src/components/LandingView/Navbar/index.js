@@ -29,7 +29,7 @@ class Navbar extends React.Component {
           </Link>
         </Grid>
         <Grid item xs={2}>
-          <Link className="link">
+          <Link className="link" to="/register">
             <Button variant="contained" color="default">
               <h3 className="nav_text">Log In</h3>
             </Button> 
