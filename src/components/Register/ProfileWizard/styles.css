@@ -4,11 +4,12 @@
     align-items: center;
 }
 
-.wizard-grid__content {
+.MuiPaper-root.wizard-grid__content {
     padding:30px;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: rgb(234, 246, 248);
 }
 
 .wizard-container {
