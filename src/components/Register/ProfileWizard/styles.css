@@ -1,0 +1,20 @@
+.wizard-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.MuiPaper-root.wizard-grid__content {
+    padding:30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(234, 246, 248);
+}
+
+.wizard-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+}
