@@ -1,0 +1,19 @@
+.wizard-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.wizard-grid__content {
+    padding:30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.wizard-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+}
