@@ -5,7 +5,7 @@ import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import './App.css';
 
 // Import components
-import Landing from "./components/Landing";
+import View from "./components/LandingView";
 import Register from "./components/Register";
 import ProfileWizard from "./components/Register/ProfileWizard";
 
@@ -17,7 +17,7 @@ class App extends React.Component {
         <BrowserRouter>
           <Switch>
             <Route exact path='/' render={() => 
-                            (<Landing/>)}/>
+                            (<View/>)}/>
             <Route exact path ='/register' render ={() => 
                             (<Register/>)}/>
             <Route exact path ='/register/create-profile' render = {() =>
