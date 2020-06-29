@@ -5,7 +5,9 @@ import { Route, Switch, BrowserRouter } from 'react-router-dom';
 import './App.css';
 
 // Import components
-import Landing from "./components/Landing";
+import GroupChat from "./components/GroupChat";
+import View from "./components/LandingView";
+import Requests from "./components/Requests";
 
 class App extends React.Component {
 
@@ -15,7 +17,11 @@ class App extends React.Component {
         <BrowserRouter>
           <Switch>
             <Route exact path='/' render={() => 
-                            (<Landing/>)}/>
+                            (<View/>)}/>
+            <Route exact path='/GroupChat' render={() => 
+                            (<GroupChat/>)}/>
+            <Route exact path='/Requests' render={() => 
+                            (<Requests/>)}/>
           </Switch>
         </BrowserRouter>
       </div>
