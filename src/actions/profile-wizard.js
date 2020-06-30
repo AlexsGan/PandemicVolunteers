@@ -9,53 +9,73 @@ export function getSteps() {
 
 export const handleBack = (event, wizard) => {
     const state = wizard.state;
-    wizard.setState({activeStep: state.activeStep - 1});
+    wizard.setState({ activeStep: state.activeStep - 1 });
 }
 
 export const handleNext = (event, wizard) => {
     const state = wizard.state;
     if (state.activeStep === getSteps().length - 1) {
-        wizard.setState({stepSubmitted: true}, () => {
-            handleSubmit(state);
-        });
+        wizard.setState(
+            {
+                stepSubmitted: true,
+                slideIn: false,
+                slideDirection: "left"
+            },
+            () => {
+                // Wait for transition to complete
+                setTimeout(() => {handleSubmit(wizard);}, 500);
+            }
+        );
     } else {
         if (handleValidate(state.activeStep, wizard)) {
-            wizard.setState({stepSubmitted: true}, () => {
+            wizard.setState({ stepSubmitted: true }, () => {
                 wizard.setState(
-                    {activeStep: state.activeStep + 1, stepSubmitted: false}
+                    { activeStep: state.activeStep + 1, stepSubmitted: false }
                 );
             });
         }
     }
 }
 
-const handleSubmit = profile => {
+const handleSubmit = (wizard) => {
+    const state = wizard.state;
+    // State passed from Register component
+    const basicUser = wizard.props.location.state.basicUser;
     // FIXME: Temporary phase 1 user object
-    const userProfile = {
-        location: {city: profile.city, province: profile.province},
-        isEmployed: profile.hasEmployment,
-        isWorkingRemotely: profile.hasRemoteWork,
-        employment: profile.employmentField,
-        isDriver: profile.hasVehicle,
-        isLifter: profile.hasLiftAbility,
-        liftingAbility: profile.liftField,
-        hasVisibleProfile: profile.hasVisibleProfile,
-        isVulnerable: profile.hasVulnerable,
-        additionalQuals: []}
+    const userObject = {
+        firstName: basicUser.firstName,
+        lastName: basicUser.lastName,
+        username: basicUser.username,
+        password: basicUser.password,
+        profile: {
+            birthday: basicUser.birthday,
+            location: { city: state.city, province: state.province },
+            isEmployed: state.hasEmployment,
+            isWorkingRemotely: state.hasRemoteWork,
+            employment: state.employmentField,
+            isDriver: state.hasVehicle,
+            isLifter: state.hasLiftAbility,
+            liftingAbility: state.liftField,
+            hasVisibleProfile: state.hasVisibleProfile,
+            isVulnerable: state.hasVulnerable,
+            additionalQuals: []
+        }
+    }
     // Remove extraneous/empty qualifications and add to user object
-    for (let i = 0; i < profile.additionalQuals.length; i++) {
-        if (profile.additionalQuals[i].trim() !== "") {
-            userProfile.additionalQuals.push(profile.additionalQuals[i].trim());
+    for (let i = 0; i < state.additionalQuals.length; i++) {
+        if (state.additionalQuals[i].trim() !== "") {
+            userObject.profile.additionalQuals.push(state.additionalQuals[i].trim());
         }
     }
 
     // BACKEND: Send user profile information to server
     console.log("Profile submitted");
-    console.log(userProfile);
+    console.log(userObject);
+    wizard.setState({ userObject: userObject, finished: true });
 }
 
 const handleValidate = (step, wizard) => {
-    switch(step) {
+    switch (step) {
         case 0:
             return validateLocation(wizard);
         case 1:
@@ -67,47 +87,47 @@ const handleValidate = (step, wizard) => {
 
 export const getWizardContent = (step, wizard) => {
     const state = wizard.state;
-    switch(step) {
+    switch (step) {
         case 0:
             return (<LocationStep
-                        header="Your Current Location"
-                        description="Used to retrieve news and volunteer requests near you."
-                        city={state.city}
-                        province={state.province}
-                        cityError={state.cityError}
-                        provinceError={state.provinceError}
-                        handleChange={(event) => {handleTextChange(event, wizard)}}
-                        stepSubmitted={state.stepSubmitted}
-                    />)
+                header="Your Current Location"
+                description="Used to retrieve news and volunteer requests near you."
+                city={state.city}
+                province={state.province}
+                cityError={state.cityError}
+                provinceError={state.provinceError}
+                handleChange={(event) => { handleTextChange(event, wizard) }}
+                stepSubmitted={state.stepSubmitted}
+            />)
         case 1:
             return (<QualificationStep
-                        header="Your Qualifications"
-                        description="Used to recommend and filter volunteer requests."
-                        hasEmployment={state.hasEmployment}
-                        hasRemoteWork={state.hasRemoteWork}
-                        employmentField={state.employmentField}
-                        hasVehicle={state.hasVehicle}
-                        hasLiftAbility={state.hasLiftAbility}
-                        liftField={state.liftField}
-                        employmentFieldError={state.employmentFieldError}
-                        liftFieldError={state.liftFieldError}
-                        handleChange={(event) => {handleTextChange(event, wizard)}}
-                        handleSwitch={(event) => {handleSwitch(event, wizard)}}
-                        stepSubmitted={state.stepSubmitted}
-                    />)
+                header="Your Qualifications"
+                description="Used to recommend and filter volunteer requests."
+                hasEmployment={state.hasEmployment}
+                hasRemoteWork={state.hasRemoteWork}
+                employmentField={state.employmentField}
+                hasVehicle={state.hasVehicle}
+                hasLiftAbility={state.hasLiftAbility}
+                liftField={state.liftField}
+                employmentFieldError={state.employmentFieldError}
+                liftFieldError={state.liftFieldError}
+                handleChange={(event) => { handleTextChange(event, wizard) }}
+                handleSwitch={(event) => { handleSwitch(event, wizard) }}
+                stepSubmitted={state.stepSubmitted}
+            />)
         case 2:
             return (<PreferenceStep
-                        header="Preferences &amp; Additional Info"
-                        description="Extra information used toward to your personal profile."
-                        hasVisibleProfile={state.hasVisibleProfile}
-                        hasVulnerable={state.hasVulnerable}
-                        additionalQuals={state.additionalQuals}
-                        handleSwitch={(event) => {handleSwitch(event, wizard)}}
-                        handleAdd={(event) => {handleAdd(event, wizard)}}
-                        handleQualTextChange={(event) => {handleQualTextChange(event, wizard)}}
-                        handleChange={(event) => {handleTextChange(event, wizard)}}
-                        stepSubmitted={state.stepSubmitted}
-                    />)
+                header="Preferences &amp; Additional Info"
+                description="Extra information used toward to your personal profile."
+                hasVisibleProfile={state.hasVisibleProfile}
+                hasVulnerable={state.hasVulnerable}
+                additionalQuals={state.additionalQuals}
+                handleSwitch={(event) => { handleSwitch(event, wizard) }}
+                handleAdd={(event) => { handleAdd(event, wizard) }}
+                handleQualTextChange={(event) => { handleQualTextChange(event, wizard) }}
+                handleChange={(event) => { handleTextChange(event, wizard) }}
+                stepSubmitted={state.stepSubmitted}
+            />)
         default:
             return ('Error');
     }
@@ -125,7 +145,7 @@ const handleQualTextChange = (event, wizard) => {
     const target = event.target;
     const newAdditionalQuals = state.additionalQuals;
     newAdditionalQuals[parseInt(target.name)] = target.value
-    wizard.setState({additionalQuals: newAdditionalQuals});
+    wizard.setState({ additionalQuals: newAdditionalQuals });
 }
 
 const handleSwitch = (event, wizard) => {
@@ -137,7 +157,7 @@ const handleSwitch = (event, wizard) => {
 
 const handleAdd = (event, wizard) => {
     const state = wizard.state;
-    wizard.setState({additionalQuals: [...state.additionalQuals, ""]});
+    wizard.setState({ additionalQuals: [...state.additionalQuals, ""] });
 }
 
 const validateQualification = wizard => {
@@ -146,9 +166,9 @@ const validateQualification = wizard => {
     if (state.hasEmployment) {
         if (state.employmentField === "") {
             isValid = false;
-            wizard.setState({employmentFieldError: true});
+            wizard.setState({ employmentFieldError: true });
         } else {
-            wizard.setState({employmentFieldError: false});
+            wizard.setState({ employmentFieldError: false });
         }
     }
     if (state.hasLiftAbility) {
@@ -156,9 +176,9 @@ const validateQualification = wizard => {
             state.liftField.match(/^0+/) ||
             !state.liftField.match(/^\d+$/)) {
             isValid = false;
-            wizard.setState({liftFieldError: true});
+            wizard.setState({ liftFieldError: true });
         } else {
-            wizard.setState({liftFieldError: false});
+            wizard.setState({ liftFieldError: false });
         }
     }
     return isValid;
@@ -169,15 +189,15 @@ const validateLocation = wizard => {
     let isValid = true;
     if (state.city === "") {
         isValid = false;
-        wizard.setState({cityError: true});
+        wizard.setState({ cityError: true });
     } else {
-        wizard.setState({cityError: false});
+        wizard.setState({ cityError: false });
     }
     if (state.province === "") {
         isValid = false;
-        wizard.setState({provinceError: true});
+        wizard.setState({ provinceError: true });
     } else {
-        wizard.setState({provinceError: false});
+        wizard.setState({ provinceError: false });
     }
     return isValid;
 }

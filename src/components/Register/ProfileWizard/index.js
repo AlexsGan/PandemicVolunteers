@@ -5,6 +5,7 @@ import Box from "@material-ui/core/Box";
 import { Typography, Grid, Paper, Button, Container } from "@material-ui/core";
 import ProfileStepper from "../ProfileStepper";
 import { handleBack, handleNext, getSteps, getWizardContent } from "../../../actions/profile-wizard"
+import { Redirect } from "react-router";
 
 /* Component for profile wizard page */
 class ProfileWizard extends React.Component {
@@ -27,15 +28,25 @@ class ProfileWizard extends React.Component {
         liftFieldError: false,
         cityError: false,
         provinceError: false,
-        stepSubmitted: false
+        stepSubmitted: false,
+        finished: false,
+        userObject: {}
     }
 
     render () {
+        if (this.state.finished) {
+            console.log("FINISHING")
+            return <Redirect to={{
+                pathname: "/profile",
+                state: { userObject: this.state.userObject }
+            }}/>;
+        }
+
         return (
             <Slide direction={this.state.slideDirection} in={this.state.slideIn} mountOnEnter unmountOnExit>
                 <Box>
                     <Box className="header">
-                        <Typography variant="h3"  align="center">
+                        <Typography variant="h3" align="center">
                             Tell us about yourself!
                         </Typography>
                     </Box>

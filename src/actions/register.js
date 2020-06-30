@@ -8,7 +8,6 @@ export const handleChange = (event, form) => {
 export const handleSubmit = (event, form) => {
     if (validateInput(form)) {
         // BACKEND: Send user info to server
-        console.log("VALID");
         form.setState({slideIn: false, slideDirection: "left"},
                         () => {form.setState({redirect: true});});
     } else {
@@ -19,13 +18,13 @@ export const handleSubmit = (event, form) => {
 const validateInput = registerForm => {
     let validInput = true;
     const state = registerForm.state;
-    if (state.firstName.match(/^[a-zA-Z]+$/) === null) {
+    if (state.firstName.match(/^\S+$/) === null) {
         registerForm.setState({firstNameError: true});
         validInput = false;
     } else {
         registerForm.setState({firstNameError: false});
     }
-    if (state.lastName.match(/^[a-zA-Z]+$/) === null) {
+    if (state.lastName.match(/^\S+$/) === null) {
         registerForm.setState({lastNameError: true});
         validInput = false;
     } else {
