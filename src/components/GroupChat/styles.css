@@ -1,5 +1,5 @@
 .message-entry {
-    margin-top: 100px;
+    margin-top: 50px;
     display: 'flex';
     flex-direction: column;
     align-items: center;
@@ -15,4 +15,13 @@
 .message-time {    
     text-align: 'flex-end';
     margin-right: 0;
+}
+
+.group-chat-box {       
+    display: 'flex';
+    align-items: center;
+    padding-top: 5%;
+    padding-bottom: 20%;
+    max-width: '50';
+    background-color: #F0F8FF;
 }
