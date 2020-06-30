@@ -10,52 +10,103 @@ import "./styles.css";
 
 /* Component for group chat */
 class GroupChat extends React.Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      newMessage: '',
+      messageList: []
+    }
 
-  state = {
-    date : '', 
-  };
+    this.clearData = this.clearData.bind(this)
+    this.handleChangeTextbox = this.handleChangeTextbox.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
+    this.onCancel = this.onCancel.bind(this)
+  }
+  // state = {
+  //   date : '', 
+  //   messageValue: '',
+  // };
 
-  // componentDidMount() {
-  //   var that = this;
-  //   var date = new Date().getDate(); //Current Date
-  //   var month = new Date().getMonth() + 1; //Current Month
-  //   var year = new Date().getFullYear(); //Current Year
-  //   var hours = new Date().getHours(); //Current Hours
-  //   var min = new Date().getMinutes(); //Current Minutes
-  //   var sec = new Date().getSeconds(); //Current Seconds
-  //   that.setState({
-  //     //Setting the value of the date time
-  //     date:
-  //       date + '/' + month + '/' + year + ' ' + hours + ':' + min + ':' + sec,
+  // // componentDidMount() {
+  // //   var that = this;
+  // //   var date = new Date().getDate(); //Current Date
+  // //   var month = new Date().getMonth() + 1; //Current Month
+  // //   var year = new Date().getFullYear(); //Current Year
+  // //   var hours = new Date().getHours(); //Current Hours
+  // //   var min = new Date().getMinutes(); //Current Minutes
+  // //   var sec = new Date().getSeconds(); //Current Seconds
+  // //   that.setState({
+  // //     //Setting the value of the date time
+  // //     date:
+  // //       date + '/' + month + '/' + year + ' ' + hours + ':' + min + ':' + sec,
+  // //   });
+  // // }
+
+  // submitChar = newMessage => {
+  //   this.setState({
+  //     submitChar: newMessage
   //   });
+  // };
+
+  // submitMessage = newMessage => {
+  //   this.setState({
+  //     messageList: [newMessage, ...this.state.messageList],
+  //   });
+  //   this.clearData()
+  // };
+
+  // clearData(){
+  //   this.setState({
+  //     value: ''
+  //   })
   // }
 
-  setCurrentToDoItem = toDoItem => {
+  // constructor(props) {
+  //   super(props);
+
+  //   this.state = {
+  //     submitChar: null,
+  //     messageList: []
+  //   };
+  // }
+
+  clearData(){
     this.setState({
-      currentToDoItem: toDoItem
-    });
-  };
+      newMessage: ''
+    })
+  }
 
-  saveToDoListItem = toDoItem => {
+  handleValidation(){
+    if (this.state.newMessage != '' && this.state.newMessage.length < 500) // post must have 1 < Character < 500
+      return true
+    
+    return false
+  }
+
+  handleChangeTextbox(e){
     this.setState({
-      toDoList: [toDoItem, ...this.state.toDoList],
-    });
-  };
+      newMessage: e.target.value
+    })
+  }
 
-  constructor(props) {
-    super(props);
+  onSubmit(e){
+    e.preventDefault();
+    if(this.handleValidation()){
+      //alert("Form submit")
+      this.setState({
+             messageList: [this.state.newMessage, ...this.state.messageList],
+           });
+      this.clearData()
+    }
+  }
 
-    this.state = {
-      currentToDoItem: null,
-      toDoList: []
-    };
+  onCancel(e){
+    e.preventDefault()
+    //alert("Cancel")
+    this.clearData()
   }
 
   render() {
-    // if (this.state.submitMessage) {
-    //   return <Box>
-    //         </Box>
-    // }
     if (this.state.redirect) {
       return <Redirect to="/GroupChat/GroupChatInput"/>;
     }
@@ -66,18 +117,25 @@ class GroupChat extends React.Component {
                 name="message"
                 variant="outlined"
                 label = "Message to group:"
-                onChange={event => this.setCurrentToDoItem(event.target.value)} 
+                value={this.state.newMessage} 
+                onChange={this.handleChangeTextbox}
                 fullWidth
             />
             <Button 
               variant="contained" 
-              onClick={() => this.saveToDoListItem(this.state.currentToDoItem)}
+              onClick={this.onSubmit}
               fullWidth 
             >
               Post
             </Button>
-
-            {this.state.toDoList.map((item, index) => (
+            <Button 
+              variant="contained" 
+              onClick={this.onCancel}
+              fullWidth 
+            >
+              Cancel
+            </Button>
+            {this.state.messageList.map((item, index) => (
               <Box>
               <Box 
                 className="posted-chats" 
