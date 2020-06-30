@@ -33,6 +33,8 @@ class QualificationList extends React.Component {
 class PreferenceStep extends React.Component {
     render() {
         const {
+            header,
+            description,
             hasVisibleProfile,
             hasVulnerable,
             additionalQuals,
@@ -48,10 +50,10 @@ class PreferenceStep extends React.Component {
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <Typography variant = "h5">
-                                Preferences &amp; Additional Info
+                                {header}
                             </Typography>
                             <Typography className="step__description italicized" variant = "subtitle1">
-                                Extra information used toward to your personal profile.
+                                {description}
                             </Typography>
                         </Grid>
                     </Grid>

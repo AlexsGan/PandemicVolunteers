@@ -6,6 +6,8 @@ import { Typography, Grid, TextField, MenuItem, Slide } from "@material-ui/core"
 class LocationStep extends React.Component {
     render() {
         const {
+            header,
+            description,
             city,
             province,
             cityError,
@@ -20,10 +22,10 @@ class LocationStep extends React.Component {
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <Typography variant = "h5">
-                                Your Current Location
+                                {header}
                             </Typography>
                             <Typography className="step__description italicized" variant = "subtitle1">
-                                Used to retrieve news and volunteer requests near you.
+                                {description}
                             </Typography>
                         </Grid>
                     </Grid>

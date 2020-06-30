@@ -30,12 +30,31 @@ export const handleNext = (event, wizard) => {
 }
 
 const handleSubmit = profile => {
+    // FIXME: Temporary phase 1 user object
+    const userProfile = {
+        location: {city: profile.city, province: profile.province},
+        isEmployed: profile.hasEmployment,
+        isWorkingRemotely: profile.hasRemoteWork,
+        employment: profile.employmentField,
+        isDriver: profile.hasVehicle,
+        isLifter: profile.hasLiftAbility,
+        liftingAbility: profile.liftField,
+        hasVisibleProfile: profile.hasVisibleProfile,
+        isVulnerable: profile.hasVulnerable,
+        additionalQuals: []}
+    // Remove extraneous/empty qualifications and add to user object
+    for (let i = 0; i < profile.additionalQuals.length; i++) {
+        if (profile.additionalQuals[i].trim() !== "") {
+            userProfile.additionalQuals.push(profile.additionalQuals[i].trim());
+        }
+    }
+
     // BACKEND: Send user profile information to server
     console.log("Profile submitted");
+    console.log(userProfile);
 }
 
 const handleValidate = (step, wizard) => {
-    let validated = false;
     switch(step) {
         case 0:
             return validateLocation(wizard);
@@ -51,6 +70,8 @@ export const getWizardContent = (step, wizard) => {
     switch(step) {
         case 0:
             return (<LocationStep
+                        header="Your Current Location"
+                        description="Used to retrieve news and volunteer requests near you."
                         city={state.city}
                         province={state.province}
                         cityError={state.cityError}
@@ -60,6 +81,8 @@ export const getWizardContent = (step, wizard) => {
                     />)
         case 1:
             return (<QualificationStep
+                        header="Your Qualifications"
+                        description="Used to recommend and filter volunteer requests."
                         hasEmployment={state.hasEmployment}
                         hasRemoteWork={state.hasRemoteWork}
                         employmentField={state.employmentField}
@@ -74,6 +97,8 @@ export const getWizardContent = (step, wizard) => {
                     />)
         case 2:
             return (<PreferenceStep
+                        header="Preferences &amp; Additional Info"
+                        description="Extra information used toward to your personal profile."
                         hasVisibleProfile={state.hasVisibleProfile}
                         hasVulnerable={state.hasVulnerable}
                         additionalQuals={state.additionalQuals}

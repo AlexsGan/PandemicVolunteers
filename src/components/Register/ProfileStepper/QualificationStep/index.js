@@ -6,6 +6,8 @@ import { Typography, Grid, TextField, Slide, Switch } from "@material-ui/core";
 class QualificationStep extends React.Component {
     render() {
         const {
+            header,
+            description,
             hasEmployment,
             employmentField,
             hasRemoteWork,
@@ -25,10 +27,10 @@ class QualificationStep extends React.Component {
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <Typography variant = "h5">
-                                Your Qualifications
+                                {header}
                             </Typography>
                             <Typography className="step__description italicized" variant = "subtitle1">
-                                Used to recommend and filter volunteer requests.
+                                {description}
                             </Typography>
                         </Grid>
                     </Grid>
@@ -77,7 +79,7 @@ class QualificationStep extends React.Component {
                         </Grid>
                         <Grid item xs={10}>
                             <Typography className="step__question" variant = "body1">
-                                I have access to a vehicle.
+                                I am willing to drive and have a driver's license and access to a vehicle.
                             </Typography>
                         </Grid>
                         <Grid item xs={2}>

@@ -4,8 +4,6 @@ import "./styles.css";
 
 /* Component for profile wizard stepper */
 class ProfileStepper extends React.Component {
-    state = {
-    }
     render () {
         const {
             activeStep,
