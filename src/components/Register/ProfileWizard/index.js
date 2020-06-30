@@ -18,7 +18,16 @@ class ProfileWizard extends React.Component {
         hasRemoteWork: false,
         employmentField: "",
         hasVehicle: false,
-        submitted: false
+        hasLiftAbility: false,
+        liftField: "",
+        hasVisibleProfile: false,
+        hasVulnerable: false,
+        additionalQuals: [],
+        employmentFieldError: false,
+        liftFieldError: false,
+        cityError: false,
+        provinceError: false,
+        stepSubmitted: false
     }
 
     render () {
@@ -48,7 +57,7 @@ class ProfileWizard extends React.Component {
                                     Back
                                 </Button>
                             </Grid>
-                            <Grid item xs={6}>
+                            <Grid item xs={8}>
                                 <ProfileStepper
                                     activeStep={this.state.activeStep}
                                     steps={getSteps()}

@@ -1,5 +1,8 @@
 .step__description {
     color: #5e5e5e;
+}
+
+.italicized {
     font-style: italic;
 }
 .MuiGrid-root.step__field-container {

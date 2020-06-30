@@ -1,5 +1,5 @@
 import React from "react";
-import "./styles.css";
+import "../styles.css";
 import { Typography, Grid, TextField, MenuItem, Slide } from "@material-ui/core";
 
 /* Component for location info, wizard step */
@@ -8,19 +8,21 @@ class LocationStep extends React.Component {
         const {
             city,
             province,
+            cityError,
+            provinceError,
             handleChange,
-            submitted
+            stepSubmitted
         } = this.props;
 
         return (
-            <Slide direction={"left"} in={!submitted} mountOnEnter unmountOnExit>
+            <Slide direction={"left"} in={!stepSubmitted} mountOnEnter unmountOnExit>
                 <Grid container spacing={2}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <Typography variant = "h5">
                                 Your Current Location
                             </Typography>
-                            <Typography className="step__description" variant = "subtitle1">
+                            <Typography className="step__description italicized" variant = "subtitle1">
                                 Used to retrieve news and volunteer requests near you.
                             </Typography>
                         </Grid>
@@ -32,6 +34,8 @@ class LocationStep extends React.Component {
                                 variant="standard"
                                 label="City"
                                 value={city}
+                                error={cityError}
+                                helperText={cityError === true ? 'Invalid city.' : ''}
                                 onChange={handleChange}
                                 required
                                 fullWidth
@@ -43,6 +47,8 @@ class LocationStep extends React.Component {
                                 id="select"
                                 label = "Province"
                                 value={province}
+                                error={provinceError}
+                                helperText={provinceError === true ? 'Invalid province.' : ''}
                                 onChange={handleChange}
                                 select
                                 required

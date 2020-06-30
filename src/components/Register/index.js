@@ -3,8 +3,8 @@ import RegisterForm from "./RegisterForm";
 
 import "./styles.css";
 import { Container, Typography, Slide, Box } from "@material-ui/core";
-import { validateInput } from "../../actions/register";
 import { Redirect } from "react-router";
+import { handleChange, handleSubmit } from "../../actions/register";
 
 /* Component for register page */
 class Register extends React.Component {
@@ -13,32 +13,16 @@ class Register extends React.Component {
         lastName: "",
         username: "",
         password: "",
+        birthday: "",
         firstNameError: false,
         lastNameError: false,
         usernameError: false,
         passwordError: false,
+        birthdayError: false,
         slideIn: true,
         slideDirection: "right",
         redirect: false
     };
-
-    handleChange = event => {
-        const target = event.target;
-        this.setState({
-            [target.name]: target.value
-        });
-    }
-
-    handleSubmit = event => {
-        if (validateInput(this)) {
-            // BACKEND: Send user info to server
-            console.log("VALID");
-            this.setState({slideIn: false, slideDirection: "left"});
-            setTimeout(() => {this.setState({redirect: true})}, 500);
-        } else {
-            console.log("Invalid chars");
-        }
-    }
 
     render() {
         // Redirect to profile creation component
@@ -59,12 +43,14 @@ class Register extends React.Component {
                             lastName={this.state.lastName}
                             username={this.state.username}
                             password={this.state.password}
-                            handleChange={this.handleChange}
-                            handleSubmit={this.handleSubmit}
+                            birthday={this.state.birthday}
                             firstNameError={this.state.firstNameError}
                             lastNameError={this.state.lastNameError}
                             usernameError={this.state.usernameError}
                             passwordError={this.state.passwordError}
+                            birthdayError={this.state.birthdayError}
+                            handleChange={(event) => handleChange(event, this)}
+                            handleSubmit={(event) => handleSubmit(event, this)}
                         />
                     </Container>
                 </Box>
