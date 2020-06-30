@@ -4,8 +4,6 @@ import "./styles.css";
 
 /* Component for profile wizard stepper */
 class ProfileStepper extends React.Component {
-    state = {
-    }
     render () {
         const {
             activeStep,
@@ -19,6 +17,9 @@ class ProfileStepper extends React.Component {
                 </Step>
                 <Step key={2}>
                     <StepLabel>{steps[1]}</StepLabel>
+                </Step>
+                <Step key={3}>
+                    <StepLabel>{steps[2]}</StepLabel>
                 </Step>
             </Stepper>
         );

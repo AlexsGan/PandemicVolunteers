@@ -1,30 +1,36 @@
 import React from "react";
-import "./styles.css";
+import "../styles.css";
 import { Typography, Grid, TextField, Slide, Switch } from "@material-ui/core";
 
 /* Component for qualification info, wizard step */
 class QualificationStep extends React.Component {
     render() {
         const {
+            header,
+            description,
             hasEmployment,
             employmentField,
             hasRemoteWork,
             hasVehicle,
+            hasLiftAbility,
+            liftField,
+            employmentFieldError,
+            liftFieldError,
             handleChange,
             handleSwitch,
-            submitted
+            stepSubmitted
         } = this.props;
 
         return (
-            <Slide direction={submitted ? "left" : "right"} in={!submitted} mountOnEnter unmountOnExit>
+            <Slide direction={stepSubmitted ? "left" : "right"} in={!stepSubmitted} mountOnEnter unmountOnExit>
                 <Grid container spacing={2}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
                             <Typography variant = "h5">
-                                Your Qualifications
+                                {header}
                             </Typography>
-                            <Typography className="step__description" variant = "subtitle1">
-                                Used to recommend and filter volunteer requests.
+                            <Typography className="step__description italicized" variant = "subtitle1">
+                                {description}
                             </Typography>
                         </Grid>
                     </Grid>
@@ -51,6 +57,8 @@ class QualificationStep extends React.Component {
                                     label="Field of Employment"
                                     value={employmentField}
                                     onChange={handleChange}
+                                    error={employmentFieldError}
+                                    helperText={employmentFieldError === true ? 'Missing field.' : ''}
                                     required
                                     disabled={hasEmployment === false}
                                 />
@@ -58,7 +66,7 @@ class QualificationStep extends React.Component {
                         : null}
                         <Grid item xs={10}>
                             <Typography className="step__question" variant = "body1">
-                                I am currently working from home or unemployed.
+                                I am currently working/unemployed at home.
                             </Typography>
                         </Grid>
                         <Grid item xs={2}>
@@ -71,7 +79,7 @@ class QualificationStep extends React.Component {
                         </Grid>
                         <Grid item xs={10}>
                             <Typography className="step__question" variant = "body1">
-                                I have access to a vehicle.
+                                I am willing to drive and have a driver's license and access to a vehicle.
                             </Typography>
                         </Grid>
                         <Grid item xs={2}>
@@ -82,6 +90,35 @@ class QualificationStep extends React.Component {
                                 color="primary"
                             />
                         </Grid>
+                        <Grid item xs={10}>
+                            <Typography className="step__question" variant = "body1">
+                                I am willing to lift and carry.
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <Switch
+                                checked={hasLiftAbility}
+                                onChange={handleSwitch}
+                                name="hasLiftAbility"
+                                color="primary"
+                            />
+                        </Grid>
+                        {hasLiftAbility ?
+                            <Grid item xs={12}>
+                                <TextField
+                                    className="step__question"
+                                    name="liftField"
+                                    variant="outlined"
+                                    label="Can lift up to (lbs)"
+                                    value={liftField}
+                                    onChange={handleChange}
+                                    error={liftFieldError}
+                                    helperText={liftFieldError === true ? 'Amount must be a positive integer.' : ''}
+                                    required
+                                    disabled={hasLiftAbility === false}
+                                />
+                            </Grid>
+                        : null}
                     </Grid>
                 </Grid>
             </Slide>
