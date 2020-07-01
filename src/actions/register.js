@@ -54,7 +54,7 @@ const validateInput = registerForm => {
 const isOfAge = dateStr => {
     let dateArr = dateStr.split("-");
     const today = new Date();
-    const adjustedBirthday = new Date(parseInt(dateArr[0]) + 18, dateArr[1]-1, dateArr[2]);
+    const adjustedBirthday = new Date(parseInt(dateArr[0]) + 18, parseInt(dateArr[1])-1, parseInt(dateArr[2]));
     return adjustedBirthday <= today;
 }
 
