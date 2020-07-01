@@ -1,0 +1,33 @@
+.profile-body__grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.MuiPaper-root.profile-header {
+    background: navy;
+    margin-top: 50px;
+    display: flex;
+}
+
+.MuiTypography-root.profile-header__text {
+    margin-top: 100px;
+    margin-left: 50px;
+    margin-bottom: 25px;
+    color: white;
+    font-weight: bold;
+}
+
+.MuiPaper-root.profile-body__grid {
+    padding:30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(234, 246, 248);
+}
+
+.profile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
