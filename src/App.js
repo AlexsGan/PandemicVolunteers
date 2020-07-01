@@ -8,6 +8,8 @@ import './App.css';
 import GroupChat from "./components/GroupChat";
 import View from "./components/LandingView";
 import Requests from "./components/Requests";
+import Register from "./components/Register";
+import ProfileWizard from "./components/Register/ProfileWizard";
 
 class App extends React.Component {
 
@@ -22,6 +24,10 @@ class App extends React.Component {
                             (<GroupChat/>)}/>
             <Route exact path='/Requests' render={() => 
                             (<Requests/>)}/>
+            <Route exact path ='/register' render ={() => 
+                            (<Register/>)}/>
+            <Route exact path ='/register/create-profile' render = {() =>
+                            (<ProfileWizard/>)}/>
           </Switch>
         </BrowserRouter>
       </div>
