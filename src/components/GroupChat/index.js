@@ -2,7 +2,7 @@ import React from "react";
 
 import TextField from '@material-ui/core/TextField';
 import Button from "@material-ui/core/Button";
-import { Container, Box } from "@material-ui/core";
+import { Container, Box, GridList } from "@material-ui/core";
 import { Redirect } from "react-router";
 
 import "./styles.css";
@@ -121,7 +121,7 @@ class GroupChat extends React.Component {
                 onChange={this.handleChangeTextbox}
                 fullWidth
             />
-            
+
             <Button 
               variant="contained" 
               onClick={this.onSubmit}
@@ -137,7 +137,8 @@ class GroupChat extends React.Component {
             >
               Cancel
             </Button>
-            
+            <Container className="message-entry" maxWidth="sm">
+
             {this.state.messageList.map((item, index) => ( // output message
               <Box>
               <Box 
@@ -155,8 +156,6 @@ class GroupChat extends React.Component {
               </Box> */}
               </Box>
             ))}
-
-
               {/* the Box below is hardcoded: will be removed when back-end is implemented */}
               <Box 
                 className="posted-chats" 
@@ -172,6 +171,8 @@ class GroupChat extends React.Component {
                 reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur 
                 sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
               </Box>
+
+              </Container>
           </Container>
         </Container>
     );
