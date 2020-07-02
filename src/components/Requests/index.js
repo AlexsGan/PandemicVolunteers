@@ -72,6 +72,8 @@ class Requests extends React.Component {
             <Grid className="requests-grid" container spacing={2}>
               <Grid item xs={12}>
                 <TextField
+                  multiline={true}
+                  rows={3}
                   name="message"
                   variant="outlined"
                   label="Add a request:"

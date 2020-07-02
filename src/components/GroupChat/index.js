@@ -86,7 +86,7 @@ class GroupChat extends React.Component {
                   fullWidth
                   color="primary"
                 >
-                  Post
+                  Message
                 </Button>
               </Grid>
               <Grid item xs={4}>
