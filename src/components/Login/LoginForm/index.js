@@ -46,6 +46,7 @@ class LoginForm extends React.Component {
                         color="primary"
                         variant="contained"
                         onClick={handleSubmit}
+                        fullWidth
                     >
                         User Login
                     </Button>
@@ -55,6 +56,7 @@ class LoginForm extends React.Component {
                         name="loginAdmin"
                         variant="contained"
                         onClick={handleSubmit}
+                        fullWidth
                     >
                         ADMIN Login
                     </Button>
@@ -70,6 +72,7 @@ class LoginForm extends React.Component {
                             name="register"
                             color="secondary"
                             variant="contained"
+                            fullWidth
                         >
                             Register
                         </Button>

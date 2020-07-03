@@ -1,32 +1,13 @@
-.background{
-    background-color: lightblue;
-    position: relative;
-    height: 15%;
- 
-}
-.titleBackground{
-    height: 75px;
-
-}
-.MuiButton-contained {
-    background-color: red;
-    position: relative;
+.MuiButton-root.navbar__button {
     width: 100%;
     height: 100%;
-    vertical-align: middle;
-
-}
-.link{
-    text-decoration: none;
 }
 
-.appName{
+.MuiTypography-root.navbar__app-name{
     text-align: center;
-    font-size: 225%;
-    font-style: italic;
+    font-weight: bold;
 }
-.nav_text{
-    font-style: oblique;
-    font-family: 'Lucida Sans';
-    font-size: 150%;
+
+.MuiTabs-root.navbar__tabs {
+    color: white;
 }
