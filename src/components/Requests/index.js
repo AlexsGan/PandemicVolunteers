@@ -58,7 +58,8 @@ class Requests extends React.Component {
     })
   }
 
-  assistRequest(e) { // todo
+  assistRequest(key) { 
+    // TODO: wait for request host to accept assistance, then proceeds
     this.setState({
       redirect: true
     })
@@ -98,6 +99,7 @@ class Requests extends React.Component {
   }
 
   deleteRequest(key) {
+    // TODO: if (admin) then delete request
     var filteredMessageList = this.state.messageList.filter(function (item) {
       return (item.key !== key);
     });

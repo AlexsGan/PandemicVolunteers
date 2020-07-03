@@ -2,7 +2,7 @@ import React from "react";
 
 import TextField from '@material-ui/core/TextField';
 import Button from "@material-ui/core/Button";
-import { Container, Box, Grid, GridList } from "@material-ui/core";
+import { Container, Box, Grid, GridList, Hidden } from "@material-ui/core";
 import { Redirect } from "react-router";
 
 import "./styles.css";
@@ -47,7 +47,7 @@ class GroupChat extends React.Component {
     })
   }
 
-  changeGroup(e) { // backend will load data from the new group specified
+  changeGroup(key) { // backend will load data from the new group specified
 
   }
 
@@ -91,6 +91,7 @@ class GroupChat extends React.Component {
   }
 
   deleteMessage(key) {
+    // TODO: if (admin) then delete message
     var filteredMessageList = this.state.messageList.filter(function (item) {
       return (item.key !== key);
     });
