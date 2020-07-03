@@ -52,6 +52,10 @@ class GroupChat extends React.Component {
   }
 
   createTasks(item) { // output message
+    if (this.props.location.state.userObject == null) {
+      alert("You must be a registered user")
+      return 
+    }
     return <Box>
       <br />
       <br />
@@ -61,7 +65,7 @@ class GroupChat extends React.Component {
             bgcolor="grey.300"
             borderRadius={20}
           >
-            <b>Username</b>
+            <b>{this.props.location.state.userObject.username}</b>
           </Box>
         </Grid>
         <Grid item xs={8}>
