@@ -29,6 +29,7 @@ class Requests extends React.Component {
     // this.handleChangeProvince = this.handleChangeProvince.bind(this)
 
     this.createTasks = this.createTasks.bind(this)      // post a request
+    this.deleteRequest = this.deleteRequest.bind(this)
     this.assistRequest = this.assistRequest.bind(this)
 
     this.onSubmit = this.onSubmit.bind(this)
@@ -74,21 +75,52 @@ class Requests extends React.Component {
       >
         {item.text}{""}
         <Button
+          variant="outlined"
           onClick={() => this.assistRequest(item.key)}
+          color="primary"
         >
           Assist Request
         </Button>
       </Box>
+      <Button
+        variant="outlined"
+        onClick={() => this.deleteRequest(item.key)}
+      >
+        Delete request
+        </Button>
+      <Box
+        style={{ float: "right" }}
+      >
+        {item.date}
+      </Box>
     </Box>
+  }
+
+  deleteRequest(key) {
+    var filteredMessageList = this.state.messageList.filter(function (item) {
+      return (item.key !== key);
+    });
+
+    this.setState({
+      messageList: filteredMessageList
+    });
   }
 
   onSubmit(e) {
     e.preventDefault();
     if (this.handleValidation()) {
       //alert("Form submit")
+      var date = new Date().getDate(); //Current Date
+      var month = new Date().getMonth() + 1; //Current Month
+      var year = new Date().getFullYear(); //Current Year
+      var hours = new Date().getHours(); //Current Hours
+      var min = new Date().getMinutes(); //Current Minutes
+      var sec = new Date().getSeconds(); //Current Seconds
+
       var newRequest = {
         text: this.state.requestMessage,
-        key: Date.now()
+        key: Date.now(),
+        date: date + '/' + month + '/' + year + ' ' + hours + ':' + min + ':' + sec,
       };
       this.setState({
         messageList: [newRequest, ...this.state.messageList],
@@ -105,7 +137,7 @@ class Requests extends React.Component {
 
   render() {
     if (this.state.redirect) {
-      return <Redirect to="/GroupChat"/>;
+      return <Redirect to="/GroupChat" />;
     }
     return (
       <div>
@@ -146,29 +178,7 @@ class Requests extends React.Component {
             </Grid>
 
             {/* add requests */}
-            {this.state.messageList.map(this.createTasks)} 
-
-            {/* the Box below is hardcoded: will be removed when back-end is implemented */}
-            {/* <Box
-              className="posted-chats"
-              component="span"
-              display="flex"
-              bgcolor="grey.300"
-              borderRadius={10}
-              p={1}
-            >
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-              ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-              ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-              sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-              <Button
-                onClick={this.assistRequest}
-                color="primary"
-              >
-                Assist Now
-              </Button>
-            </Box> */}
+            {this.state.messageList.map(this.createTasks)}
 
           </Container>
         </Container>

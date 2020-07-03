@@ -51,7 +51,7 @@ class GroupChat extends React.Component {
 
   }
 
-  createTasks(item) {
+  createTasks(item) { // output message
     return <Box>
       <Box
         className="posted-chats"
@@ -62,11 +62,17 @@ class GroupChat extends React.Component {
         p={1}
       >
         {item.text}{""}
-        <Button
-          onClick={() => this.deleteMessage(item.key)}
-        >
-          Delete
+      </Box>
+      <Button
+        variant="outlined"
+        onClick={() => this.deleteMessage(item.key)}
+      >
+        Delete msg
         </Button>
+      <Box
+        style={{float: "right"}}
+      >
+        {item.date}
       </Box>
     </Box>
   }
@@ -85,9 +91,17 @@ class GroupChat extends React.Component {
     e.preventDefault();
     if (this.handleValidation()) {
       //alert("Form submit")
+      var date = new Date().getDate(); //Current Date
+      var month = new Date().getMonth() + 1; //Current Month
+      var year = new Date().getFullYear(); //Current Year
+      var hours = new Date().getHours(); //Current Hours
+      var min = new Date().getMinutes(); //Current Minutes
+      var sec = new Date().getSeconds(); //Current Seconds
+
       var newItem = {
         text: this.state.newMessage,
-        key: Date.now()
+        key: Date.now(),
+        date: date + '/' + month + '/' + year + ' ' + hours + ':' + min + ':' + sec,
       };
       this.setState({
         messageList: [newItem, ...this.state.messageList],
