@@ -14,6 +14,7 @@ class QualificationStep extends React.Component {
             hasVehicle,
             hasLiftAbility,
             liftField,
+            hasShoppingAbility,
             employmentFieldError,
             liftFieldError,
             handleChange,
@@ -119,6 +120,19 @@ class QualificationStep extends React.Component {
                                 />
                             </Grid>
                         : null}
+                        <Grid item xs={10}>
+                            <Typography className="step__question" variant = "body1">
+                                I am willing to shop on behalf of others.
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <Switch
+                                checked={hasShoppingAbility}
+                                onChange={handleSwitch}
+                                name="hasShoppingAbility"
+                                color="primary"
+                            />
+                        </Grid>
                     </Grid>
                 </Grid>
             </Slide>

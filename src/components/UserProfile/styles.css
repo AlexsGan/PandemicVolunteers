@@ -1,7 +1,101 @@
-.profile-body__grid {
+.bold, .MuiTypography-root.bold {
+    font-weight: bold;
+}
+
+.italicize, .MuiTypography-root.italicize {
+    font-style: italic;
+}
+
+.underline, .MuiTypography-root.underline {
+    text-decoration: underline;
+}
+
+.MuiGrid-root.additional-qualifications__grid {
+    margin-top: 10px;
+}
+
+.MuiButton-root.additional-qualifications__button {
+    align-self: flex-start;
+    margin-left: 16px;
+    margin-bottom: 10px;
+    max-width: 125px;
+}
+
+.MuiContainer-root.profile .MuiExpansionPanelDetails-root.profile-category__content {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.MuiButton-root.profile-category__button {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    align-self: flex-end;
+    max-width: 125px;
+}
+
+.MuiTextField-root.profile-category__biography-field{
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.profile-category__lifting-field .MuiInput-input, .profile-category__employment-field .MuiInput-input{
+    padding: 0px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+.MuiTextField-root.profile-category__lifting-field {
+    width: 10%;
+    margin-left: 5px;
+}
+
+.MuiTextField-root.profile-category__employment-field {
+    width: 25%;
+    margin-left: 5px;
+}
+
+.MuiPaper-root.profile-body {
+    display: block;
+    margin-top: 25px;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.MuiBox-root.profile-body__private {
+    margin-bottom: 30px;
+}
+
+.MuiExpansionPanel-root.profile-body__category {
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.MuiList-root.profile-content__list {
+    width: 100%;
+}
+
+.MuiDivider-root.profile-header__divider {
+    width: 2px;
+    background-color: white;
+    height: 70%;
+    align-self: auto;
+}
+
+.MuiGrid-root.profile-header__name-grid {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.MuiGrid-root.MuiGrid-item.profile-header__side-grid {
+    padding-left: 3%;
+}
+
+.MuiTypography-root.profile-header__side {
+    color: white;
 }
 
 .MuiPaper-root.profile-header {
@@ -10,24 +104,15 @@
     display: flex;
 }
 
-.MuiTypography-root.profile-header__text {
+.MuiTypography-root.profile-header__name {
     margin-top: 100px;
-    margin-left: 50px;
+    margin-left: 25px;
+    margin-bottom: 5px;
+    color: white;
+}
+
+.MuiTypography-root.profile-header__username {
+    margin-left: 25px;
     margin-bottom: 25px;
     color: white;
-    font-weight: bold;
-}
-
-.MuiPaper-root.profile-body__grid {
-    padding:30px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgb(234, 246, 248);
-}
-
-.profile {
-    display: flex;
-    justify-content: center;
-    align-items: center;
 }
