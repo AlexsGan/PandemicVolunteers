@@ -7,10 +7,19 @@ export const handleTextChange = (event, form) => {
 
 export const handleSubmit = (event, form) => {
     const state = form.state;
-    if (validateCredentials(state.username, state.password)) {
+    const isAdmin = event.currentTarget.name === "loginAdmin";
+    if (validateCredentials(state.username, state.password, isAdmin)) {
         form.setState({
             credentialError: false,
-            userObject: getUserObject(),
+            userObject: isAdmin ? (
+                {
+                    username: state.username,
+                    password: state.password,
+                    isAdmin: true 
+                }
+            ) : (
+                getUserObject()
+            ),
             slideIn: false,
             slideDirection: "left"
         }, () => {
@@ -27,6 +36,7 @@ export const handleSubmit = (event, form) => {
 const getUserObject = () => {
     // FIXME: retrieve user infromation from server
     return ({
+        isAdmin: false,
         firstName: "John",
         lastName: "Doe",
         username: "user",
@@ -53,8 +63,12 @@ const getUserObject = () => {
     });
 }
 
-const validateCredentials = (username, password) => {
+const validateCredentials = (username, password, isAdmin) => {
     // BACKEND: check if username exists on server and password matches
     // FIXME: Temporary hardcoded username & password
-    return (username === "user" && password === "user");
+    if (isAdmin) {
+        return (username === "admin" && password === "admin");
+    } else {
+        return (username === "user" && password === "user");
+    }
 }

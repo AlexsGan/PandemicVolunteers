@@ -47,7 +47,16 @@ class LoginForm extends React.Component {
                         variant="contained"
                         onClick={handleSubmit}
                     >
-                        Login
+                        User Login
+                    </Button>
+                </Grid>
+                <Grid item xs={12}>
+                    <Button
+                        name="loginAdmin"
+                        variant="contained"
+                        onClick={handleSubmit}
+                    >
+                        ADMIN Login
                     </Button>
                 </Grid>
                 <Grid item xs={12}>

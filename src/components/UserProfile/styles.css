@@ -111,6 +111,13 @@
     color: white;
 }
 
+.MuiTypography-root.profile-header__name--admin {
+    margin-top: 100px;
+    margin-left: 25px;
+    margin-bottom: 5px;
+    color: red;
+}
+
 .MuiTypography-root.profile-header__username {
     margin-left: 25px;
     margin-bottom: 25px;
