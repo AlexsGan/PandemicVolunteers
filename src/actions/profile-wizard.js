@@ -150,7 +150,7 @@ const handleTextChange = (event, wizard) => {
 const handleQualTextChange = (event, wizard) => {
     const state = wizard.state;
     const target = event.target;
-    const newAdditionalQuals = state.additionalQuals;
+    const newAdditionalQuals = [...state.additionalQuals];
     newAdditionalQuals[parseInt(target.name)] = target.value
     wizard.setState({ additionalQuals: newAdditionalQuals });
 }
@@ -171,7 +171,7 @@ const validateQualification = wizard => {
     const state = wizard.state;
     let isValid = true;
     if (state.hasEmployment) {
-        if (state.employmentField === "") {
+        if (state.employmentField === "" || !state.employmentField.match(/^\w+$/)) {
             isValid = false;
             wizard.setState({ employmentFieldError: true });
         } else {

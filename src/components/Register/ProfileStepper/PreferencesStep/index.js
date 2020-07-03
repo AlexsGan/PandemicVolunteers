@@ -3,22 +3,26 @@ import "../styles.css";
 import { Typography, Grid, Button, Slide, Switch, TextField } from "@material-ui/core";
 
 /* Component for list of additional qualification inputs */
-class QualificationList extends React.Component {
+export class QualificationList extends React.Component {
     render () {
         const {
             additionalQuals, 
-            handleQualTextChange
+            handleTextChange,
+            isEditable
         } = this.props;
 
         let textFields = additionalQuals.map((qualification, index) => 
             <Grid key={index} item xs={6}>
                 <TextField
-                    className="step__question"
                     name={index.toString()}
                     variant="outlined"
-                    label={`Qualification ${index}`}
+                    label={`Qualification ${index + 1}`}
                     value={qualification}
-                    onChange={handleQualTextChange}
+                    inputProps={{
+                        readOnly: !isEditable
+                      }}
+                    onChange={handleTextChange}
+                    fullWidth
                 />
             </Grid>
         )
@@ -136,11 +140,12 @@ class PreferenceStep extends React.Component {
                             </Button>
                         </Grid>
                         <Grid item xs={1}/>
-                            {/* Render text inputs for additional qualifications */}
-                            <QualificationList
-                                additionalQuals={additionalQuals}
-                                handleQualTextChange={handleQualTextChange}
-                            />
+                        {/* Render text inputs for additional qualifications */}
+                        <QualificationList
+                            additionalQuals={additionalQuals}
+                            handleTextChange={handleQualTextChange}
+                            isEditable={false}
+                        />
                     </Grid>
                 </Grid>
             </Slide>
