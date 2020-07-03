@@ -14,7 +14,7 @@ class Requests extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      newMessage: '',
+      requestMessage: '',
       // city: '',
       // cityList: [],
       // province: '',
@@ -24,23 +24,27 @@ class Requests extends React.Component {
 
     this.clearData = this.clearData.bind(this)
     this.handleChangeTextbox = this.handleChangeTextbox.bind(this)
-    this.assistRequest = this.assistRequest.bind(this)
+
     // this.handleChangeCity = this.handleChangeCity.bind(this)
     // this.handleChangeProvince = this.handleChangeProvince.bind(this)
+
+    this.createTasks = this.createTasks.bind(this)      // post a request
+    this.assistRequest = this.assistRequest.bind(this)
+
     this.onSubmit = this.onSubmit.bind(this)
     this.onCancel = this.onCancel.bind(this)
   }
 
   clearData() {
     this.setState({
-      newMessage: '',
+      requestMessage: '',
       city: '',
       province: '',
     })
   }
 
   handleValidation() {
-    if (this.state.newMessage != '' && this.state.newMessage.length < 500) // post must have 1 < Character < 500
+    if (this.state.requestMessage != '' && this.state.requestMessage.length < 500) // post must have 1 < Character < 500
       return true
     alert("Invalid message length!")
     return false
@@ -48,23 +52,46 @@ class Requests extends React.Component {
 
   handleChangeTextbox(e) {
     this.setState({
-      newMessage: e.target.value
+      requestMessage: e.target.value
     })
   }
 
-  assistRequest(e) {
-    e.preventDefault();
+  assistRequest(e) { // todo
     this.setState({
       redirect: true
     })
+  }
+
+  createTasks(item) {
+    return <Box>
+      <Box
+        className="posted-chats"
+        component="span"
+        display="flex"
+        bgcolor="grey.300"
+        borderRadius={10}
+        p={1}
+      >
+        {item.text}{""}
+        <Button
+          onClick={() => this.assistRequest(item.key)}
+        >
+          Assist Request
+        </Button>
+      </Box>
+    </Box>
   }
 
   onSubmit(e) {
     e.preventDefault();
     if (this.handleValidation()) {
       //alert("Form submit")
+      var newRequest = {
+        text: this.state.requestMessage,
+        key: Date.now()
+      };
       this.setState({
-        messageList: [this.state.newMessage, ...this.state.messageList],
+        messageList: [newRequest, ...this.state.messageList],
       });
       this.clearData()
     }
@@ -93,7 +120,7 @@ class Requests extends React.Component {
                   name="message"
                   variant="outlined"
                   label="Add a request:"
-                  value={this.state.newMessage}
+                  value={this.state.requestMessage}
                   onChange={this.handleChangeTextbox}
                   fullWidth
                 />
@@ -118,33 +145,11 @@ class Requests extends React.Component {
               </Grid>
             </Grid>
 
-            {this.state.messageList.map((item, index) => ( // add requests 
-              <Box>
-                <Box
-                  className="posted-chats"
-                  component="span"
-                  display="flex"
-                  bgcolor="grey.300"
-                  borderRadius={10}
-                  p={1}
-                >
-                  {item}{""}
-                  <Button
-                    onClick={this.assistRequest}
-                    color="primary"
-                  >
-                    Assist Now
-                  </Button>
-                </Box>
-                {/* <Box className="message-time">
-                {this.state.date}
-              </Box> */}
-              </Box>
-            ))}
+            {/* add requests */}
+            {this.state.messageList.map(this.createTasks)} 
 
             {/* the Box below is hardcoded: will be removed when back-end is implemented */}
-
-            <Box
+            {/* <Box
               className="posted-chats"
               component="span"
               display="flex"
@@ -163,7 +168,7 @@ class Requests extends React.Component {
               >
                 Assist Now
               </Button>
-            </Box>
+            </Box> */}
 
           </Container>
         </Container>
