@@ -47,15 +47,18 @@ const handleSubmit = (wizard) => {
         lastName: basicUser.lastName,
         username: basicUser.username,
         password: basicUser.password,
+        birthday: basicUser.birthday,
         profile: {
-            birthday: basicUser.birthday,
             location: { city: state.city, province: state.province },
             isEmployed: state.hasEmployment,
             isWorkingRemotely: state.hasRemoteWork,
-            employment: state.employmentField,
+            employment: state.employmentField.trim(),
             isDriver: state.hasVehicle,
             isLifter: state.hasLiftAbility,
-            liftingAbility: state.liftField,
+            liftingAbility: parseInt(state.liftField.trim()),
+            isShopper: state.hasShoppingAbility,
+            hasBiography: state.hasBiography,
+            biography: state.biographyField.trim(),
             hasVisibleProfile: state.hasVisibleProfile,
             isVulnerable: state.hasVulnerable,
             additionalQuals: []
@@ -109,6 +112,7 @@ export const getWizardContent = (step, wizard) => {
                 hasVehicle={state.hasVehicle}
                 hasLiftAbility={state.hasLiftAbility}
                 liftField={state.liftField}
+                hasShoppingAbility={state.hasShoppingAbility}
                 employmentFieldError={state.employmentFieldError}
                 liftFieldError={state.liftFieldError}
                 handleChange={(event) => { handleTextChange(event, wizard) }}
@@ -122,7 +126,10 @@ export const getWizardContent = (step, wizard) => {
                 hasVisibleProfile={state.hasVisibleProfile}
                 hasVulnerable={state.hasVulnerable}
                 additionalQuals={state.additionalQuals}
+                hasBiography={state.hasBiography}
+                biographyField={state.biographyField}
                 handleSwitch={(event) => { handleSwitch(event, wizard) }}
+                handleTextChange={(event) => { handleTextChange(event, wizard) }}
                 handleAdd={(event) => { handleAdd(event, wizard) }}
                 handleQualTextChange={(event) => { handleQualTextChange(event, wizard) }}
                 handleChange={(event) => { handleTextChange(event, wizard) }}
@@ -143,7 +150,7 @@ const handleTextChange = (event, wizard) => {
 const handleQualTextChange = (event, wizard) => {
     const state = wizard.state;
     const target = event.target;
-    const newAdditionalQuals = state.additionalQuals;
+    const newAdditionalQuals = [...state.additionalQuals];
     newAdditionalQuals[parseInt(target.name)] = target.value
     wizard.setState({ additionalQuals: newAdditionalQuals });
 }

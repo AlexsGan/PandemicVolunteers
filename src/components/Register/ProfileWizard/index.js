@@ -21,6 +21,9 @@ class ProfileWizard extends React.Component {
         hasVehicle: false,
         hasLiftAbility: false,
         liftField: "",
+        hasShoppingAbility: false,
+        hasBiography: false,
+        biographyField: "",
         hasVisibleProfile: false,
         hasVulnerable: false,
         additionalQuals: [],
@@ -35,7 +38,6 @@ class ProfileWizard extends React.Component {
 
     render () {
         if (this.state.finished) {
-            console.log("FINISHING")
             return <Redirect to={{
                 pathname: "/profile",
                 state: { userObject: this.state.userObject }
