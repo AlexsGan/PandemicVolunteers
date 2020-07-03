@@ -100,6 +100,10 @@ class Requests extends React.Component {
 
   deleteRequest(key) {
     // if (admin) then delete message
+    if (this.props.location.state.userObject == null) {
+      alert("You must be a registered user")
+      return
+    }
     if (this.props.location.state.userObject.isAdmin) {
       var filteredMessageList = this.state.messageList.filter(function (item) {
         return (item.key !== key);
