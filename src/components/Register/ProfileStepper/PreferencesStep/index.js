@@ -20,7 +20,7 @@ export class QualificationList extends React.Component {
                     value={qualification}
                     inputProps={{
                         readOnly: !isEditable
-                      }}
+                    }}
                     onChange={handleTextChange}
                     fullWidth
                 />
@@ -144,7 +144,7 @@ class PreferenceStep extends React.Component {
                         <QualificationList
                             additionalQuals={additionalQuals}
                             handleTextChange={handleQualTextChange}
-                            isEditable={false}
+                            isEditable={true}
                         />
                     </Grid>
                 </Grid>

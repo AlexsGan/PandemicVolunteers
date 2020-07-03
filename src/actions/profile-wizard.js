@@ -171,7 +171,7 @@ const validateQualification = wizard => {
     const state = wizard.state;
     let isValid = true;
     if (state.hasEmployment) {
-        if (state.employmentField === "" || !state.employmentField.match(/^\w+$/)) {
+        if (state.employmentField === "") {
             isValid = false;
             wizard.setState({ employmentFieldError: true });
         } else {
