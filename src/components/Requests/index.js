@@ -58,7 +58,7 @@ class Requests extends React.Component {
     })
   }
 
-  assistRequest(key) { 
+  assistRequest(key) {
     // TODO: wait for request host to accept assistance, then proceeds
     this.setState({
       redirect: true
@@ -99,14 +99,19 @@ class Requests extends React.Component {
   }
 
   deleteRequest(key) {
-    // TODO: if (admin) then delete request
-    var filteredMessageList = this.state.messageList.filter(function (item) {
-      return (item.key !== key);
-    });
+    // if (admin) then delete message
+    if (this.props.location.state.userObject.isAdmin) {
+      var filteredMessageList = this.state.messageList.filter(function (item) {
+        return (item.key !== key);
+      });
 
-    this.setState({
-      messageList: filteredMessageList
-    });
+      this.setState({
+        messageList: filteredMessageList
+      });
+    }
+    else {
+      alert("must be admin to delete posts")
+    }
   }
 
   hardCodedExample() {
@@ -196,7 +201,7 @@ class Requests extends React.Component {
   render() {
     if (this.state.redirect) {
       return (
-        <Redirect 
+        <Redirect
           to={{
             pathname: "/group-chat",
             state: { userObject: this.props.location.state.userObject }
@@ -206,7 +211,7 @@ class Requests extends React.Component {
     }
     return (
       <div>
-        <Navbar 
+        <Navbar
           userObject={this.props.location.state.userObject}
           currentPath={this.props.location.pathname}
         />

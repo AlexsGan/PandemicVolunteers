@@ -54,7 +54,7 @@ class GroupChat extends React.Component {
   createTasks(item) { // output message
     if (this.props.location.state.userObject == null) {
       alert("You must be a registered user")
-      return 
+      return
     }
     return <Box>
       <br />
@@ -95,14 +95,19 @@ class GroupChat extends React.Component {
   }
 
   deleteMessage(key) {
-    // TODO: if (admin) then delete message
-    var filteredMessageList = this.state.messageList.filter(function (item) {
-      return (item.key !== key);
-    });
+    // if (admin) then delete message
+    if (this.props.location.state.userObject.isAdmin) {
+      var filteredMessageList = this.state.messageList.filter(function (item) {
+        return (item.key !== key);
+      });
 
-    this.setState({
-      messageList: filteredMessageList
-    });
+      this.setState({
+        messageList: filteredMessageList
+      });
+    }
+    else {
+      alert("must be admin to delete posts")
+    }
   }
 
   onSubmit(e) {
@@ -140,7 +145,7 @@ class GroupChat extends React.Component {
     }
     return (
       <div>
-        <Navbar 
+        <Navbar
           userObject={this.props.location.state.userObject}
           currentPath={this.props.location.pathname}
         />
