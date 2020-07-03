@@ -32,7 +32,7 @@ export function getRequests(type) {
 export const handleExpansion = (event, isExpanded, name, form) => {
     const target = event.target;
     // Prevent switching between categories when editing
-    if (!form.state.editContent.doEdit) {
+    if (!getEditStatus(name, form)) {
         form.setState({
             contentToExpand: (isExpanded ? name : false)
         });
@@ -85,7 +85,8 @@ export const handleEdit = (event, content, form) => {
                 content: content
             },
             editableUserObject: {
-                ...form.props.userObject
+                ...form.props.userObject,
+                password: ""
             }
         })
     );
@@ -94,7 +95,10 @@ export const handleEdit = (event, content, form) => {
 export const handleSaveEdit = (event, body, form) => {
     // Remove extraneous/empty qualifications and add to user object
     const editedQuals = processAdditionalQuals(body);
-    const basicInfoIsValid = validateBasicUserInfo(body.state.editableUserObject, body);
+    let basicInfoIsValid = true;
+    if (event.currentTarget.name === "basic") {
+        basicInfoIsValid = validateBasicUserInfo(body.state.editableUserObject, body);
+    }
     form.setState(prevState => (
             // Update user object
             {

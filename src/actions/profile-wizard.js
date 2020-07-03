@@ -1,7 +1,7 @@
 import React from "react";
 import LocationStep from "../components/Register/ProfileStepper/LocationStep";
 import QualificationStep from "../components/Register/ProfileStepper/QualificationStep";
-import PreferenceStep from "../components/Register/ProfileStepper/PreferencesStep";
+import PreferenceStep from "../components/Register/ProfileStepper/PreferenceStep";
 
 export function getSteps() {
     return ['Location', 'Qualifications', 'Preferences'];

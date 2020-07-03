@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar from "./Navbar";
+import Navbar from "../Navbar";
 import TitlePage from "./TitlePage"
 
 import "./styles.css"
@@ -10,7 +10,7 @@ class View extends React.Component {
       <div className="landing-view" >
 
         {/*navigation bar at the top of the landing screen */}
-        <Navbar />
+        <Navbar userObject={null}/>
         
         {/*content of the landing screen*/}
         <TitlePage/>

@@ -1,9 +1,10 @@
 import React from "react";
 import "./styles.css";
-import { Box, Container } from "@material-ui/core";
+import { Container } from "@material-ui/core";
 import { getAge, getRequests, handleSaveEdit, handleTextChange } from "../../actions/user-profile";
 import ProfileHeader from "./ProfileHeader";
 import ProfileBody from "./ProfileBody";
+import Navbar from "../Navbar";
 
 class UserProfile extends React.Component {
     state = {
@@ -18,7 +19,11 @@ class UserProfile extends React.Component {
 
     render() {
         return (
-            <Box>
+            <>
+                <Navbar
+                    userObject={this.state.userObject}
+                    currentPath={this.props.location.pathname}
+                />
                 <Container className="profile" maxWidth="md">
                     <ProfileHeader userObject={this.state.userObject}/>
                     <ProfileBody 
@@ -26,7 +31,7 @@ class UserProfile extends React.Component {
                         handleSaveEdit={(event, body) => handleSaveEdit(event, body, this)}
                     />
                 </Container>
-            </Box>
+            </>
         );
     }
 }

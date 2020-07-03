@@ -62,6 +62,9 @@ class QualificationStep extends React.Component {
                                     helperText={employmentFieldError === true ? 'Missing field.' : ''}
                                     required
                                     disabled={hasEmployment === false}
+                                    inputProps={{
+                                        maxLength: 40
+                                    }}
                                 />
                             </Grid>
                         : null}
@@ -117,6 +120,9 @@ class QualificationStep extends React.Component {
                                     helperText={liftFieldError === true ? 'Amount must be a positive integer.' : ''}
                                     required
                                     disabled={hasLiftAbility === false}
+                                    inputProps={{
+                                        maxLength: 3
+                                    }}
                                 />
                             </Grid>
                         : null}

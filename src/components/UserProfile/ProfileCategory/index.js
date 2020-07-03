@@ -59,6 +59,7 @@ class ProfileCategory extends React.Component {
                     {isEditable && getEditStatus(categoryName) ?
                         (
                             <Button
+                                name={categoryName}
                                 className="profile-category__button"
                                 color="primary"
                                 variant="contained"

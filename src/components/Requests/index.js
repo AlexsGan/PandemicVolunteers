@@ -6,7 +6,7 @@ import { Container, Box, Grid, MenuItem } from "@material-ui/core";
 import { Redirect } from "react-router";
 
 import "./styles.css";
-import Navbar from "../LandingView/Navbar";
+import Navbar from "../Navbar";
 import GroupChat from "../GroupChat";
 
 /* Component for Requests */
@@ -137,11 +137,21 @@ class Requests extends React.Component {
 
   render() {
     if (this.state.redirect) {
-      return <Redirect to="/GroupChat" />;
+      return (
+        <Redirect 
+          to={{
+            pathname: "/group-chat",
+            state: { userObject: this.props.location.state.userObject }
+          }}
+        />
+      );
     }
     return (
       <div>
-        <Navbar />
+        <Navbar 
+          userObject={this.props.location.state.userObject}
+          currentPath={this.props.location.pathname}
+        />
         <Container className="requests-box" maxWidth="lg">
           <Container className="requests-container" maxWidth="md">
             <Grid className="requests-grid" container spacing={2}>

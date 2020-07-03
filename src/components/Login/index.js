@@ -17,17 +17,17 @@ class Login extends React.Component {
         slideIn: true
     }
 
-    checkLogin() {
-        if (this.state.loginSuccess) {
-            return <Redirect to={{
-                pathname: "/profile",
-                state: { userObject: this.state.userObject }
-            }}/>;
-        }
-    }
-
     render() {
-        this.checkLogin();
+        if (this.state.loginSuccess) {
+            return (
+                <Redirect 
+                    to={{
+                        pathname: "/profile",
+                        state: { userObject: this.state.userObject }
+                    }}
+                />
+            );
+        }
 
         return (
             <Slide direction={this.state.slideDirection} in={this.state.slideIn} mountOnEnter unmountOnExit>

@@ -69,7 +69,7 @@ class BasicContent extends React.Component {
                         variant="outlined"
                         label="Password"
                         type="password"
-                        value={editableUserObject.password}
+                        value={getEditStatus() ? editableUserObject.password : "placeholder"}
                         error={passwordError}
                         helperText={passwordError === true ? 'Invalid password.' : ''}
                         onChange={handleTextChange}

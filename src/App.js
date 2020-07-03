@@ -22,19 +22,17 @@ class App extends React.Component {
           <Switch>
             {/* <Route exact path='/' render={() => 
                             (<View/>)}/> */}
-            <Route exact path='/GroupChat' render={() => 
-                            (<GroupChat/>)}/>
-            <Route exact path='/Requests' render={() => 
-                            (<Requests/>)}/>
+            <Route exact path='/group-chat' component={GroupChat} />
+            <Route exact path='/requests' component={Requests} />
             {/* <Route exact path ='/register' render ={() => 
                             (<Register/>)}/> 
             <Route exact path ='/register/create-profile' render = {() =>
                             (<ProfileWizard/>)}/> */}
-            <Route exact path='/' component={View}/>
-            <Route exact path ='/login' component={Login}/>
-            <Route exact path ='/register' component={Register}/>
-            <Route exact path ='/register/create-profile' component={ProfileWizard}/>
-            <Route exact path ='/profile' component={UserProfile}/>
+            <Route exact path='/' component={View} />
+            <Route exact path ='/login' component={Login} />
+            <Route exact path ='/register' component={Register} />
+            <Route exact path ='/register/create-profile' component={ProfileWizard} />
+            <Route exact path ='/profile' component={UserProfile} />
           </Switch>
         </BrowserRouter>
       </div>
