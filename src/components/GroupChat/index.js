@@ -19,6 +19,7 @@ class GroupChat extends React.Component {
 
     this.clearData = this.clearData.bind(this)
     this.handleChangeTextbox = this.handleChangeTextbox.bind(this)
+    this.changeGroup = this.changeGroup.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
     this.onCancel = this.onCancel.bind(this)
   }
@@ -40,6 +41,10 @@ class GroupChat extends React.Component {
     this.setState({
       newMessage: e.target.value
     })
+  }
+
+  changeGroup(e) { // backend will load data from the new group specified
+
   }
 
   onSubmit(e) {
@@ -66,42 +71,61 @@ class GroupChat extends React.Component {
     return (
       <div>
         <Navbar />
-        <Container className="group-chat-box" maxWidth="md">
-          <Container className="message-entry" maxWidth="sm">
-            <Grid className="messages-grid" container spacing={2}>
-              <Grid item xs="12">
-                <TextField
-                  name="message"
-                  variant="outlined"
-                  label="Message to group:"
-                  value={this.state.newMessage}
-                  onChange={this.handleChangeTextbox}
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <Button
-                  variant="contained"
-                  onClick={this.onSubmit}
-                  fullWidth
-                  color="primary"
-                >
-                  Message
+        <Grid className="messages-grid">
+          <Grid item xs="2"></Grid>
+          <Grid item xs="7">
+            <Container className="group-chat-box" maxWidth="md">
+              <Container className="message-entry" maxWidth="sm">
+                <Grid className="messages-grid" container spacing={2}>
+                  <Grid item xs="12">
+                    <TextField
+                      name="message"
+                      variant="outlined"
+                      label="Message to group:"
+                      value={this.state.newMessage}
+                      onChange={this.handleChangeTextbox}
+                      fullWidth
+                    />
+                  </Grid>
+                  <Grid item xs={4}>
+                    <Button
+                      variant="contained"
+                      onClick={this.onSubmit}
+                      fullWidth
+                      color="primary"
+                    >
+                      Message
                 </Button>
-              </Grid>
-              <Grid item xs={4}>
-                <Button
-                  variant="contained"
-                  onClick={this.onCancel}
-                >
-                  Cancel
+                  </Grid>
+                  <Grid item xs={4}>
+                    <Button
+                      variant="contained"
+                      onClick={this.onCancel}
+                    >
+                      Cancel
                 </Button>
-              </Grid>
-            </Grid>
-            <Container className="message-entry" maxWidth="sm">
+                  </Grid>
+                </Grid>
+                <Container className="message-entry" maxWidth="sm">
 
-              {this.state.messageList.map((item, index) => ( // output message
-                <Box>
+                  {this.state.messageList.map((item, index) => ( // output message
+                    <Box>
+                      <Box
+                        className="posted-chats"
+                        component="span"
+                        display="flex"
+                        bgcolor="grey.300"
+                        borderRadius={10}
+                        p={1}
+                      >
+                        {item}{""}
+                      </Box>
+                      {/* <Box className="message-time">
+                {this.state.date}
+              </Box> */}
+                    </Box>
+                  ))}
+                  {/* the Box below is hardcoded: will be removed when back-end is implemented */}
                   <Box
                     className="posted-chats"
                     component="span"
@@ -110,32 +134,45 @@ class GroupChat extends React.Component {
                     borderRadius={10}
                     p={1}
                   >
-                    {item}{""}
-                  </Box>
-                  {/* <Box className="message-time">
-                {this.state.date}
-              </Box> */}
-                </Box>
-              ))}
-              {/* the Box below is hardcoded: will be removed when back-end is implemented */}
-              <Box
-                className="posted-chats"
-                component="span"
-                display="flex"
-                bgcolor="grey.300"
-                borderRadius={10}
-                p={1}
-              >
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-                reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-                sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                    ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                    ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                    reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+                    sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
               </Box>
 
+                </Container>
+              </Container>
             </Container>
-          </Container>
-        </Container>
+          </Grid>
+          
+          {/* the groups below will be loaded from backend that stores user's groups */}
+          <Grid item xs="2"> 
+            <Container
+              display="flex"
+            >
+              <br />
+              <Button
+                variant="contained"
+                onClick={this.changeGroup}
+                fullWidth
+                color="primary"
+              >
+                Group 1
+                </Button>
+              <br />
+              <br />
+              <Button
+                variant="contained"
+                onClick={this.changeGroup}
+                fullWidth
+                color="primary"
+              >
+                Group 2
+                </Button>
+            </Container>
+          </Grid>
+        </Grid>
       </div>
     );
   }

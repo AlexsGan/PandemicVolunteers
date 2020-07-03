@@ -2,12 +2,12 @@ import React from "react";
 
 import TextField from '@material-ui/core/TextField';
 import Button from "@material-ui/core/Button";
-import { Container, Box, Grid, GridList } from "@material-ui/core";
+import { Container, Box, Grid, MenuItem } from "@material-ui/core";
 import { Redirect } from "react-router";
 
 import "./styles.css";
 import Navbar from "../LandingView/Navbar";
-
+import GroupChat from "../GroupChat";
 
 /* Component for Requests */
 class Requests extends React.Component {
@@ -15,18 +15,27 @@ class Requests extends React.Component {
     super(props)
     this.state = {
       newMessage: '',
-      messageList: []
+      // city: '',
+      // cityList: [],
+      // province: '',
+      messageList: [],
+      redirect: false,
     }
 
     this.clearData = this.clearData.bind(this)
     this.handleChangeTextbox = this.handleChangeTextbox.bind(this)
+    this.assistRequest = this.assistRequest.bind(this)
+    // this.handleChangeCity = this.handleChangeCity.bind(this)
+    // this.handleChangeProvince = this.handleChangeProvince.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
     this.onCancel = this.onCancel.bind(this)
   }
 
   clearData() {
     this.setState({
-      newMessage: ''
+      newMessage: '',
+      city: '',
+      province: '',
     })
   }
 
@@ -40,6 +49,13 @@ class Requests extends React.Component {
   handleChangeTextbox(e) {
     this.setState({
       newMessage: e.target.value
+    })
+  }
+
+  assistRequest(e) {
+    e.preventDefault();
+    this.setState({
+      redirect: true
     })
   }
 
@@ -62,7 +78,7 @@ class Requests extends React.Component {
 
   render() {
     if (this.state.redirect) {
-      return <Redirect to="/GroupChat/GroupChatInput" />;
+      return <Redirect to="/GroupChat"/>;
     }
     return (
       <div>
@@ -82,6 +98,7 @@ class Requests extends React.Component {
                   fullWidth
                 />
               </Grid>
+
               <Grid item xs={3}>
                 <Button
                   variant="contained"
@@ -101,7 +118,6 @@ class Requests extends React.Component {
               </Grid>
             </Grid>
 
-
             {this.state.messageList.map((item, index) => ( // add requests 
               <Box>
                 <Box
@@ -113,13 +129,21 @@ class Requests extends React.Component {
                   p={1}
                 >
                   {item}{""}
+                  <Button
+                    onClick={this.assistRequest}
+                    color="primary"
+                  >
+                    Assist Now
+                  </Button>
                 </Box>
                 {/* <Box className="message-time">
                 {this.state.date}
               </Box> */}
               </Box>
             ))}
+
             {/* the Box below is hardcoded: will be removed when back-end is implemented */}
+
             <Box
               className="posted-chats"
               component="span"
@@ -133,7 +157,13 @@ class Requests extends React.Component {
               ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
               reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
               sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-              </Box>
+              <Button
+                onClick={this.assistRequest}
+                color="primary"
+              >
+                Assist Now
+              </Button>
+            </Box>
 
           </Container>
         </Container>
