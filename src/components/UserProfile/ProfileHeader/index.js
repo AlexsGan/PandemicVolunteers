@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, Grid, Paper } from "@material-ui/core";
+import { Typography, Grid, Paper, Divider } from "@material-ui/core";
 import "../styles.css";
 
 class ProfileHeader extends React.Component {
@@ -15,8 +15,12 @@ class ProfileHeader extends React.Component {
                         <Typography className="profile-header__name bold" variant="h2">
                             {userObject.firstName} {userObject.lastName}
                         </Typography>
+                        <Typography className="profile-header__username" variant="h6">
+                            @{userObject.username}
+                        </Typography>
                     </Grid>
-                    <Grid className="profile-header__side-grid" direction="column" container item xs={4} spacing={1}>
+                    <Divider className="profile-header__divider" variant="vertical" flexItem xs={1}/>
+                    <Grid className="profile-header__side-grid" direction="column" container item xs={3} spacing={1}>
                         <Grid item xs={12}>
                             <Typography className="profile-header__side" variant="subtitle1">
                                 <span className="bold">Age: </span>{userObject.age}

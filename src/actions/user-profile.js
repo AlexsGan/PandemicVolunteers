@@ -1,3 +1,5 @@
+import { validateInput as validateBasicUserInfo } from "./register";
+
 export function getAge(birthday) {
     let dateArr = birthday.split("-");
     const birthDate = new Date(
@@ -6,8 +8,8 @@ export function getAge(birthday) {
         parseInt(dateArr[2]));
     const today = new Date();
     let yearDiff = today.getYear() - birthDate.getYear();
-    if (birthDate.getMonth() > today.getMonth() &&
-        birthDate.getDay() > today.getDay()) {
+    if (birthDate.getMonth() > today.getMonth() ||
+        (birthDate.getMonth() === today.getMonth() && birthDate.getDay() > today.getDay())) {
         return yearDiff - 1;
     }
     return yearDiff;
@@ -25,7 +27,7 @@ export const handleExpansion = (event, isExpanded, name, form) => {
 
 export const handleSwitch = (event, form) => {
     const target = event.target;
-    updateUserProperty(form, target.name, target.checked);
+    updateUserProfile(form, target.name, target.checked);
 }
 
 export const handleTextChange = (event, form) => {
@@ -36,6 +38,9 @@ export const handleTextChange = (event, form) => {
         processEmployment(target, form);
     } else if (target.name === "biography") {
         processBiography(target, form);
+    } else {
+        // Basic user info change
+        updateUserObject(form, target.name, target.value);
     }
 }
 
@@ -49,12 +54,12 @@ export const handleQualTextChange = (event, form) => {
     } else {
         newAdditionalQuals[listIndex] = target.value
     }
-    updateUserProperty(form, "additionalQuals", newAdditionalQuals);
+    updateUserProfile(form, "additionalQuals", newAdditionalQuals);
 }
 
 export const handleAddQual = (event, form) => {
     const state = form.state;
-    updateUserProperty(form, "additionalQuals",
+    updateUserProfile(form, "additionalQuals",
                         [...state.editableUserObject.profile.additionalQuals, ""]);
 }
 
@@ -66,45 +71,52 @@ export const handleEdit = (event, content, form) => {
                 content: content
             },
             editableUserObject: {
-                ...form.state.userObject
+                ...form.props.userObject
             }
         })
     );
 }
 
-export const handleSaveEdit = (event, form) => {
+export const handleSaveEdit = (event, body, form) => {
     // Remove extraneous/empty qualifications and add to user object
-    const editedQuals = processAdditionalQuals(form);
+    const editedQuals = processAdditionalQuals(body);
+    const basicInfoIsValid = validateBasicUserInfo(body.state.editableUserObject, body);
     form.setState(prevState => (
             // Update user object
             {
-                editContent: {
-                    doEdit: false,
-                    content: ""
-                },
                 userObject: {
-                    ...prevState.editableUserObject,
+                    ...body.state.editableUserObject,
+                    // Validate basic user info input
+                    firstName: basicInfoIsValid ? body.state.editableUserObject.firstName : prevState.userObject.firstName,
+                    lastName: basicInfoIsValid ? body.state.editableUserObject.lastName : prevState.userObject.lastName,
+                    username: basicInfoIsValid ? body.state.editableUserObject.username : prevState.userObject.username,
+                    password: basicInfoIsValid ? body.state.editableUserObject.password : prevState.userObject.password,
+                    birthday: basicInfoIsValid ? body.state.editableUserObject.birthday : prevState.userObject.birthday,
+                    age: basicInfoIsValid ? getAge(body.state.editableUserObject.birthday) : prevState.userObject.age,
                     profile: {
-                        ...prevState.editableUserObject.profile,
+                        ...body.state.editableUserObject.profile,
                         // Trim input fields
-                        employment: prevState.editableUserObject.profile.employment.trim(),
-                        biography: prevState.editableUserObject.profile.biography.trim(),
+                        employment: body.state.editableUserObject.profile.employment.trim(),
+                        biography: body.state.editableUserObject.profile.biography.trim(),
                         // Disable if empty
-                        isEmployed: !(prevState.editableUserObject.profile.employment.trim() === ""),
-                        hasBiography: !(prevState.editableUserObject.profile.biography.trim() === ""),
+                        isEmployed: !(body.state.editableUserObject.profile.employment.trim() === ""),
+                        hasBiography: !(body.state.editableUserObject.profile.biography.trim() === ""),
                         additionalQuals: editedQuals
                     }
                 }
             }
         ),
         () => {
-            form.setState(prevState => (
-                    // Update editable object
-                    {
-                        editableUserObject: prevState.userObject                    
-                    }
-                )
-            );
+            // Update editable object
+            body.setState({
+                editContent: {
+                    doEdit: !basicInfoIsValid,
+                    content: basicInfoIsValid ? "" : "basic"
+                },
+                editableUserObject: {
+                    ...body.props.userObject
+                }
+            }, () => {console.log(form.state)});                  
         }
     );
 }
@@ -117,7 +129,7 @@ export const handleCancel = (event, form) => {
                 content: "",
             },
             editableUserObject: {
-                ...prevState.userObject
+                ...form.props.userObject
             },
         })
     );
@@ -130,29 +142,29 @@ export const getEditStatus = (name, form) => {
 const processLiftingAbility = (target, form) => {
     if (target.value === "" || target.value.match(/^0+$/)) {
         target.value = "0";
-        updateUserProperty(form, target.name, parseInt(target.value));
-        updateUserProperty(form, "isLifter", false);
+        updateUserProfile(form, target.name, parseInt(target.value));
+        updateUserProfile(form, "isLifter", false);
     }
     else if (target.value.match(/^\d+$/)) {
-        updateUserProperty(form, target.name, parseInt(target.value));
-        updateUserProperty(form, "isLifter", true);
+        updateUserProfile(form, target.name, parseInt(target.value));
+        updateUserProfile(form, "isLifter", true);
     }
 }
 
 const processEmployment = (target, form) => {
     if (target.value === "") {
-        updateUserProperty(form, "isEmployed", false);
+        updateUserProfile(form, "isEmployed", false);
     }
-    updateUserProperty(form, target.name, target.value);
+    updateUserProfile(form, target.name, target.value);
 }
 
 const processBiography = (target, form) => {
     if (target.value === "") {
-        updateUserProperty(form, "hasBiography", false);
+        updateUserProfile(form, "hasBiography", false);
     } else {
-        updateUserProperty(form, "hasBiography", true);
+        updateUserProfile(form, "hasBiography", true);
     }
-    updateUserProperty(form, target.name, target.value);
+    updateUserProfile(form, target.name, target.value);
 }
 
 const processAdditionalQuals = (form) => {
@@ -166,7 +178,7 @@ const processAdditionalQuals = (form) => {
     return editedQuals;
 }
 
-const updateUserProperty = (form, property, newValue) => {
+const updateUserProfile = (form, property, newValue) => {
     form.setState(prevState =>({
         editableUserObject : {
             ...prevState.editableUserObject,
@@ -174,6 +186,15 @@ const updateUserProperty = (form, property, newValue) => {
                 ...prevState.editableUserObject.profile,
                 [property]: newValue
             }
+        }
+    }));
+}
+
+const updateUserObject = (form, property, newValue) => {
+    form.setState(prevState =>({
+        editableUserObject : {
+            ...prevState.editableUserObject,
+            [property]: newValue
         }
     }));
 }

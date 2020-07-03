@@ -28,6 +28,8 @@
 }
 
 .MuiButton-root.profile-category__button {
+    margin-top: 10px;
+    margin-bottom: 10px;
     align-self: flex-end;
     max-width: 125px;
 }
@@ -62,24 +64,34 @@
     padding-bottom: 5px;
 }
 
+.MuiBox-root.profile-body__private {
+    margin-bottom: 30px;
+}
+
 .MuiExpansionPanel-root.profile-body__category {
-    margin-top: 10px;
-    margin-bottom: 10px;
+    margin-top: 2px;
+    margin-bottom: 2px;
 }
 
 .MuiList-root.profile-content__list {
     width: 100%;
 }
 
-.profile-header__name-grid {
+.MuiDivider-root.profile-header__divider {
+    width: 2px;
+    background-color: white;
+    height: 70%;
+    align-self: auto;
+}
+
+.MuiGrid-root.profile-header__name-grid {
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 .MuiGrid-root.MuiGrid-item.profile-header__side-grid {
-    border-left: 2px solid white;
-    padding-left: 5%;
+    padding-left: 3%;
 }
 
 .MuiTypography-root.profile-header__side {
@@ -94,7 +106,13 @@
 
 .MuiTypography-root.profile-header__name {
     margin-top: 100px;
-    margin-left: 50px;
+    margin-left: 25px;
+    margin-bottom: 5px;
+    color: white;
+}
+
+.MuiTypography-root.profile-header__username {
+    margin-left: 25px;
     margin-bottom: 25px;
     color: white;
 }

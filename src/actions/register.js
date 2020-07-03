@@ -6,7 +6,7 @@ export const handleChange = (event, form) => {
 }
 
 export const handleSubmit = (event, form) => {
-    if (validateInput(form)) {
+    if (validateInput(form.state, form)) {
         // BACKEND: Send user info to server
         form.setState({slideIn: false, slideDirection: "left"},
                         () => {form.setState({redirect: true});});
@@ -15,9 +15,8 @@ export const handleSubmit = (event, form) => {
     }
 }
 
-const validateInput = registerForm => {
+export const validateInput = (state, registerForm) => {
     let validInput = true;
-    const state = registerForm.state;
     if (state.firstName.match(/^\S+$/) === null) {
         registerForm.setState({firstNameError: true});
         validInput = false;

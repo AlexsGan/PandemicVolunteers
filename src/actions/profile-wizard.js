@@ -47,8 +47,8 @@ const handleSubmit = (wizard) => {
         lastName: basicUser.lastName,
         username: basicUser.username,
         password: basicUser.password,
+        birthday: basicUser.birthday,
         profile: {
-            birthday: basicUser.birthday,
             location: { city: state.city, province: state.province },
             isEmployed: state.hasEmployment,
             isWorkingRemotely: state.hasRemoteWork,

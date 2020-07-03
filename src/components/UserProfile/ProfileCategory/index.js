@@ -11,6 +11,7 @@ class ProfileCategory extends React.Component {
             categoryContent,
             toExpand,
             isEditable,
+            isPrivate,
             getEditStatus,
             handleChange,
             handleCancel,
@@ -28,7 +29,7 @@ class ProfileCategory extends React.Component {
                 <ExpansionPanelSummary
                     expandIcon={<ExpandMore />}
                 >
-                    <Typography className="bold" variant="h5">{categoryHeading}</Typography>
+                    <Typography className={isPrivate ? null : "bold"} variant="h5">{categoryHeading}</Typography>
                 </ExpansionPanelSummary>
                 <ExpansionPanelDetails className="profile-category__content">
                     {isEditable && !getEditStatus(categoryName) ?
