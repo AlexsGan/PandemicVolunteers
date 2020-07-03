@@ -1,7 +1,7 @@
 import React from "react";
 import LocationStep from "../components/Register/ProfileStepper/LocationStep";
 import QualificationStep from "../components/Register/ProfileStepper/QualificationStep";
-import PreferenceStep from "../components/Register/ProfileStepper/PreferencesStep";
+import PreferenceStep from "../components/Register/ProfileStepper/PreferenceStep";
 
 export function getSteps() {
     return ['Location', 'Qualifications', 'Preferences'];
@@ -48,6 +48,9 @@ const handleSubmit = (wizard) => {
         username: basicUser.username,
         password: basicUser.password,
         birthday: basicUser.birthday,
+        requestsAccepted: 0,
+        requestsSent: 0,
+        requestsCompleted: 0,
         profile: {
             location: { city: state.city, province: state.province },
             isEmployed: state.hasEmployment,
@@ -136,7 +139,8 @@ export const getWizardContent = (step, wizard) => {
                 stepSubmitted={state.stepSubmitted}
             />)
         default:
-            return ('Error');
+            alert("Invalid wizard step.");
+            return ("Error");
     }
 }
 

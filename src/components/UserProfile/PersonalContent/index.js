@@ -58,8 +58,9 @@ class PersonalContent extends React.Component {
                                                 className="profile-category__employment-field"
                                                 name="employment"
                                                 value={editableUserProfile.employment}
-                                                InputProps={{
+                                                inputProps={{
                                                     readOnly: !getEditStatus(),
+                                                    maxLength: 40
                                                 }}
                                                 onChange={handleTextChange}
                                                 disabled={!editableUserProfile.isEmployed}

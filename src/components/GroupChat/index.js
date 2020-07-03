@@ -6,7 +6,7 @@ import { Container, Box, Grid, GridList, Hidden } from "@material-ui/core";
 import { Redirect } from "react-router";
 
 import "./styles.css";
-import Navbar from "../LandingView/Navbar";
+import Navbar from "../Navbar";
 
 /* Component for group chat */
 class GroupChat extends React.Component {
@@ -132,11 +132,14 @@ class GroupChat extends React.Component {
 
   render() {
     if (this.state.redirect) {
-      return <Redirect to="/GroupChat/GroupChatInput" />;
+      return <Redirect to="/group-chat/input" />;
     }
     return (
       <div>
-        <Navbar />
+        <Navbar 
+          userObject={this.props.location.state.userObject}
+          currentPath={this.props.location.pathname}
+        />
         <Grid className="messages-grid">
           <Grid item xs="2"></Grid>
           <Grid item xs="7">

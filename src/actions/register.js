@@ -10,8 +10,6 @@ export const handleSubmit = (event, form) => {
         // BACKEND: Send user info to server
         form.setState({slideIn: false, slideDirection: "left"},
                         () => {form.setState({redirect: true});});
-    } else {
-        console.log("Invalid chars");
     }
 }
 

@@ -19,7 +19,8 @@ export class QualificationList extends React.Component {
                     label={`Qualification ${index + 1}`}
                     value={qualification}
                     inputProps={{
-                        readOnly: !isEditable
+                        readOnly: !isEditable,
+                        maxLength: 40
                     }}
                     onChange={handleTextChange}
                     fullWidth

@@ -28,17 +28,17 @@ class ProfileHeader extends React.Component {
                         </Grid>
                         <Grid item xs={12}>
                             <Typography className="profile-header__side" variant="subtitle1">
-                                <span className="bold">Accepted Requests: </span>{userObject.acceptedRequests}
+                                <span className="bold">Accepted Requests: </span>{userObject.requestsAccepted}
                             </Typography>
                         </Grid>
                         <Grid item xs={12}>
                             <Typography className="profile-header__side" variant="subtitle1">
-                                <span className="bold">Sent Requests: </span>{userObject.sentRequests}
+                                <span className="bold">Sent Requests: </span>{userObject.requestsSent}
                             </Typography>
                         </Grid>
                         <Grid item xs={12}>
                             <Typography className="profile-header__side" variant="subtitle1">
-                                <span className="bold">Completed Requests: </span>{userObject.completedRequests}
+                                <span className="bold">Completed Requests: </span>{userObject.requestsCompleted}
                             </Typography>
                         </Grid>
                     </Grid>

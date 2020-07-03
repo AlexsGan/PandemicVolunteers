@@ -4,7 +4,7 @@ import { List, ListItem, ListItemIcon, ListItemText, ListItemSecondaryAction, Sw
 import DriveEtaIcon from '@material-ui/icons/DriveEta';
 import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import { QualificationList } from "../../Register/ProfileStepper/PreferencesStep";
+import { QualificationList } from "../../Register/ProfileStepper/PreferenceStep";
 
 
 class QualificationsContent extends React.Component {
@@ -61,8 +61,11 @@ class QualificationsContent extends React.Component {
                                                 name="liftingAbility"
                                                 value={editableUserProfile.liftingAbility}
                                                 InputProps={{
+                                                    endAdornment: <InputAdornment position="end">lbs</InputAdornment>
+                                                }}
+                                                inputProps={{
                                                     readOnly: !getEditStatus(),
-                                                    endAdornment: <InputAdornment position="end">lbs</InputAdornment>,
+                                                    maxLength: 3
                                                 }}
                                                 onChange={handleTextChange}
                                                 disabled={!editableUserProfile.isLifter}
