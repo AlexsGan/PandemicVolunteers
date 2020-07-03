@@ -43,6 +43,7 @@ const handleSubmit = (wizard) => {
     const basicUser = wizard.props.location.state.basicUser;
     // FIXME: Temporary phase 1 user object
     const userObject = {
+        isAdmin: false,
         firstName: basicUser.firstName,
         lastName: basicUser.lastName,
         username: basicUser.username,

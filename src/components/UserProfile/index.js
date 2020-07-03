@@ -8,13 +8,17 @@ import Navbar from "../Navbar";
 
 class UserProfile extends React.Component {
     state = {
-        userObject: {
-            ...this.props.location.state.userObject,
-            age: getAge(this.props.location.state.userObject.birthday),
-            requestsAccepted: getRequests("accepted"),
-            requestsSent: getRequests("sent"),
-            requestsCompleted: getRequests("completed")
-        }
+        userObject: this.props.location.state.userObject.isAdmin ? (
+            {...this.props.location.state.userObject}
+        ) : (
+            {
+                ...this.props.location.state.userObject,
+                age: getAge(this.props.location.state.userObject.birthday),
+                requestsAccepted: getRequests("accepted"),
+                requestsSent: getRequests("sent"),
+                requestsCompleted: getRequests("completed")
+            }
+        )
     }
 
     render() {
@@ -26,10 +30,16 @@ class UserProfile extends React.Component {
                 />
                 <Container className="profile" maxWidth="md">
                     <ProfileHeader userObject={this.state.userObject}/>
-                    <ProfileBody 
-                        userObject={this.state.userObject}
-                        handleSaveEdit={(event, body) => handleSaveEdit(event, body, this)}
-                    />
+                    { 
+                        this.state.userObject.isAdmin ? (
+                            null
+                        ) : (
+                            <ProfileBody 
+                                userObject={this.state.userObject}
+                                handleSaveEdit={(event, body) => handleSaveEdit(event, body, this)}
+                            />
+                        )
+                    }
                 </Container>
             </>
         );
