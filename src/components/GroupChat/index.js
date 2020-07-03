@@ -17,14 +17,18 @@ class GroupChat extends React.Component {
       messageList: []
     }
 
-    this.clearData = this.clearData.bind(this)
+    this.clearNewMessage = this.clearNewMessage.bind(this)
     this.handleChangeTextbox = this.handleChangeTextbox.bind(this)
     this.changeGroup = this.changeGroup.bind(this)
+
+    this.createTasks = this.createTasks.bind(this)      // post a message
+    this.deleteMessage = this.deleteMessage.bind(this) // delete a posted message
+
     this.onSubmit = this.onSubmit.bind(this)
     this.onCancel = this.onCancel.bind(this)
   }
 
-  clearData() {
+  clearNewMessage() {
     this.setState({
       newMessage: ''
     })
@@ -47,21 +51,55 @@ class GroupChat extends React.Component {
 
   }
 
+  createTasks(item) {
+    return <Box>
+      <Box
+        className="posted-chats"
+        component="span"
+        display="flex"
+        bgcolor="grey.300"
+        borderRadius={10}
+        p={1}
+      >
+        {item.text}{""}
+        <Button
+          onClick={() => this.deleteMessage(item.key)}
+        >
+          Delete
+        </Button>
+      </Box>
+    </Box>
+  }
+
+  deleteMessage(key) {
+    var filteredMessageList = this.state.messageList.filter(function (item) {
+      return (item.key !== key);
+    });
+
+    this.setState({
+      messageList: filteredMessageList
+    });
+  }
+
   onSubmit(e) {
     e.preventDefault();
     if (this.handleValidation()) {
       //alert("Form submit")
+      var newItem = {
+        text: this.state.newMessage,
+        key: Date.now()
+      };
       this.setState({
-        messageList: [this.state.newMessage, ...this.state.messageList],
+        messageList: [newItem, ...this.state.messageList],
       });
-      this.clearData()
+      this.clearNewMessage()
     }
   }
 
   onCancel(e) {
     e.preventDefault()
     //alert("Cancel")
-    this.clearData()
+    this.clearNewMessage()
   }
 
   render() {
@@ -106,27 +144,13 @@ class GroupChat extends React.Component {
                 </Button>
                   </Grid>
                 </Grid>
-                <Container className="message-entry" maxWidth="sm">
 
-                  {this.state.messageList.map((item, index) => ( // output message
-                    <Box>
-                      <Box
-                        className="posted-chats"
-                        component="span"
-                        display="flex"
-                        bgcolor="grey.300"
-                        borderRadius={10}
-                        p={1}
-                      >
-                        {item}{""}
-                      </Box>
-                      {/* <Box className="message-time">
-                {this.state.date}
-              </Box> */}
-                    </Box>
-                  ))}
+                <Container className="message-entry" maxWidth="sm">
+                  {/* output new message */}
+                  {this.state.messageList.map(this.createTasks)}
+
                   {/* the Box below is hardcoded: will be removed when back-end is implemented */}
-                  <Box
+                  {/* <Box
                     className="posted-chats"
                     component="span"
                     display="flex"
@@ -139,15 +163,15 @@ class GroupChat extends React.Component {
                     ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
                     reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
                     sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-              </Box>
-
+                  </Box> */}
                 </Container>
+
               </Container>
             </Container>
           </Grid>
-          
+
           {/* the groups below will be loaded from backend that stores user's groups */}
-          <Grid item xs="2"> 
+          <Grid item xs="2">
             <Container
               display="flex"
             >
