@@ -20,6 +20,7 @@ class Requests extends React.Component {
       // province: '',
       messageList: [],
       redirect: false,
+      firstTime: true,
     }
 
     this.clearData = this.clearData.bind(this)
@@ -106,7 +107,62 @@ class Requests extends React.Component {
     });
   }
 
-  onSubmit(e) {
+  hardCodedExample() {
+    if (this.state.firstTime) {
+      this.state.firstTime = false;
+
+      this.state.hardCodedMsg = ' Request content: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+      var date = new Date().getDate(); //Current Date
+      var month = new Date().getMonth() + 1; //Current Month
+      var year = new Date().getFullYear(); //Current Year
+      var hours = new Date().getHours(); //Current Hours
+      var min = new Date().getMinutes(); //Current Minutes
+      var sec = new Date().getSeconds(); //Current Seconds
+
+      var newRequest = {
+        text: this.state.hardCodedMsg,
+        key: Date.now(),
+        date: date + '/' + month + '/' + year + ' ' + hours + ':' + min + ':' + sec,
+      };
+      this.state.messageList = [newRequest]
+      // this.setState({
+      //   messageList: [newRequest, ...this.state.messageList],
+      // });
+      return <Box>
+        <Box
+          className="posted-chats"
+          component="span"
+          display="flex"
+          bgcolor="grey.300"
+          borderRadius={10}
+          p={1}
+        >
+          {newRequest.text}{""}
+          <Button
+            variant="outlined"
+            onClick={() => this.assistRequest(newRequest.key)}
+            color="primary"
+          >
+            Assist Request
+        </Button>
+        </Box>
+        <Button
+          variant="outlined"
+          onClick={() => this.deleteRequest(newRequest.key)}
+        >
+          Delete request
+        </Button>
+        <Box
+          style={{ float: "right" }}
+        >
+          {newRequest.date}
+        </Box>
+      </Box>
+    }
+  }
+
+  onSubmit(e) { // the person who clicked 
+    console.log("onSubmit() called")
     e.preventDefault();
     if (this.handleValidation()) {
       //alert("Form submit")
@@ -180,6 +236,9 @@ class Requests extends React.Component {
             {/* add requests */}
             {this.state.messageList.map(this.createTasks)}
 
+            {/* The request below is hard coded */}
+            {this.hardCodedExample()}
+            {console.log(this.state.messageList)}
           </Container>
         </Container>
       </div>

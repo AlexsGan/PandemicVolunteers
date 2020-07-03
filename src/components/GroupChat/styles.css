@@ -9,8 +9,6 @@
 
 .posted-chats {
     display: 'flex';
-    margin-top: 50px;
-    margin-bottom: 0px;
 }
 
 .message-time {    

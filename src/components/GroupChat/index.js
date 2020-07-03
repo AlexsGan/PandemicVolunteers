@@ -53,27 +53,40 @@ class GroupChat extends React.Component {
 
   createTasks(item) { // output message
     return <Box>
-      <Box
-        className="posted-chats"
-        component="span"
-        display="flex"
-        bgcolor="grey.300"
-        borderRadius={10}
-        p={1}
-      >
-        {item.text}{""}
-      </Box>
-      <Button
-        variant="outlined"
-        onClick={() => this.deleteMessage(item.key)}
-      >
-        Delete msg
+      <br />
+      <br />
+      <Grid container spacing={1}>
+        <Grid item xs={2}>
+          <Box
+            bgcolor="grey.300"
+            borderRadius={20}
+          >
+            <b>Username</b>
+          </Box>
+        </Grid>
+        <Grid item xs={8}>
+          <Box
+            component="span"
+            display="flex"
+            bgcolor="grey.300"
+            borderRadius={10}
+            p={1}
+          >
+            {item.text}{""}
+          </Box>
+          <Button
+            variant="outlined"
+            onClick={() => this.deleteMessage(item.key)}
+          >
+            Delete msg
         </Button>
-      <Box
-        style={{float: "right"}}
-      >
-        {item.date}
-      </Box>
+          <Box
+            style={{ float: "right" }}
+          >
+            {item.date}
+          </Box>
+        </Grid>
+      </Grid>
     </Box>
   }
 
@@ -158,13 +171,12 @@ class GroupChat extends React.Component {
                 </Button>
                   </Grid>
                 </Grid>
-
-                <Container className="message-entry" maxWidth="sm">
-                  {/* output new message */}
-                  {this.state.messageList.map(this.createTasks)}
-
-                  {/* the Box below is hardcoded: will be removed when back-end is implemented */}
-                  {/* <Box
+              </Container>
+              <Container className="message-entry" maxWidth="md">
+                {/* output new message */}
+                {this.state.messageList.map(this.createTasks)}
+                {/* the Box below is hardcoded: will be removed when back-end is implemented */}
+                {/* <Box
                     className="posted-chats"
                     component="span"
                     display="flex"
@@ -178,9 +190,9 @@ class GroupChat extends React.Component {
                     reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
                     sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                   </Box> */}
-                </Container>
-
               </Container>
+
+
             </Container>
           </Grid>
 
