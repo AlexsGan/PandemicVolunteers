@@ -15,6 +15,20 @@ export function getAge(birthday) {
     return yearDiff;
 }
 
+export function getRequests(type) {
+    switch (type) {
+        // BACKEND: Pull accepted, sent, and completed request counts from server
+        case "accepted":
+            return 0
+        case "sent":
+            return 0
+        case "completed":
+            return 0
+        default:
+            return -1;
+            alert("Invalid request type");
+    }
+}
 export const handleExpansion = (event, isExpanded, name, form) => {
     const target = event.target;
     // Prevent switching between categories when editing

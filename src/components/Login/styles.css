@@ -1,0 +1,12 @@
+.login__register-link {
+    text-decoration: none
+}
+
+.MuiContainer-root.login__form {
+    margin-top: 100px;
+    text-align: center;
+}
+
+.MuiTypography-root.header{
+    margin-top: 100px;
+}

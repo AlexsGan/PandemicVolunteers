@@ -11,6 +11,7 @@ import Requests from "./components/Requests";
 import Register from "./components/Register";
 import ProfileWizard from "./components/Register/ProfileWizard";
 import UserProfile from "./components/UserProfile";
+import Login from './components/Login';
 
 class App extends React.Component {
 
@@ -30,6 +31,7 @@ class App extends React.Component {
             <Route exact path ='/register/create-profile' render = {() =>
                             (<ProfileWizard/>)}/> */}
             <Route exact path='/' component={View}/>
+            <Route exact path ='/login' component={Login}/>
             <Route exact path ='/register' component={Register}/>
             <Route exact path ='/register/create-profile' component={ProfileWizard}/>
             <Route exact path ='/profile' component={UserProfile}/>

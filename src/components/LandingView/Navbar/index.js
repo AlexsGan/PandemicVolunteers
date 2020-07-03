@@ -1,7 +1,7 @@
 import React from "react";
 import {Grid, Button} from "@material-ui/core"
 import { Link } from "react-router-dom"
-import "./navbar.css";
+import "./styles.css";
 
 /* Navigation Bar Component for Landing page */
 class Navbar extends React.Component {
@@ -35,8 +35,8 @@ class Navbar extends React.Component {
             </Button> 
           </Link>
         </Grid>
-        <Grid item xs={1.5}>
-          <Link className="link" to="/register">
+        <Grid item xs={2}>
+          <Link className="link" to="/login">
             <Button variant="contained" color="default">
               <h3 className="nav_text">Log In</h3>
             </Button> 
