@@ -8,7 +8,7 @@ Click the "LOGIN" tab to register an account, or to login as either a user or an
 * mandatory fields including first/last name, username, password, birdthday, location, and 
 * optionally qualifications, as well as additional information. 
 
-After registering or logging in, user can see their profile in detail as well as edit them. 
+After registering or logging in, user can see their profile in "PROFILE" as well as edit them. 
 
 When logged in, clicking "HOME" is equivalent to logging out. If user stays logged in, they can:
 * in "REQUESTS", browse and add requests, as well as applying to help a request
