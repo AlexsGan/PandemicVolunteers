@@ -11,7 +11,7 @@ Click the "LOGIN" tab to register an account, or to login as either a user or an
 After registering or logging in, user can see their profile in "PROFILE" as well as edit them. 
 
 When logged in, clicking "HOME" is equivalent to logging out. If user stays logged in, they can:
-* in "REQUESTS", browse and add requests, as well as applying to help a request
+* in "REQUESTS", browse and add requests, applying to help a request, and accept incoming request applications
 * in "GROUP CHATS", message in the group chat.
 
 If the user is an admin, they can delete requests posts and chat messages.
