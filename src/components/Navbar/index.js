@@ -34,13 +34,19 @@ class Navbar extends React.Component {
         
         return (
             <AppBar position="static">
+                <Typography
+                    className="navbar__app-name"
+                    variant="h1"
+                >
+                    PandemicVolunteers
+                </Typography>
                 <Tabs
                     className="navbar__tabs"
                     value={this.state.redirectPath}
                     onChange={this.handleClick}
                     centered
                 >
-                    <Tab label="Home" value="/"/>
+                    <Tab label="Home" value="/home"/>
                     <Tab label="Requests" value="/requests"/>
                     <Tab label="Group Chats" value="/group-chat"/>
                     <Tab label="About Us" value="/about" disabled={true}/>

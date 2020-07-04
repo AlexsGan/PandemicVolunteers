@@ -1,19 +1,20 @@
 import React from "react";
 import Navbar from "../Navbar";
-import TitlePage from "./TitlePage"
+import HomeContent from "./HomeContent"
 
 import "./styles.css"
-/* Component for Landing page */
-class LandingView extends React.Component {
+
+/* Component for home page */
+class Home extends React.Component {
   render() {
     return (
-      <div className="landing-view" >
+      <div className="home-view" >
 
         {/*navigation bar at the top of the landing screen */}
         <Navbar userObject={null} currentPath="/"/>
         
         {/*content of the landing screen*/}
-        <TitlePage/>
+        <HomeContent/>
 
 
       </div>
@@ -22,4 +23,4 @@ class LandingView extends React.Component {
   }
 }
 
-export default LandingView;
+export default Home;

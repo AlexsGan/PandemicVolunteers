@@ -6,7 +6,7 @@ import './App.css';
 
 // Import components
 import GroupChat from "./components/GroupChat";
-import LandingView from "./components/LandingView";
+import Home from "./components/Home";
 import Requests from "./components/Requests";
 import Register from "./components/Register";
 import ProfileWizard from "./components/Register/ProfileWizard";
@@ -22,12 +22,13 @@ class App extends React.Component {
           <Switch>
             <Route exact path='/group-chat' component={GroupChat} />
             <Route exact path='/requests' component={Requests} />
-            <Route exact path='/' component={LandingView} />
+            <Route exact path='/' component={Home} />
+            <Route exact path='/home' component={Home} />
             <Route exact path ='/login' component={Login} />
             <Route exact path ='/register' component={Register} />
             <Route exact path ='/register/create-profile' component={ProfileWizard} />
             <Route exact path ='/profile' component={UserProfile} />
-            <Route exact path ='/about' component={LandingView} />
+            <Route exact path ='/about' component={Home} />
           </Switch>
         </BrowserRouter>
       </div>

@@ -14,11 +14,11 @@ class ProfileHeader extends React.Component {
                     <Grid item xs={8}>
                         {
                             userObject.isAdmin ? (
-                                <Typography className="profile-header__name--admin bold" variant="h2">
+                                <Typography className="profile-header__name--admin bold" variant="h3">
                                     Admin
                                 </Typography>
                             ) : (
-                                <Typography className="profile-header__name bold" variant="h2">
+                                <Typography className="profile-header__name bold" variant="h3">
                                     {userObject.firstName} {userObject.lastName}
                                 </Typography>
                             )
