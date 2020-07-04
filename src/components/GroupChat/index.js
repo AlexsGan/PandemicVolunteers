@@ -159,7 +159,7 @@ class GroupChat extends React.Component {
             <Container className="group-chat-box" maxWidth="md">
               <Container className="message-entry" maxWidth="sm">
                 <Grid className="messages-grid" container spacing={2}>
-                  <Grid item xs="12">
+                  <Grid item xs={12}>
                     <TextField
                       name="message"
                       variant="outlined"
