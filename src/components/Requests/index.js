@@ -62,6 +62,11 @@ class Requests extends React.Component {
 
   assistRequest(key) {
     // Wait for request host to accept assistance, then proceeds
+    if (this.props.location.state.userObject == null) {
+      alert("You must be a registered user")
+      return
+    }
+    this.props.location.state.userObject.requestsAccepted += 1;
     this.setState({
       redirect: true
     })
@@ -181,7 +186,7 @@ class Requests extends React.Component {
     }
   }
 
-  onSubmit(e) { // the person who clicked 
+  onSubmit(e) {
     console.log("onSubmit() called")
     e.preventDefault();
     if (this.handleValidation()) {
@@ -202,6 +207,7 @@ class Requests extends React.Component {
         messageList: [newRequest, ...this.state.messageList],
       });
       this.clearData()
+      this.props.location.state.userObject.requestsSent += 1;
     }
   }
 
