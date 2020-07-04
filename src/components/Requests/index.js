@@ -289,7 +289,7 @@ class Requests extends React.Component {
                 onClick={this.acceptAssistance}
                 fullWidth
               >
-                Assist Request from User 1
+                Accept Request Assistence from User 1
                 </Button>
               <br />
               <br />
@@ -298,7 +298,7 @@ class Requests extends React.Component {
                 onClick={this.acceptAssistance}
                 fullWidth
               >
-                Assist Request from User 2
+                Accept Request Assistence from User 2
                 </Button>
             </Container>
           </Grid>
