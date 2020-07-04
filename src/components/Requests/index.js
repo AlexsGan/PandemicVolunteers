@@ -150,7 +150,7 @@ class Requests extends React.Component {
         key: Date.now(),
         date: date + '/' + month + '/' + year + ' ' + hours + ':' + min + ':' + sec,
       };
-      this.setState(prevState => ({messageList: [...prevState.messageList, newRequest]}));
+      this.setState(prevState => ({messageList: [newRequest]}));
       // this.setState({
       //   messageList: [newRequest, ...this.state.messageList],
       // });
