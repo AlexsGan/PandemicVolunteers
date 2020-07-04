@@ -11,7 +11,7 @@ class Home extends React.Component {
       <div className="home-view" >
 
         {/*navigation bar at the top of the landing screen */}
-        <Navbar userObject={null} currentPath="/"/>
+        <Navbar userObject={null} currentPath="/home"/>
         
         {/*content of the landing screen*/}
         <HomeContent/>

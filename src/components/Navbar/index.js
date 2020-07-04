@@ -47,9 +47,9 @@ class Navbar extends React.Component {
                     centered
                 >
                     <Tab label="Home" value="/home"/>
+                    <Tab label="About Us" value="/about" disabled={true}/>
                     <Tab label="Requests" value="/requests"/>
                     <Tab label="Group Chats" value="/group-chat"/>
-                    <Tab label="About Us" value="/about" disabled={true}/>
                     { 
                         this.props.userObject !== null ? (
                             <Tab label="Profile" value="/profile"/>

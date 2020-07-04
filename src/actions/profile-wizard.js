@@ -176,7 +176,7 @@ const validateQualification = wizard => {
     const state = wizard.state;
     let isValid = true;
     if (state.hasEmployment) {
-        if (state.employmentField === "") {
+        if (state.employmentField.trim() === "") {
             isValid = false;
             wizard.setState({ employmentFieldError: true });
         } else {
@@ -184,9 +184,9 @@ const validateQualification = wizard => {
         }
     }
     if (state.hasLiftAbility) {
-        if (state.liftField === "" ||
-            state.liftField.match(/^0+/) ||
-            !state.liftField.match(/^\d+$/)) {
+        if (state.liftField.trim() === "" ||
+            state.liftField.trim().match(/^0+/) ||
+            !state.liftField.trim().match(/^\d+$/)) {
             isValid = false;
             wizard.setState({ liftFieldError: true });
         } else {
