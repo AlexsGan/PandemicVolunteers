@@ -183,6 +183,7 @@ class GroupChat extends React.Component {
                     <Button
                       variant="contained"
                       onClick={this.onCancel}
+                      fullWidth
                     >
                       Cancel
                 </Button>

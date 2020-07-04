@@ -20,6 +20,7 @@ class Requests extends React.Component {
       // province: '',
       messageList: [],
       redirect: false,
+      acceptAssistance: false,
       firstTime: true,
     }
 
@@ -30,8 +31,9 @@ class Requests extends React.Component {
     // this.handleChangeProvince = this.handleChangeProvince.bind(this)
 
     this.createTasks = this.createTasks.bind(this)      // post a request
-    this.deleteRequest = this.deleteRequest.bind(this)
-    this.assistRequest = this.assistRequest.bind(this)
+    this.deleteRequest = this.deleteRequest.bind(this)  // delete a request
+    this.assistRequest = this.assistRequest.bind(this)  // apply for assisting a request
+    this.acceptAssistance = this.acceptAssistance.bind(this) // accepting an assisting application
 
     this.onSubmit = this.onSubmit.bind(this)
     this.onCancel = this.onCancel.bind(this)
@@ -59,9 +61,16 @@ class Requests extends React.Component {
   }
 
   assistRequest(key) {
-    // TODO: wait for request host to accept assistance, then proceeds
+    // Wait for request host to accept assistance, then proceeds
     this.setState({
       redirect: true
+    })
+  }
+
+  acceptAssistance(key) {
+    // Accepts the incoming assistance request, allows the other user to assist current user
+    this.setState({
+      acceptAssistance: true
     })
   }
 
@@ -219,49 +228,81 @@ class Requests extends React.Component {
           userObject={this.props.location.state.userObject}
           currentPath={this.props.location.pathname}
         />
-        <Container className="requests-box" maxWidth="lg">
-          <Container className="requests-container" maxWidth="md">
-            <Grid className="requests-grid" container spacing={2}>
-              <Grid item xs={12}>
-                <TextField
-                  multiline={true}
-                  rows={3}
-                  name="message"
-                  variant="outlined"
-                  label="Add a request:"
-                  value={this.state.requestMessage}
-                  onChange={this.handleChangeTextbox}
-                  fullWidth
-                />
-              </Grid>
+        <Grid className="messages-grid">
+          <Grid item xs="2"></Grid>
+          <Grid item xs="7">
+            <Container className="requests-box" maxWidth="md">
+              <Container className="requests-container" maxWidth="md">
+                <Grid className="requests-grid" container spacing={2}>
+                  <Grid item xs={12}>
+                    <TextField
+                      multiline={true}
+                      rows={3}
+                      name="message"
+                      variant="outlined"
+                      label="Add a request:"
+                      value={this.state.requestMessage}
+                      onChange={this.handleChangeTextbox}
+                      fullWidth
+                    />
+                  </Grid>
 
-              <Grid item xs={3}>
-                <Button
-                  variant="contained"
-                  onClick={this.onSubmit}
-                  color="primary"
-                >
-                  Post
+                  <Grid item xs={3}>
+                    <Button
+                      variant="contained"
+                      onClick={this.onSubmit}
+                      color="primary"
+                      fullWidth
+                    >
+                      Post
                 </Button>
-              </Grid>
-              <Grid item xs={3}>
-                <Button
-                  variant="contained"
-                  onClick={this.onCancel}
-                >
-                  Cancel
+                  </Grid>
+                  <Grid item xs={3}>
+                    <Button
+                      variant="contained"
+                      onClick={this.onCancel}
+                      fullWidth
+                    >
+                      Cancel
                 </Button>
-              </Grid>
-            </Grid>
+                  </Grid>
+                </Grid>
 
-            {/* add requests */}
-            {this.state.messageList.map(this.createTasks)}
+                {/* add requests */}
+                {this.state.messageList.map(this.createTasks)}
 
-            {/* The request below is hard coded */}
-            {this.hardCodedExample()}
-            {console.log(this.state.messageList)}
-          </Container>
-        </Container>
+                {/* The request below is hard coded */}
+                {this.hardCodedExample()}
+                {console.log(this.state.messageList)}
+              </Container>
+            </Container>
+          </Grid>
+
+          {/* The following grid will show the current user assist requests from other users */}
+          <Grid item xs="2">
+            <Container
+              display="flex"
+            >
+              <br />
+              <Button
+                variant="contained"
+                onClick={this.acceptAssistance}
+                fullWidth
+              >
+                Assist Request from User 1
+                </Button>
+              <br />
+              <br />
+              <Button
+                variant="contained"
+                onClick={this.acceptAssistance}
+                fullWidth
+              >
+                Assist Request from User 2
+                </Button>
+            </Container>
+          </Grid>
+        </Grid>
       </div>
     );
   }
