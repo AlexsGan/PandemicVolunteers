@@ -8,10 +8,12 @@ Click the "LOGIN" tab to register an account, or to login as either a user or an
 * mandatory fields including first/last name, username, password, birdthday, location, and 
 * optionally qualifications, as well as additional information. 
 
-After registering or logging in, user can see their profile in "PROFILE" as well as edit them. 
+Optionally, login with the hardcoded user pre-populated with profile information. The username is "user", and the password is "password". Click "User Login" to login.
 
-When logged in, clicking "HOME" is equivalent to logging out. If user stays logged in, they can:
+After registering or logging in, user can see their profile in "PROFILE" as well as edit them. Note: the basic user info tab in Profile requires a new password to be set when a field is changed.
+
+When logged in, clicking "HOME" is equivalent to logging out (for phase 1). If user stays logged in, they can:
 * in "REQUESTS", browse and add requests, applying to help a request, and accept incoming request applications
 * in "GROUP CHATS", message in the group chat.
 
-If the user is an admin, they can delete requests posts and chat messages.
+If the user is an admin, they can delete requests posts and chat messages. Sign into the hardcoded admin account by using the username "admin" and password "admin", and clicking "Admin Login".

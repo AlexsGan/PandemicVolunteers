@@ -33,7 +33,7 @@ class ProfileHeader extends React.Component {
                             <Grid item xs={3}/>
                         ) : (
                             <>
-                                <Divider className="profile-header__divider" variant="vertical" flexItem xs={1}/>
+                                <Divider className="profile-header__divider" flexItem xs={1}/>
                                 <Grid className="profile-header__side-grid" direction="column" container item xs={3} spacing={1}>
                                     <Grid item xs={12}>
                                         <Typography className="profile-header__side" variant="subtitle1">

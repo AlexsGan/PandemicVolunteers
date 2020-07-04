@@ -48,6 +48,7 @@ class Navbar extends React.Component {
                 >
                     <Tab label="Home" value="/home"/>
                     <Tab label="About Us" value="/about" disabled={true}/>
+                    <Tab label="Map" value="/map" disabled={true}/>
                     <Tab label="Requests" value="/requests"/>
                     <Tab label="Group Chats" value="/group-chat"/>
                     { 

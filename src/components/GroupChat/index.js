@@ -35,7 +35,7 @@ class GroupChat extends React.Component {
   }
 
   handleValidation() {
-    if (this.state.newMessage != '' && this.state.newMessage.length < 500) // post must have 1 < Character < 500
+    if (this.state.newMessage !== '' && this.state.newMessage.length < 500) // post must have 1 < Character < 500
       return true
     alert("Invalid message length!")
     return false

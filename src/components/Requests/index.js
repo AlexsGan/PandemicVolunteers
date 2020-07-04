@@ -48,7 +48,7 @@ class Requests extends React.Component {
   }
 
   handleValidation() {
-    if (this.state.requestMessage != '' && this.state.requestMessage.length < 500) // post must have 1 < Character < 500
+    if (this.state.requestMessage !== '' && this.state.requestMessage.length < 500) // post must have 1 < Character < 500
       return true
     alert("Invalid message length!")
     return false
@@ -66,7 +66,6 @@ class Requests extends React.Component {
       alert("You must be a registered user")
       return
     }
-    this.props.location.state.userObject.requestsAccepted += 1;
     this.setState({
       redirect: true
     })
@@ -80,7 +79,7 @@ class Requests extends React.Component {
   }
 
   createTasks(item) {
-    return <Box>
+    return <Box key={item.key}>
       <Box
         className="posted-chats"
         component="span"
@@ -134,9 +133,11 @@ class Requests extends React.Component {
 
   hardCodedExample() {
     if (this.state.firstTime) {
-      this.state.firstTime = false;
+      this.setState({
+        firstTime: false,
+        hardCodedMsg: ' Request content: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+      });
 
-      this.state.hardCodedMsg = ' Request content: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
       var date = new Date().getDate(); //Current Date
       var month = new Date().getMonth() + 1; //Current Month
       var year = new Date().getFullYear(); //Current Year
@@ -149,7 +150,7 @@ class Requests extends React.Component {
         key: Date.now(),
         date: date + '/' + month + '/' + year + ' ' + hours + ':' + min + ':' + sec,
       };
-      this.state.messageList = [newRequest]
+      this.setState(prevState => ({messageList: [...prevState.messageList, newRequest]}));
       // this.setState({
       //   messageList: [newRequest, ...this.state.messageList],
       // });
@@ -207,7 +208,6 @@ class Requests extends React.Component {
         messageList: [newRequest, ...this.state.messageList],
       });
       this.clearData()
-      this.props.location.state.userObject.requestsSent += 1;
     }
   }
 

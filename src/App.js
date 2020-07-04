@@ -29,6 +29,7 @@ class App extends React.Component {
             <Route exact path ='/register/create-profile' component={ProfileWizard} />
             <Route exact path ='/profile' component={UserProfile} />
             <Route exact path ='/about' component={Home} />
+            <Route exact path ='/map' component={Home} />
           </Switch>
         </BrowserRouter>
       </div>
