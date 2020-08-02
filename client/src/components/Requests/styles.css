@@ -1,0 +1,34 @@
+.requests-container {
+    margin-top: 50px;
+    display: flex;
+    /* flex-direction: column; */
+    align-items: center;
+    max-width: 100px;
+    overflow: auto;
+}
+
+.posted-chats {
+    display: flex;
+    margin-top: 50px;
+    margin-bottom: 0px;
+}
+
+.message-time {    
+    text-align: end;
+    margin-right: 0;
+}
+
+.requests-box {       
+    display: flex;
+    align-items: center;
+    padding-top: 5%;
+    padding-bottom: 20%;
+    max-width: 50px;
+    background-color: #F0F8FF;
+}
+
+.requests-grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
