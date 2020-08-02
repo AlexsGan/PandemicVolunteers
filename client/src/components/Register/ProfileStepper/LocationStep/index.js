@@ -21,10 +21,10 @@ class LocationStep extends React.Component {
                 <Grid container spacing={2}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                            <Typography variant = "h5">
+                            <Typography variant="h5">
                                 {header}
                             </Typography>
-                            <Typography className="step__description italicized" variant = "subtitle1">
+                            <Typography className="step__description italicized" variant="subtitle1">
                                 {description}
                             </Typography>
                         </Grid>
@@ -47,7 +47,7 @@ class LocationStep extends React.Component {
                             <TextField
                                 name="province"
                                 id="select"
-                                label = "Province"
+                                label="Province"
                                 value={province}
                                 error={provinceError}
                                 helperText={provinceError === true ? 'Invalid province.' : ''}

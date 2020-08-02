@@ -11,25 +11,25 @@ class PreferencesContent extends React.Component {
             handleSwitch
         } = this.props
 
-        return(
+        return (
             <List className="profile-content__list">
                 <ListItem>
-                    {userProfile.hasVisibleProfile ? 
+                    {userProfile.hasVisibleProfile ?
                         (
                             // Visible
                             <>
                                 <ListItemIcon>
-                                    <VisibilityIcon />
+                                    <VisibilityIcon/>
                                 </ListItemIcon>
-                                <ListItemText primary="My detailed profile information is publically visible." />
+                                <ListItemText primary="My detailed profile information is publicly visible."/>
                             </>
                         ) : (
                             // Not visible
                             <>
                                 <ListItemIcon>
-                                    <VisibilityOffIcon />
+                                    <VisibilityOffIcon/>
                                 </ListItemIcon>
-                                <ListItemText primary="My detailed profile information is not publically visible." />
+                                <ListItemText primary="My detailed profile information is not publicly visible."/>
                             </>
                         )
                     }

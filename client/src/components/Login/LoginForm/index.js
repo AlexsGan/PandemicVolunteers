@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import "../styles.css";
 
 class LoginForm extends React.Component {
-    render () {
+    render() {
         const {
             username,
             password,
@@ -12,7 +12,7 @@ class LoginForm extends React.Component {
             handleTextChange,
             handleSubmit
         } = this.props;
-        
+
         return (
             <Grid container spacing={2}>
                 <Grid item xs={12}>
@@ -39,7 +39,7 @@ class LoginForm extends React.Component {
                         onChange={handleTextChange}
                         fullWidth
                     />
-                    </Grid>
+                </Grid>
                 <Grid item xs={12}>
                     <Button
                         name="login"

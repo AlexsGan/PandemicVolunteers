@@ -19,7 +19,7 @@ class BiographyContent extends React.Component {
                     value={editableUserProfile.biography}
                     label="Enter new biography below"
                     onChange={handleTextChange}
-                    inputProps={{maxLength: 160}}
+                    inputProps={{ maxLength: 160 }}
                     fullWidth
                 >
                 </TextField>

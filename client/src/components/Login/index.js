@@ -21,7 +21,7 @@ class Login extends React.Component {
     render() {
         if (this.state.loginSuccess) {
             return (
-                <Redirect 
+                <Redirect
                     to={{
                         pathname: "/profile",
                         state: { userObject: this.state.userObject }
@@ -42,7 +42,7 @@ class Login extends React.Component {
                             Login
                         </Typography>
                         <Container className="login__form" maxWidth="xs">
-                            <LoginForm 
+                            <LoginForm
                                 username={this.state.username}
                                 password={this.state.password}
                                 credentialError={this.state.credentialError}

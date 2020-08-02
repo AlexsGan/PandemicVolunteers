@@ -27,14 +27,15 @@ class ProfileHeader extends React.Component {
                             @{userObject.username}
                         </Typography>
                     </Grid>
-                    { 
+                    {
                         // Render user stats if not an admin
                         userObject.isAdmin ? (
                             <Grid item xs={3}/>
                         ) : (
                             <>
                                 <Divider className="profile-header__divider" flexItem xs={1}/>
-                                <Grid className="profile-header__side-grid" direction="column" container item xs={3} spacing={1}>
+                                <Grid className="profile-header__side-grid" direction="column" container item xs={3}
+                                      spacing={1}>
                                     <Grid item xs={12}>
                                         <Typography className="profile-header__side" variant="subtitle1">
                                             <span className="bold">Age: </span>{userObject.age}
@@ -42,7 +43,8 @@ class ProfileHeader extends React.Component {
                                     </Grid>
                                     <Grid item xs={12}>
                                         <Typography className="profile-header__side" variant="subtitle1">
-                                            <span className="bold">Accepted Requests: </span>{userObject.requestsAccepted}
+                                            <span
+                                                className="bold">Accepted Requests: </span>{userObject.requestsAccepted}
                                         </Typography>
                                     </Grid>
                                     <Grid item xs={12}>
@@ -52,7 +54,8 @@ class ProfileHeader extends React.Component {
                                     </Grid>
                                     <Grid item xs={12}>
                                         <Typography className="profile-header__side" variant="subtitle1">
-                                            <span className="bold">Completed Requests: </span>{userObject.requestsCompleted}
+                                            <span
+                                                className="bold">Completed Requests: </span>{userObject.requestsCompleted}
                                         </Typography>
                                     </Grid>
                                 </Grid>

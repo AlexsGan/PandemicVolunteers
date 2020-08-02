@@ -3,7 +3,7 @@ import RegisterForm from "./RegisterForm";
 
 import "./styles.css";
 import { Container, Typography, Slide, Box } from "@material-ui/core";
-import { Redirect } from "react-router";
+import { Redirect } from "react-router-dom";
 import { handleChange, handleSubmit } from "../../actions/register";
 
 /* Component for register page */

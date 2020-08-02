@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Button} from "@material-ui/core";
+import { Typography, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, Button } from "@material-ui/core";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 import "../styles.css";
 
@@ -18,16 +18,18 @@ class ProfileCategory extends React.Component {
             handleSaveEdit,
             handleEdit
         } = this.props;
-        
+
         return (
-            <ExpansionPanel 
-                    className="profile-body__category"
-                    name={categoryName}
-                    expanded={toExpand === categoryName}
-                    onChange={(event, isExpanded) => {handleChange(event, isExpanded, categoryName)}}
-                >
+            <ExpansionPanel
+                className="profile-body__category"
+                name={categoryName}
+                expanded={toExpand === categoryName}
+                onChange={(event, isExpanded) => {
+                    handleChange(event, isExpanded, categoryName)
+                }}
+            >
                 <ExpansionPanelSummary
-                    expandIcon={<ExpandMore />}
+                    expandIcon={<ExpandMore/>}
                 >
                     <Typography className={isPrivate ? null : "bold"} variant="h5">{categoryHeading}</Typography>
                 </ExpansionPanelSummary>
@@ -38,7 +40,9 @@ class ProfileCategory extends React.Component {
                                 className="profile-category__button"
                                 color="primary"
                                 variant="contained"
-                                onClick={(event) => {handleEdit(event, categoryName)}}>
+                                onClick={(event) => {
+                                    handleEdit(event, categoryName)
+                                }}>
                                 EDIT
                             </Button>
                         ) : null

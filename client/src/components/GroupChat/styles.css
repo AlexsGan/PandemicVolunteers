@@ -11,12 +11,12 @@
     display: flex;
 }
 
-.message-time {    
+.message-time {
     text-align: end;
     margin-right: 0;
 }
 
-.group-chat-box {       
+.group-chat-box {
     display: flex;
     align-items: center;
     padding-top: 5%;

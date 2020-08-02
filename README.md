@@ -5,7 +5,7 @@
 If the rightmost tab in the navigation bar is "LOGIN" instead of "PROFILE", then user can only look at requests and group chats but cannot post. Otherwise, the user can post requests as well as message in group chats. 
 
 Click the "LOGIN" tab to register an account, or to login as either a user or an admin. When registering, you will enter:
-* mandatory fields including first/last name, username, password, birdthday, location, and 
+* mandatory fields including first/last name, username, password, birthday, location, and 
 * optionally qualifications, as well as additional information. 
 
 Optionally, login with the hardcoded user pre-populated with profile information. The username is "user", and the password is "password". Click "User Login" to login.

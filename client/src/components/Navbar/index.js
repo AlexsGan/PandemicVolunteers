@@ -10,7 +10,7 @@ class Navbar extends React.Component {
     }
 
     handleClick = (event, newValue) => {
-        this.setState({redirectPath: newValue});
+        this.setState({ redirectPath: newValue });
         console.log(newValue)
     }
 
@@ -23,7 +23,7 @@ class Navbar extends React.Component {
         if (this.state.redirectPath !== currentPath) {
             console.log(this.state.redirectPath)
             return (
-                <Redirect 
+                <Redirect
                     to={{
                         pathname: this.state.redirectPath,
                         state: { userObject: this.props.userObject }
@@ -31,7 +31,7 @@ class Navbar extends React.Component {
                 />
             )
         }
-        
+
         return (
             <AppBar position="static">
                 <Typography
@@ -51,7 +51,7 @@ class Navbar extends React.Component {
                     <Tab label="Map" value="/map" disabled={true}/>
                     <Tab label="Requests" value="/requests"/>
                     <Tab label="Group Chats" value="/group-chat"/>
-                    { 
+                    {
                         this.props.userObject !== null ? (
                             <Tab label="Profile" value="/profile"/>
                         ) : (

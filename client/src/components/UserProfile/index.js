@@ -1,7 +1,7 @@
 import React from "react";
 import "./styles.css";
 import { Container } from "@material-ui/core";
-import { getAge, getRequests, handleSaveEdit, handleTextChange } from "../../actions/user-profile";
+import { getAge, getRequests, handleSaveEdit } from "../../actions/user-profile";
 import ProfileHeader from "./ProfileHeader";
 import ProfileBody from "./ProfileBody";
 import Navbar from "../Navbar";
@@ -9,7 +9,7 @@ import Navbar from "../Navbar";
 class UserProfile extends React.Component {
     state = {
         userObject: this.props.location.state.userObject.isAdmin ? (
-            {...this.props.location.state.userObject}
+            { ...this.props.location.state.userObject }
         ) : (
             {
                 ...this.props.location.state.userObject,
@@ -30,11 +30,9 @@ class UserProfile extends React.Component {
                 />
                 <Container className="profile" maxWidth="md">
                     <ProfileHeader userObject={this.state.userObject}/>
-                    { 
-                        this.state.userObject.isAdmin ? (
-                            null
-                        ) : (
-                            <ProfileBody 
+                    {
+                        this.state.userObject.isAdmin ? null : (
+                            <ProfileBody
                                 userObject={this.state.userObject}
                                 handleSaveEdit={(event, body) => handleSaveEdit(event, body, this)}
                             />

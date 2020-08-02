@@ -15,26 +15,26 @@ import Login from './components/Login';
 
 class App extends React.Component {
 
-  render() {
-    return (
-      <div>
-        <BrowserRouter>
-          <Switch>
-            <Route exact path='/group-chat' component={GroupChat} />
-            <Route exact path='/requests' component={Requests} />
-            <Route exact path='/' component={Home} />
-            <Route exact path='/home' component={Home} />
-            <Route exact path ='/login' component={Login} />
-            <Route exact path ='/register' component={Register} />
-            <Route exact path ='/register/create-profile' component={ProfileWizard} />
-            <Route exact path ='/profile' component={UserProfile} />
-            <Route exact path ='/about' component={Home} />
-            <Route exact path ='/map' component={Home} />
-          </Switch>
-        </BrowserRouter>
-      </div>
-    );  
-  }
+    render() {
+        return (
+            <div>
+                <BrowserRouter>
+                    <Switch>
+                        <Route exact path='/group-chat' component={GroupChat}/>
+                        <Route exact path='/requests' component={Requests}/>
+                        <Route exact path='/' component={Home}/>
+                        <Route exact path='/home' component={Home}/>
+                        <Route exact path='/login' component={Login}/>
+                        <Route exact path='/register' component={Register}/>
+                        <Route exact path='/register/create-profile' component={ProfileWizard}/>
+                        <Route exact path='/profile' component={UserProfile}/>
+                        <Route exact path='/about' component={Home}/>
+                        <Route exact path='/map' component={Home}/>
+                    </Switch>
+                </BrowserRouter>
+            </div>
+        );
+    }
 }
 
 export default App;

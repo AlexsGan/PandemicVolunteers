@@ -4,14 +4,14 @@ import { Typography, Grid, Button, Slide, Switch, TextField } from "@material-ui
 
 /* Component for list of additional qualification inputs */
 export class QualificationList extends React.Component {
-    render () {
+    render() {
         const {
-            additionalQuals, 
+            additionalQuals,
             handleTextChange,
             isEditable
         } = this.props;
 
-        let textFields = additionalQuals.map((qualification, index) => 
+        let textFields = additionalQuals.map((qualification, index) =>
             <Grid key={index} item xs={6}>
                 <TextField
                     name={index.toString()}
@@ -57,17 +57,17 @@ class PreferenceStep extends React.Component {
                 <Grid container spacing={2}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                            <Typography variant = "h5">
+                            <Typography variant="h5">
                                 {header}
                             </Typography>
-                            <Typography className="step__description italicized" variant = "subtitle1">
+                            <Typography className="step__description italicized" variant="subtitle1">
                                 {description}
                             </Typography>
                         </Grid>
                     </Grid>
                     <Grid className="step__field-container" container spacing={2}>
                         <Grid item xs={10}>
-                            <Typography className="step__question" variant = "body1">
+                            <Typography className="step__question" variant="body1">
                                 I would like to display a biography on my profile page.
                             </Typography>
                         </Grid>
@@ -89,12 +89,12 @@ class PreferenceStep extends React.Component {
                                     onChange={handleTextChange}
                                     fullWidth
                                     disabled={hasBiography === false}
-                                    inputProps={{maxLength: 160}}
+                                    inputProps={{ maxLength: 160 }}
                                 />
                             </Grid>
-                        : null}
+                            : null}
                         <Grid item xs={10}>
-                            <Typography className="step__question" variant = "body1">
+                            <Typography className="step__question" variant="body1">
                                 I would like my profile information to be publically visible.
                             </Typography>
                         </Grid>
@@ -107,11 +107,11 @@ class PreferenceStep extends React.Component {
                             />
                         </Grid>
                         <Grid item xs={10}>
-                            <Typography className="step__question" variant = "body1">
+                            <Typography className="step__question" variant="body1">
                                 I am or live with an individual who belongs to a&nbsp;
-                                <a 
+                                <a
                                     href="https://www.canada.ca/en/public-health/services/publications/diseases-conditions/vulnerable-populations-covid-19.html"
-                                    target="_blank" 
+                                    target="_blank"
                                     rel="noopener noreferrer">
                                     vulnerable population
                                 </a>.
@@ -126,8 +126,8 @@ class PreferenceStep extends React.Component {
                             />
                         </Grid>
                         <Grid item xs={10}>
-                            <Typography className="step__question" variant = "body1">
-                                <span className = "italicized">OPTIONAL: </span>
+                            <Typography className="step__question" variant="body1">
+                                <span className="italicized">OPTIONAL: </span>
                                 Add additional/custom qualifications to my profile.
                             </Typography>
                         </Grid>

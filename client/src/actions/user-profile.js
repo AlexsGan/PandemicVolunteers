@@ -4,7 +4,7 @@ export function getAge(birthday) {
     let dateArr = birthday.split("-");
     const birthDate = new Date(
         parseInt(dateArr[0]),
-        parseInt(dateArr[1])-1,
+        parseInt(dateArr[1]) - 1,
         parseInt(dateArr[2]));
     const today = new Date();
     let yearDiff = today.getYear() - birthDate.getYear();
@@ -25,10 +25,11 @@ export function getRequests(type) {
         case "completed":
             return 0
         default:
-            return -1;
             alert("Invalid request type");
+            return -1;
     }
 }
+
 export const handleExpansion = (event, isExpanded, name, form) => {
     const target = event.target;
     // Prevent switching between categories when editing
@@ -74,7 +75,7 @@ export const handleQualTextChange = (event, form) => {
 export const handleAddQual = (event, form) => {
     const state = form.state;
     updateUserProfile(form, "additionalQuals",
-                        [...state.editableUserObject.profile.additionalQuals, ""]);
+        [...state.editableUserObject.profile.additionalQuals, ""]);
 }
 
 export const handleEdit = (event, content, form) => {
@@ -134,7 +135,9 @@ export const handleSaveEdit = (event, body, form) => {
                 editableUserObject: {
                     ...body.props.userObject
                 }
-            }, () => {console.log(form.state)});                  
+            }, () => {
+                console.log(form.state)
+            });
         }
     );
 }
@@ -162,8 +165,7 @@ const processLiftingAbility = (target, form) => {
         target.value = "0";
         updateUserProfile(form, target.name, parseInt(target.value));
         updateUserProfile(form, "isLifter", false);
-    }
-    else if (target.value.match(/^\d+$/)) {
+    } else if (target.value.match(/^\d+$/)) {
         updateUserProfile(form, target.name, parseInt(target.value));
         updateUserProfile(form, "isLifter", true);
     }
@@ -197,8 +199,8 @@ const processAdditionalQuals = (form) => {
 }
 
 const updateUserProfile = (form, property, newValue) => {
-    form.setState(prevState =>({
-        editableUserObject : {
+    form.setState(prevState => ({
+        editableUserObject: {
             ...prevState.editableUserObject,
             profile: {
                 ...prevState.editableUserObject.profile,
@@ -209,8 +211,8 @@ const updateUserProfile = (form, property, newValue) => {
 }
 
 const updateUserObject = (form, property, newValue) => {
-    form.setState(prevState =>({
-        editableUserObject : {
+    form.setState(prevState => ({
+        editableUserObject: {
             ...prevState.editableUserObject,
             [property]: newValue
         }

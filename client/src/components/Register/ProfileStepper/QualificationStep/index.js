@@ -27,17 +27,17 @@ class QualificationStep extends React.Component {
                 <Grid container spacing={2}>
                     <Grid container spacing={2}>
                         <Grid item xs={12}>
-                            <Typography variant = "h5">
+                            <Typography variant="h5">
                                 {header}
                             </Typography>
-                            <Typography className="step__description italicized" variant = "subtitle1">
+                            <Typography className="step__description italicized" variant="subtitle1">
                                 {description}
                             </Typography>
                         </Grid>
                     </Grid>
                     <Grid className="step__field-container" container spacing={2}>
                         <Grid item xs={10}>
-                            <Typography className="step__question" variant = "body1">
+                            <Typography className="step__question" variant="body1">
                                 I am currently employed.
                             </Typography>
                         </Grid>
@@ -67,9 +67,9 @@ class QualificationStep extends React.Component {
                                     }}
                                 />
                             </Grid>
-                        : null}
+                            : null}
                         <Grid item xs={10}>
-                            <Typography className="step__question" variant = "body1">
+                            <Typography className="step__question" variant="body1">
                                 I am currently working/unemployed at home.
                             </Typography>
                         </Grid>
@@ -82,7 +82,7 @@ class QualificationStep extends React.Component {
                             />
                         </Grid>
                         <Grid item xs={10}>
-                            <Typography className="step__question" variant = "body1">
+                            <Typography className="step__question" variant="body1">
                                 I am willing to drive and have a driver's license and access to a vehicle.
                             </Typography>
                         </Grid>
@@ -95,7 +95,7 @@ class QualificationStep extends React.Component {
                             />
                         </Grid>
                         <Grid item xs={10}>
-                            <Typography className="step__question" variant = "body1">
+                            <Typography className="step__question" variant="body1">
                                 I am willing to lift and carry.
                             </Typography>
                         </Grid>
@@ -125,9 +125,9 @@ class QualificationStep extends React.Component {
                                     }}
                                 />
                             </Grid>
-                        : null}
+                            : null}
                         <Grid item xs={10}>
-                            <Typography className="step__question" variant = "body1">
+                            <Typography className="step__question" variant="body1">
                                 I am willing to shop on behalf of others.
                             </Typography>
                         </Grid>

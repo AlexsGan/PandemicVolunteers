@@ -1,13 +1,14 @@
 import React from "react";
 import "../styles.css";
 import { Paper, Box } from "@material-ui/core";
-import { handleExpansion, 
-         handleEdit,
-         getEditStatus, 
-         handleCancel, 
-         handleTextChange, 
-         handleAddQual 
-        } from "../../../actions/user-profile";
+import {
+    handleExpansion,
+    handleEdit,
+    getEditStatus,
+    handleCancel,
+    handleTextChange,
+    handleAddQual
+} from "../../../actions/user-profile";
 import ProfileCategory from "../ProfileCategory";
 import PersonalContent from "../PersonalContent";
 import QualificationsContent from "../QualificationsContent";
@@ -48,7 +49,7 @@ class ProfileBody extends React.Component {
                     <ProfileCategory
                         categoryName="basic"
                         categoryHeading="Basic Info and Login Settings"
-                        categoryContent= {
+                        categoryContent={
                             <BasicContent
                                 userObject={userObject}
                                 editableUserObject={this.state.editableUserObject}
@@ -65,8 +66,9 @@ class ProfileBody extends React.Component {
                         isEditable={true}
                         isPrivate={true}
                         getEditStatus={(categoryName) => getEditStatus(categoryName, this)}
-                        handleChange={(event, isExpanded, categoryName) =>
-                            {handleExpansion(event, isExpanded, categoryName, this)}}
+                        handleChange={(event, isExpanded, categoryName) => {
+                            handleExpansion(event, isExpanded, categoryName, this)
+                        }}
                         handleEdit={(event, name) => handleEdit(event, name, this)}
                         handleCancel={(event) => handleCancel(event, this)}
                         handleSaveEdit={(event) => handleSaveEdit(event, this)}
@@ -81,22 +83,23 @@ class ProfileBody extends React.Component {
                     <ProfileCategory
                         categoryName="preferences"
                         categoryHeading="Preferences"
-                        categoryContent= {
-                            <PreferencesContent 
+                        categoryContent={
+                            <PreferencesContent
                                 userProfile={this.state.editableUserObject.profile}
                                 handleSwitch={(event) => handleSwitch(event, this)}
                             />
                         }
                         toExpand={this.state.contentToExpand}
                         isPrivate={true}
-                        handleChange={(event, isExpanded, categoryName) =>
-                            {handleExpansion(event, isExpanded, categoryName, this)}}
+                        handleChange={(event, isExpanded, categoryName) => {
+                            handleExpansion(event, isExpanded, categoryName, this)
+                        }}
                     />
                 </Box>
                 <ProfileCategory
                     categoryName="biography"
                     categoryHeading="Biography"
-                    categoryContent= {
+                    categoryContent={
                         <BiographyContent
                             userProfile={userObject.profile}
                             editableUserProfile={this.state.editableUserObject.profile}
@@ -107,8 +110,9 @@ class ProfileBody extends React.Component {
                     toExpand={this.state.contentToExpand}
                     isEditable={true}
                     getEditStatus={(categoryName) => getEditStatus(categoryName, this)}
-                    handleChange={(event, isExpanded, categoryName) =>
-                        {handleExpansion(event, isExpanded, categoryName, this)}}
+                    handleChange={(event, isExpanded, categoryName) => {
+                        handleExpansion(event, isExpanded, categoryName, this)
+                    }}
                     handleEdit={(event, name) => handleEdit(event, name, this)}
                     handleCancel={(event) => handleCancel(event, this)}
                     handleSaveEdit={(event) => handleSaveEdit(event, this)}
@@ -116,8 +120,8 @@ class ProfileBody extends React.Component {
                 <ProfileCategory
                     categoryName="personalInfo"
                     categoryHeading="Personal Info"
-                    categoryContent= {
-                        <PersonalContent 
+                    categoryContent={
+                        <PersonalContent
                             userProfile={userObject.profile}
                             editableUserProfile={this.state.editableUserObject.profile}
                             handleSwitch={(event) => handleSwitch(event, this)}
@@ -128,8 +132,9 @@ class ProfileBody extends React.Component {
                     toExpand={this.state.contentToExpand}
                     isEditable={true}
                     getEditStatus={(categoryName) => getEditStatus(categoryName, this)}
-                    handleChange={(event, isExpanded, categoryName) =>
-                        {handleExpansion(event, isExpanded, categoryName, this)}}
+                    handleChange={(event, isExpanded, categoryName) => {
+                        handleExpansion(event, isExpanded, categoryName, this)
+                    }}
                     handleEdit={(event, name) => handleEdit(event, name, this)}
                     handleCancel={(event) => handleCancel(event, this)}
                     handleSaveEdit={(event) => handleSaveEdit(event, this)}
@@ -137,8 +142,8 @@ class ProfileBody extends React.Component {
                 <ProfileCategory
                     categoryName="qualifications"
                     categoryHeading="Qualifications"
-                    categoryContent= {
-                        <QualificationsContent 
+                    categoryContent={
+                        <QualificationsContent
                             userProfile={userObject.profile}
                             editableUserProfile={this.state.editableUserObject.profile}
                             handleSwitch={(event) => handleSwitch(event, this)}
@@ -151,8 +156,9 @@ class ProfileBody extends React.Component {
                     toExpand={this.state.contentToExpand}
                     isEditable={true}
                     getEditStatus={(categoryName) => getEditStatus(categoryName, this)}
-                    handleChange={(event, isExpanded, categoryName) =>
-                        {handleExpansion(event, isExpanded, categoryName, this)}}
+                    handleChange={(event, isExpanded, categoryName) => {
+                        handleExpansion(event, isExpanded, categoryName, this)
+                    }}
                     handleEdit={(event, name) => handleEdit(event, name, this)}
                     handleCancel={(event) => handleCancel(event, this)}
                     handleSaveEdit={(event) => handleSaveEdit(event, this)}

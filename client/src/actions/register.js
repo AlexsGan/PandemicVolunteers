@@ -8,42 +8,44 @@ export const handleChange = (event, form) => {
 export const handleSubmit = (event, form) => {
     if (validateInput(form.state, form)) {
         // BACKEND: Send user info to server
-        form.setState({slideIn: false, slideDirection: "left"},
-                        () => {form.setState({redirect: true});});
+        form.setState({ slideIn: false, slideDirection: "left" },
+            () => {
+                form.setState({ redirect: true });
+            });
     }
 }
 
 export const validateInput = (state, registerForm) => {
     let validInput = true;
     if (state.firstName.match(/^\S+$/) === null) {
-        registerForm.setState({firstNameError: true});
+        registerForm.setState({ firstNameError: true });
         validInput = false;
     } else {
-        registerForm.setState({firstNameError: false});
+        registerForm.setState({ firstNameError: false });
     }
     if (state.lastName.match(/^\S+$/) === null) {
-        registerForm.setState({lastNameError: true});
+        registerForm.setState({ lastNameError: true });
         validInput = false;
     } else {
-        registerForm.setState({lastNameError: false});
+        registerForm.setState({ lastNameError: false });
     }
     if (validateUsername(state.username) === false) {
-        registerForm.setState({usernameError: true});
+        registerForm.setState({ usernameError: true });
         validInput = false;
     } else {
-        registerForm.setState({usernameError: false});
+        registerForm.setState({ usernameError: false });
     }
     if (state.password.match(/^\S+$/) === null) {
-        registerForm.setState({passwordError: true});
+        registerForm.setState({ passwordError: true });
         validInput = false;
     } else {
-        registerForm.setState({passwordError: false});
+        registerForm.setState({ passwordError: false });
     }
     if (state.birthday === "" || !isOfAge(state.birthday)) {
-        registerForm.setState({birthdayError: true});
+        registerForm.setState({ birthdayError: true });
         validInput = false;
     } else {
-        registerForm.setState({birthdayError: false});
+        registerForm.setState({ birthdayError: false });
     }
     return validInput;
 }
@@ -51,7 +53,7 @@ export const validateInput = (state, registerForm) => {
 const isOfAge = dateStr => {
     let dateArr = dateStr.split("-");
     const today = new Date();
-    const adjustedBirthday = new Date(parseInt(dateArr[0]) + 18, parseInt(dateArr[1])-1, parseInt(dateArr[2]));
+    const adjustedBirthday = new Date(parseInt(dateArr[0]) + 18, parseInt(dateArr[1]) - 1, parseInt(dateArr[2]));
     return adjustedBirthday <= today;
 }
 

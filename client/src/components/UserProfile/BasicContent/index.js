@@ -78,7 +78,7 @@ class BasicContent extends React.Component {
                             readOnly: !getEditStatus()
                         }}
                     />
-                    </Grid>
+                </Grid>
                 <Grid item xs={12}>
                     <TextField
                         name="birthday"

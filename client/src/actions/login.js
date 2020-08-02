@@ -15,7 +15,7 @@ export const handleSubmit = (event, form) => {
                 {
                     username: state.username,
                     password: state.password,
-                    isAdmin: true 
+                    isAdmin: true
                 }
             ) : (
                 getUserObject()
@@ -29,12 +29,12 @@ export const handleSubmit = (event, form) => {
             })
         });
     } else {
-        form.setState({loginSuccess: false, credentialError: true});
+        form.setState({ loginSuccess: false, credentialError: true });
     }
 }
 
 const getUserObject = () => {
-    // FIXME: retrieve user infromation from server
+    // FIXME: retrieve user information from server
     return ({
         isAdmin: false,
         firstName: "John",

@@ -23,7 +23,9 @@ export const handleNext = (event, wizard) => {
             },
             () => {
                 // Wait for transition to complete
-                setTimeout(() => {handleSubmit(wizard);}, 500);
+                setTimeout(() => {
+                    handleSubmit(wizard);
+                }, 500);
             }
         );
     } else {
@@ -103,7 +105,9 @@ export const getWizardContent = (step, wizard) => {
                 province={state.province}
                 cityError={state.cityError}
                 provinceError={state.provinceError}
-                handleChange={(event) => { handleTextChange(event, wizard) }}
+                handleChange={(event) => {
+                    handleTextChange(event, wizard)
+                }}
                 stepSubmitted={state.stepSubmitted}
             />)
         case 1:
@@ -119,8 +123,12 @@ export const getWizardContent = (step, wizard) => {
                 hasShoppingAbility={state.hasShoppingAbility}
                 employmentFieldError={state.employmentFieldError}
                 liftFieldError={state.liftFieldError}
-                handleChange={(event) => { handleTextChange(event, wizard) }}
-                handleSwitch={(event) => { handleSwitch(event, wizard) }}
+                handleChange={(event) => {
+                    handleTextChange(event, wizard)
+                }}
+                handleSwitch={(event) => {
+                    handleSwitch(event, wizard)
+                }}
                 stepSubmitted={state.stepSubmitted}
             />)
         case 2:
@@ -132,11 +140,21 @@ export const getWizardContent = (step, wizard) => {
                 additionalQuals={state.additionalQuals}
                 hasBiography={state.hasBiography}
                 biographyField={state.biographyField}
-                handleSwitch={(event) => { handleSwitch(event, wizard) }}
-                handleTextChange={(event) => { handleTextChange(event, wizard) }}
-                handleAdd={(event) => { handleAdd(event, wizard) }}
-                handleQualTextChange={(event) => { handleQualTextChange(event, wizard) }}
-                handleChange={(event) => { handleTextChange(event, wizard) }}
+                handleSwitch={(event) => {
+                    handleSwitch(event, wizard)
+                }}
+                handleTextChange={(event) => {
+                    handleTextChange(event, wizard)
+                }}
+                handleAdd={(event) => {
+                    handleAdd(event, wizard)
+                }}
+                handleQualTextChange={(event) => {
+                    handleQualTextChange(event, wizard)
+                }}
+                handleChange={(event) => {
+                    handleTextChange(event, wizard)
+                }}
                 stepSubmitted={state.stepSubmitted}
             />)
         default:
