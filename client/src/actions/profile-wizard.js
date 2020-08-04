@@ -40,6 +40,7 @@ export const handleNext = (event, wizard) => {
 }
 
 const handleSubmit = (wizard) => {
+    const app = wizard.props.app;
     const state = wizard.state;
     // State passed from Register component
     const basicUser = wizard.props.location.state.basicUser;
@@ -79,8 +80,11 @@ const handleSubmit = (wizard) => {
 
     // BACKEND: Send user profile information to server
     console.log("Profile submitted");
-    console.log(userObject);
-    wizard.setState({ userObject: userObject, finished: true });
+    app.setState({ userObject: userObject },
+        () => {
+            wizard.setState({ finished: true });
+        }
+    );
 }
 
 const handleValidate = (step, wizard) => {

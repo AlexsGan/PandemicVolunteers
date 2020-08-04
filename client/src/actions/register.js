@@ -6,12 +6,25 @@ export const handleChange = (event, form) => {
 }
 
 export const handleSubmit = (event, form) => {
+    const app = form.props.app;
+    const state = form.state;
     if (validateInput(form.state, form)) {
         // BACKEND: Send user info to server
-        form.setState({ slideIn: false, slideDirection: "left" },
-            () => {
-                form.setState({ redirect: true });
-            });
+        app.setState({
+            currentUser: {
+                isAdmin: false,
+                firstName: state.firstName,
+                lastName: state.lastName,
+                username: state.username,
+                password: state.password,
+                birthday: state.birthday
+            }
+        }, () => {
+            form.setState({ slideIn: false, slideDirection: "left" },
+                () => {
+                    form.setState({ redirect: true });
+                });
+        });
     }
 }
 

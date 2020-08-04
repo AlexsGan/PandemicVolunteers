@@ -93,14 +93,15 @@ export const handleEdit = (event, content, form) => {
     );
 }
 
-export const handleSaveEdit = (event, body, form) => {
+export const handleSaveEdit = (event, body) => {
+    const app = body.props.app;
     // Remove extraneous/empty qualifications and add to user object
     const editedQuals = processAdditionalQuals(body);
     let basicInfoIsValid = true;
     if (event.currentTarget.name === "basic") {
         basicInfoIsValid = validateBasicUserInfo(body.state.editableUserObject, body);
     }
-    form.setState(prevState => (
+    app.setState(prevState => (
             // Update user object
             {
                 userObject: {
@@ -135,8 +136,6 @@ export const handleSaveEdit = (event, body, form) => {
                 editableUserObject: {
                     ...body.props.userObject
                 }
-            }, () => {
-                console.log(form.state)
             });
         }
     );

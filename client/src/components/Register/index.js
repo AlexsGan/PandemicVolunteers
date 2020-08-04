@@ -27,18 +27,9 @@ class Register extends React.Component {
     render() {
         // Redirect to profile creation component
         if (this.state.redirect) {
-            const state = this.state;
-            const basicUser = {
-                firstName: state.firstName,
-                lastName: state.lastName,
-                username: state.username,
-                password: state.password,
-                birthday: state.birthday
-            }
             return (
                 <Redirect to={{
-                    pathname: "/register/create-profile",
-                    state: { basicUser: basicUser }
+                    pathname: "/register/create-profile"
                 }}/>
             );
         }

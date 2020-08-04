@@ -7,24 +7,15 @@ export const handleTextChange = (event, form) => {
 
 export const handleSubmit = (event, form) => {
     const state = form.state;
+    const app = form.props.app;
     const isAdmin = event.currentTarget.name === "loginAdmin";
     if (validateCredentials(state.username, state.password, isAdmin)) {
-        form.setState({
-            credentialError: false,
-            userObject: isAdmin ? (
-                {
-                    username: state.username,
-                    password: state.password,
-                    isAdmin: true
-                }
-            ) : (
-                getUserObject()
-            ),
-            slideIn: false,
-            slideDirection: "left"
+        app.setState({
+            currentUser: getUserObject()
         }, () => {
             // Trigger redirect
             form.setState({
+                credentialError: false,
                 loginSuccess: true
             })
         });

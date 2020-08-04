@@ -39,8 +39,7 @@ class ProfileWizard extends React.Component {
     render() {
         if (this.state.finished) {
             return <Redirect to={{
-                pathname: "/profile",
-                state: { userObject: this.state.userObject }
+                pathname: "/profile"
             }}/>;
         }
 

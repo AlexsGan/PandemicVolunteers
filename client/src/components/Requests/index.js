@@ -6,7 +6,6 @@ import { Container, Box, Grid } from "@material-ui/core";
 import { Redirect } from "react-router-dom";
 
 import "./styles.css";
-import Navbar from "../Navbar";
 
 /* Component for Requests */
 class Requests extends React.Component {
@@ -61,7 +60,7 @@ class Requests extends React.Component {
 
     assistRequest(key) {
         // Wait for request host to accept assistance, then proceeds
-        if (this.props.location.state.userObject == null) {
+        if (this.props.app.state.currentUser === null) {
             alert("You must be a registered user")
             return
         }
@@ -112,11 +111,11 @@ class Requests extends React.Component {
 
     deleteRequest(key) {
         // if (admin) then delete message
-        if (this.props.location.state.userObject == null) {
+        if (this.props.app.state.currentUser == null) {
             alert("You must be a registered user")
             return
         }
-        if (this.props.location.state.userObject.isAdmin) {
+        if (this.props.app.state.currentUser.isAdmin) {
             const filteredMessageList = this.state.messageList.filter(function (item) {
                 return (item.key !== key);
             });
@@ -202,9 +201,10 @@ class Requests extends React.Component {
                 key: Date.now(),
                 date: date + '/' + month + '/' + year + ' ' + hours + ':' + min + ':' + sec,
             };
-            this.setState({
-                messageList: [newRequest, ...this.state.messageList],
-            });
+            this.setState(prevState => ({
+                    messageList: [newRequest, ...prevState.messageList],
+                })
+            );
             this.clearData()
         }
     }
@@ -216,22 +216,19 @@ class Requests extends React.Component {
     }
 
     render() {
+        const currentUser = this.props.app.state.currentUser;
         if (this.state.redirect) {
             return (
                 <Redirect
                     to={{
                         pathname: "/group-chat",
-                        state: { userObject: this.props.location.state.userObject }
+                        state: { userObject: currentUser }
                     }}
                 />
             );
         }
         return (
-            <div>
-                <Navbar
-                    userObject={this.props.location.state.userObject}
-                    currentPath={this.props.location.pathname}
-                />
+            <>
                 <Grid className="messages-grid">
                     <Grid item xs="2"/>
                     <Grid item xs="7">
@@ -307,7 +304,7 @@ class Requests extends React.Component {
                         </Container>
                     </Grid>
                 </Grid>
-            </div>
+            </>
         );
     }
 }

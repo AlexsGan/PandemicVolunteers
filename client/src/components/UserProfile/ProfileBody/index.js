@@ -28,7 +28,7 @@ class ProfileBody extends React.Component {
             content: ""
         },
         editableUserObject: {
-            ...this.props.userObject
+            ...this.props.app.state.currentUser
         },
         firstNameError: false,
         lastNameError: false,
@@ -39,9 +39,10 @@ class ProfileBody extends React.Component {
 
     render() {
         const {
-            userObject,
+            app,
             handleSaveEdit
         } = this.props;
+        const userObject = app.state.currentUser;
 
         return (
             <Paper className="profile-body" elevation={4}>

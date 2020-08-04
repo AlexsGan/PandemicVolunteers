@@ -6,7 +6,6 @@ import { Container, Box, Grid } from "@material-ui/core";
 import { Redirect } from "react-router-dom";
 
 import "./styles.css";
-import Navbar from "../Navbar";
 
 /* Component for group chat */
 class GroupChat extends React.Component {
@@ -52,7 +51,7 @@ class GroupChat extends React.Component {
     }
 
     createTasks(item) { // output message
-        if (this.props.location.state.userObject == null) {
+        if (this.props.app.state.currentUser === null) {
             alert("You must be a registered user")
             return
         }
@@ -65,7 +64,7 @@ class GroupChat extends React.Component {
                         bgcolor="grey.300"
                         borderRadius={20}
                     >
-                        <b>{this.props.location.state.userObject.username}</b>
+                        <b>{this.props.app.state.currentUser.username}</b>
                     </Box>
                 </Grid>
                 <Grid item xs={8}>
@@ -96,11 +95,11 @@ class GroupChat extends React.Component {
 
     deleteMessage(key) {
         // if (admin) then delete message
-        if (this.props.location.state.userObject == null) {
+        if (this.props.app.state.currentUser === null) {
             alert("You must be a registered user")
             return
         }
-        if (this.props.location.state.userObject.isAdmin) {
+        if (this.props.app.state.currentUser.isAdmin) {
             const filteredMessageList = this.state.messageList.filter(function (item) {
                 return (item.key !== key);
             });
@@ -143,15 +142,12 @@ class GroupChat extends React.Component {
     }
 
     render() {
+        const currentUser = this.props.app.state.currentUser;
         if (this.state.redirect) {
             return <Redirect to="/group-chat/input"/>;
         }
         return (
-            <div>
-                <Navbar
-                    userObject={this.props.location.state.userObject}
-                    currentPath={this.props.location.pathname}
-                />
+            <>
                 <Grid className="messages-grid">
                     <Grid item xs="2"/>
                     <Grid item xs="7">
@@ -240,7 +236,7 @@ class GroupChat extends React.Component {
                         </Container>
                     </Grid>
                 </Grid>
-            </div>
+            </>
         );
     }
 }
