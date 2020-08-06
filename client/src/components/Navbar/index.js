@@ -6,17 +6,15 @@ import "./styles.css";
 /* Navigation Bar Component for Landing page */
 class Navbar extends React.Component {
     state = {
-        redirectPath: this.props.currentPath,
+        currentTab: null
     }
 
     handleClick = (event, newValue) => {
-        this.setState({ redirectPath: newValue });
-        console.log(newValue)
+        this.setState({ currentTab: newValue });
     }
 
     render() {
         const {
-            currentPath,
             loggedIn
         } = this.props;
 
@@ -43,7 +41,7 @@ class Navbar extends React.Component {
                 </Typography>
                 <Tabs
                     className="navbar__tabs"
-                    //value={this.state.redirectPath}
+                    value={this.state.currentTab}
                     onChange={this.handleClick}
                     centered
                 >
@@ -51,10 +49,12 @@ class Navbar extends React.Component {
                     <Tab label="About Us" component={Link} to="/about" disabled={true}/>
                     <Tab label="Map" component={Link} to="/map" disabled={true}/>
                     <Tab label="Requests" component={Link} to="/requests"/>
-                    <Tab label="Group Chats" component={Link} to="/group-chat"/>
                     {
                         loggedIn ? (
-                            <Tab label="Profile" component={Link} to="/profile"/>
+                            <>
+                                <Tab label="Group Chats" component={Link} to="/group-chat"/>
+                                <Tab label="Profile" component={Link} to="/profile"/>
+                            </>
                         ) : (
                             <Tab label="Login" component={Link} to="/login"/>
                         )

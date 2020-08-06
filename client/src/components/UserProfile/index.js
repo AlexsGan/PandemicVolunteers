@@ -8,7 +8,7 @@ import ProfileBody from "./ProfileBody";
 class UserProfile extends React.Component {
 
     render() {
-        const { app } = this.props;
+        const app = this.props.app;
         return (
             <>
                 {/*<Navbar
