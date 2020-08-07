@@ -11,7 +11,7 @@ const { mongoose } = require("./db/mongoose");
 mongoose.set('useFindAndModify', false); // for some deprecation issues
 
 // import the mongoose models
-const { Request } = require("./models/request");
+const { HelpRequest } = require("./models/request");
 const { User } = require("./models/user");
 const { Profile } = require("./models/profile");
 
@@ -71,6 +71,26 @@ app.get("/user/session", (req, res) => {
     }
 });
 
+
+// a POST route to *create* a request
+app.post("/requests", (req, res) => {
+    // Create a new request using the Request mongoose model
+    const request = new HelpRequest({
+        requestHost: req.body.requestHost,
+        time: req.body.time
+    });
+
+    // Save request to the database
+    student.save().then(
+        result => {
+            res.send(result);
+        },
+        error => {
+            res.status(400).send(error); // 400 for bad request
+        }
+    );
+});
+
 // a GET route to get all requests
 app.get("/requests", (req, res) => {
     Request.find()
@@ -82,6 +102,30 @@ app.get("/requests", (req, res) => {
             res.status(500).send('Internal Server Error'); // server error
         }
     );
+});
+
+/// a DELETE route to remove a request by their id.
+app.delete("/requests/:id", (req, res) => {
+    const id = req.params.id;
+
+    // Validate id
+    if (!ObjectID.isValid(id)) {
+        res.status(404).send();
+        return;
+    }
+
+    // Delete a request by their id
+    Request.findByIdAndRemove(id)
+        .then(request => {
+            if (!request) {
+                res.status(404).send();
+            } else {
+                res.send(request);
+            }
+        })
+        .catch(error => {
+            res.status(500).send(); // server error, could not delete.
+        });
 });
 
 

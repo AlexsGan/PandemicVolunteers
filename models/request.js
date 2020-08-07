@@ -3,7 +3,7 @@
 
 const mongoose = require('mongoose')
 
-const Request = mongoose.model('Request', {
+const HelpRequest = mongoose.model('HelpRequest', {
 	requestHost: {
 		type: String, // TODO: this should be the user object
 		required: true,
@@ -16,4 +16,4 @@ const Request = mongoose.model('Request', {
 	}
 })
 
-module.exports = { Request }
+module.exports = { HelpRequest }
