@@ -1,7 +1,16 @@
 {
   "name": "volunteers_server",
   "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "setup": "npm install && cd client && npm install && cd ..",
+    "build-run": "cd client && npm run build && cd .. && node server.js",
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "dependencies": {
-    "react-scripts": "^2.1.8"
+    "express": "^4.17.1",
+    "mongodb": "^3.6.0",
+    "mongoose": "^5.9.27"
   }
 }
