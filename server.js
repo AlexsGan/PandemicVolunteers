@@ -40,20 +40,49 @@ app.use(
     })
 );
 
+// A POST route to login to a user account and create a session
+app.post("/user/login", (req, res) => {
+    const username = req.body.username;
+    const password = req.body.password;
+
+    // Get user account by username and password
+    User.getUser(username, password)
+        .then(user => {
+            req.session.user = user._id;
+            res.send({ currentUser: user });
+        })
+        .catch(error => {
+            res.status(400).send('Bad Request');
+        })
+});
+
+// A GET route to check if a user is logged into session
+app.get("/user/session", (req, res) => {
+    if (req.session.user) {
+        User.findById(req.session.user)
+            .then(user => {
+                res.send({currentUser: user});
+            })
+            .catch(error => {
+                res.status(500).send('Internal Server Error');
+            });
+    } else {
+        res.status(401).send('Unauthorized');
+    }
+});
 
 // a GET route to get all requests
 app.get("/requests", (req, res) => {
-    Request.find().then(
-        requests => {
+    Request.find()
+        .then(requests => {
             log();
             res.send({ requests }); // can wrap in object if want to add more properties
-        },
-        error => {
-            res.status(500).send(error); // server error
+        })
+        .catch(error => {
+            res.status(500).send('Internal Server Error'); // server error
         }
     );
 });
-
 
 
 /*************************************************/
