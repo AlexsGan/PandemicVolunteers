@@ -13,7 +13,7 @@ class Register extends React.Component {
         lastName: "",
         username: "",
         password: "",
-        birthday: "",
+        birthday: null,
         firstNameError: false,
         lastNameError: false,
         usernameError: false,

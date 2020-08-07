@@ -1,22 +1,14 @@
 import React from "react";
 import { Typography, Tabs, AppBar, Tab } from "@material-ui/core"
-import { Link, Redirect } from "react-router-dom"
+import { Link, Redirect, withRouter } from "react-router-dom"
 import "./styles.css";
 
 /* Navigation Bar Component for Landing page */
 class Navbar extends React.Component {
-    state = {
-        currentTab: null
-    }
-
-    handleClick = (event, newValue) => {
-        this.setState({ currentTab: newValue });
-    }
 
     render() {
-        const {
-            loggedIn
-        } = this.props;
+        const loggedIn = this.props.loggedIn;
+        const currentPath = this.props.location.pathname;
 
         // Handle redirects
         /*if (this.state.redirectPath !== currentPath) {
@@ -41,22 +33,19 @@ class Navbar extends React.Component {
                 </Typography>
                 <Tabs
                     className="navbar__tabs"
-                    value={this.state.currentTab}
-                    onChange={this.handleClick}
+                    value={currentPath}
                     centered
                 >
-                    <Tab label="Home" component={Link} to="/home"/>
-                    <Tab label="About Us" component={Link} to="/about" disabled={true}/>
-                    <Tab label="Map" component={Link} to="/map" disabled={true}/>
-                    <Tab label="Requests" component={Link} to="/requests"/>
+                    <Tab label="Home" component={Link} to="/home" value="/home"/>
+                    <Tab label="About Us" component={Link} to="/about" value="/about" disabled={true}/>
+                    <Tab label="Map" component={Link} to="/map" value="/map" disabled={true}/>
+                    <Tab label="Requests" component={Link} to="/requests" value="/requests"/>
+                    <Tab label="Group Chats" component={Link} to="/group-chat" value="/group-chat"/>
                     {
                         loggedIn ? (
-                            <>
-                                <Tab label="Group Chats" component={Link} to="/group-chat"/>
-                                <Tab label="Profile" component={Link} to="/profile"/>
-                            </>
+                            <Tab label="Profile" component={Link} to="/profile" value="/profile"/>
                         ) : (
-                            <Tab label="Login" component={Link} to="/login"/>
+                            <Tab label="Login" component={Link} to="/login" value="/login"/>
                         )
                     }
                 </Tabs>
@@ -65,4 +54,4 @@ class Navbar extends React.Component {
     }
 }
 
-export default Navbar;
+export default withRouter(Navbar);

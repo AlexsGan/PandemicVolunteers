@@ -12,6 +12,8 @@ mongoose.set('useFindAndModify', false); // for some deprecation issues
 
 // import the mongoose models
 const { Request } = require("./models/request");
+const { User } = require("./models/user");
+const { Profile } = require("./models/profile");
 
 // to validate object IDs
 const { ObjectID } = require("mongodb");
@@ -28,7 +30,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // Create a session cookie
 app.use(
     session({
-        secret: "oursecret",
+        secret: "volunteers-secret",
         resave: false,
         saveUninitialized: false,
         cookie: {

@@ -42,10 +42,10 @@ export const handleNext = (event, wizard) => {
 const handleSubmit = (wizard) => {
     const app = wizard.props.app;
     const state = wizard.state;
-    // State passed from Register component
-    const basicUser = wizard.props.location.state.basicUser;
+    // User containing basic info from Register
+    const basicUser = app.state.currentUser;
     // FIXME: Temporary phase 1 user object
-    const userObject = {
+    const currentUser = {
         isAdmin: false,
         firstName: basicUser.firstName,
         lastName: basicUser.lastName,
@@ -74,13 +74,13 @@ const handleSubmit = (wizard) => {
     // Remove extraneous/empty qualifications and add to user object
     for (let i = 0; i < state.additionalQuals.length; i++) {
         if (state.additionalQuals[i].trim() !== "") {
-            userObject.profile.additionalQuals.push(state.additionalQuals[i].trim());
+            currentUser.profile.additionalQuals.push(state.additionalQuals[i].trim());
         }
     }
 
     // BACKEND: Send user profile information to server
     console.log("Profile submitted");
-    app.setState({ userObject: userObject },
+    app.setState({ currentUser: currentUser },
         () => {
             wizard.setState({ finished: true });
         }

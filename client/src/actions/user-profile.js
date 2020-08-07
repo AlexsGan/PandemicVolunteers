@@ -1,11 +1,10 @@
-import { validateInput as validateBasicUserInfo } from "./register";
+// import { validateInput as validateBasicUserInfo } from "./register";
 
 export function getAge(birthday) {
-    let dateArr = birthday.split("-");
     const birthDate = new Date(
-        parseInt(dateArr[0]),
-        parseInt(dateArr[1]) - 1,
-        parseInt(dateArr[2]));
+        birthday.getFullYear(),
+        birthday.getMonth() - 1,
+        birthday.getDate());
     const today = new Date();
     let yearDiff = today.getYear() - birthDate.getYear();
     if (birthDate.getMonth() > today.getMonth() ||
@@ -99,7 +98,9 @@ export const handleSaveEdit = (event, body) => {
     const editedQuals = processAdditionalQuals(body);
     let basicInfoIsValid = true;
     if (event.currentTarget.name === "basic") {
-        basicInfoIsValid = validateBasicUserInfo(body.state.editableUserObject, body);
+        // FIXME: Use server validation
+        basicInfoIsValid = true;
+        // basicInfoIsValid = validateBasicUserInfo(body.state.editableUserObject, body);
     }
     app.setState(prevState => (
             // Update user object

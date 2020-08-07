@@ -28,7 +28,7 @@ class App extends React.Component {
         return (
             <BrowserRouter>
                 <>
-                    <Navbar/>
+                    <Navbar loggedIn={this.state.currentUser !== null} />
                     <Switch>
                         <Route exact path={['/', '/home', '/about', '/map']} component={Home}/>
                         <Route exact path='/home' component={Home}/>
