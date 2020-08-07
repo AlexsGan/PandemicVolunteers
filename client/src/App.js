@@ -38,8 +38,8 @@ class App extends React.Component {
                                         fallbackPath='/register' app={this}/>
                         }/>
                         <ProtectedRoute path='/profile' component={UserProfile} fallbackPath='/login' app={this}/>
-                        <ProtectedRoute path='/group-chat' component={GroupChat} fallbackPath='/login' app={this}/>
-                        <Route exact path='/requests' render={(props) => <Requests {...props} app={this}/>}/>
+                        <ProtectedRoute path='/my-requests' component={GroupChat} fallbackPath='/login' app={this}/>
+                        <Route exact path='/feed' render={(props) => <Requests {...props} app={this}/>}/>
                         <Route render={() => <div>404 Not found</div>}/>
                     </Switch>
                 </>

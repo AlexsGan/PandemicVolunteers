@@ -38,9 +38,9 @@ class Navbar extends React.Component {
                 >
                     <Tab label="Home" component={Link} to="/home" value="/home"/>
                     <Tab label="About Us" component={Link} to="/about" value="/about" disabled={true}/>
-                    <Tab label="Map" component={Link} to="/map" value="/map" disabled={true}/>
-                    <Tab label="Requests" component={Link} to="/requests" value="/requests"/>
-                    <Tab label="Group Chats" component={Link} to="/group-chat" value="/group-chat"/>
+                    {/*<Tab label="Map" component={Link} to="/map" value="/map" disabled={true}/>*/}
+                    <Tab label="Request Feed" component={Link} to="/feed" value="/feed"/>
+                    <Tab label="My Requests" component={Link} to="/my-requests" value="/my-requests"/>
                     {
                         loggedIn ? (
                             <Tab label="Profile" component={Link} to="/profile" value="/profile"/>
