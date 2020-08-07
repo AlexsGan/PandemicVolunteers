@@ -202,8 +202,8 @@ class Requests extends React.Component {
                 date: date + '/' + month + '/' + year + ' ' + hours + ':' + min + ':' + sec,
             };
             this.setState(prevState => ({
-                    messageList: [newRequest, ...prevState.messageList],
-                })
+                messageList: [newRequest, ...prevState.messageList],
+            })
             );
             this.clearData()
         }
@@ -213,6 +213,11 @@ class Requests extends React.Component {
         e.preventDefault()
         //alert("Cancel")
         this.clearData()
+    }
+
+    // request list state
+    state = {
+        requestList: []
     }
 
     render() {
@@ -230,7 +235,7 @@ class Requests extends React.Component {
         return (
             <>
                 <Grid className="messages-grid">
-                    <Grid item xs="2"/>
+                    <Grid item xs="2" />
                     <Grid item xs="7">
                         <Container className="requests-box" maxWidth="md">
                             <Container className="requests-container" maxWidth="md">
@@ -271,6 +276,8 @@ class Requests extends React.Component {
 
                                 {/* add requests */}
                                 {this.state.messageList.map(this.createTasks)}
+                                {/* TODO: display requests fetched from db */}
+
 
                                 {/* The request below is hard coded */}
                                 {this.hardCodedExample()}
@@ -284,7 +291,7 @@ class Requests extends React.Component {
                         <Container
                             display="flex"
                         >
-                            <br/>
+                            <br />
                             <Button
                                 variant="contained"
                                 onClick={this.acceptAssistance}
@@ -292,8 +299,8 @@ class Requests extends React.Component {
                             >
                                 Accept Request Assistence from User 1
                             </Button>
-                            <br/>
-                            <br/>
+                            <br />
+                            <br />
                             <Button
                                 variant="contained"
                                 onClick={this.acceptAssistance}
