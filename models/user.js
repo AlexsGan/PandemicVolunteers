@@ -6,17 +6,29 @@ const ProfileSchema = require('./profile').ProfileSchema;
 
 // Validation functions
 const validateUsername = function(value) {
-    if (value.match(/^\w+$/)) {
-        return true;
+    let isDuplicate = false;
+    // Check for duplicates
+    this.find({username: value})
+        .then((users) => {
+            if (users.length === 0) {
+                isDuplicate = true;
+            }
+        });
+
+    if (isDuplicate) {
+        throw new Error('Username already exists');
     }
-    throw new Error('Username cannot contain spaces or non-alphanumerics.')
+    if (!value.match(/^\w+$/)) {
+        throw new Error('Username can only contain alphanumerics and underscores.');
+    }
+    return true;
 }
 
 const validatePassword = function(value) {
     if (value.match(/^\S+$/)) {
         return true;
     }
-    throw new Error('Password cannot contain spaces.')
+    throw new Error('Password cannot contain spaces.');
 }
 
 const validateBirthday = function(value) {
@@ -26,7 +38,7 @@ const validateBirthday = function(value) {
     if (adjustedBirthday <= today) {
         return true;
     }
-    throw new Error('Age must be at least 18 years old.')
+    throw new Error('Age must be 18 years or older.');
 }
 
 // Schema definition
@@ -64,7 +76,7 @@ UserSchema.pre('save', function(next) {
    const User = this;
    if (User.isModified('password')) {
        bcrypt.genSalt(10, (err, salt) => {
-           bcrypt.hash(user.password, salt, (err, hash) => {
+           bcrypt.hash(User.password, salt, (err, hash) => {
                User.password = hash;
                next();
            });
