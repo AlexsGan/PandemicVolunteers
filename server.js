@@ -253,6 +253,21 @@ app.get("/api/requests", mongoConnectCheck, authenticate, (req, res) => {
         );
 });
 
+/** Webpage Routes **/
+app.use(express.static(__dirname + "/client/build"));
+
+// All routes other than above will go to index.html
+app.get("*", (req, res) => {
+    const goodPageRoutes = ["/", "/home", "/register", "/register/create-profile", "/my-requests", "/feed", "/login"];
+    if (!goodPageRoutes.includes(req.url)) {
+        // if url not in expected page routes, set status to 404.
+        res.status(404);
+    }
+
+    // send index.html
+    res.sendFile(__dirname + "/client/build/index.html");
+});
+
 
 /*************************************************/
 // Express server listening...
