@@ -1,11 +1,12 @@
 /* Student mongoose model */
 'use strict';
 
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
+const UserSchema = mongoose.model('User').schema;
 
 const HelpRequest = mongoose.model('HelpRequest', {
 	requestHost: {
-		type: String, // TODO: this should be the user object
+		type: UserSchema, // the user object
 		required: true,
 		minlength: 1,
 		trim: true
@@ -13,7 +14,10 @@ const HelpRequest = mongoose.model('HelpRequest', {
 	time: {
 		type: String,
 		required: true,
-	}
+    },
+    acceptedUsers: {
+        type: [UserSchema],
+    }
 })
 
 module.exports = { HelpRequest }
