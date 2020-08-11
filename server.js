@@ -49,7 +49,10 @@ const authenticate = (req, res, next) => {
                 req.user = user;
                 next();
             }
-        }).catch((error) => {
+        }).catch((err) => {
+            if (isMongoError(err)) {
+                res.status(500).send("Internal Server Error");
+            }
             res.status(401).send("Unauthorized user.")
         })
     } else {
@@ -72,9 +75,10 @@ function isAdmin(id) {
             if (user) {
                 isAdmin = user.isAdmin;
             }
-        }).catch((err) => {
-        isAdmin = false;
-    });
+        })
+        .catch((err) => {
+            isAdmin = false;
+        });
     return isAdmin;
 }
 
@@ -125,7 +129,7 @@ app.get("/check-session", (req, res) => {
             .then(user => {
                 res.send({ currentUser: user });
             })
-            .catch(error => {
+            .catch((err) => {
                 res.status(500).send('Internal Server Error');
             });
     } else {
@@ -145,6 +149,9 @@ app.post("/login", mongoConnectCheck, (req, res) => {
             res.send({ currentUser: user });
         })
         .catch((err) => {
+            if (isMongoError(err)) {
+                res.status(500).send("Internal Server Error");
+            }
             res.status(400).send('Invalid username or password.');
         });
 });
@@ -185,16 +192,16 @@ app.post("/api/users", bodyParser.json(), mongoConnectCheck, (req, res) => {
             })
         })
         .catch((err) => {
-                const validationErrors = handleValidationError(err);
-                if (!validationErrors) {
-                    if (err.name === 'MongoError' && err.code === 11000) {
-                        res.status(403).send(`User '${userObject.username}' already exists on server.`)
-                    } else {
-                        res.status(500).send('Internal Server Error');
-                    }
+            const validationErrors = handleValidationError(err);
+            if (!validationErrors) {
+                if (err.name === 'MongoError' && err.code === 11000) {
+                    res.status(403).send(`User '${userObject.username}' already exists on server.`)
                 } else {
-                    res.status(400).send(validationErrors);
+                    res.status(500).send('Internal Server Error');
                 }
+            } else {
+                res.status(400).send(validationErrors);
+            }
         });
 });
 
