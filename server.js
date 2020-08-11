@@ -10,8 +10,8 @@ const { mongoose } = require("./db/mongoose");
 mongoose.set('bufferCommands', false);  // Don't buffer if not connected
 mongoose.set('useFindAndModify', false); // Deprecation
 
-// Mongoose models
-const { Request } = require("./models/request");
+// import the mongoose models
+const { HelpRequest } = require("./models/request");
 const { User } = require("./models/user");
 const { Profile } = require("./models/profile");
 
@@ -291,6 +291,30 @@ app.get("*", (req, res) => {
 
     // Serve index.html
     res.sendFile(__dirname + "/client/build/index.html");
+});
+
+/// a DELETE route to remove a request by their id.
+app.delete("/requests/:id", (req, res) => {
+    const id = req.params.id;
+
+    // Validate id
+    if (!ObjectID.isValid(id)) {
+        res.status(404).send();
+        return;
+    }
+
+    // Delete a request by their id
+    Request.findByIdAndRemove(id)
+        .then(request => {
+            if (!request) {
+                res.status(404).send();
+            } else {
+                res.send(request);
+            }
+        })
+        .catch(error => {
+            res.status(500).send(); // server error, could not delete.
+        });
 });
 
 
