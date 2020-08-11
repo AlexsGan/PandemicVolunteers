@@ -3,8 +3,8 @@ import "./styles.css";
 import Slide from "@material-ui/core/Slide";
 import Box from "@material-ui/core/Box";
 import { Typography, Grid, Paper, Button, Container } from "@material-ui/core";
-import ProfileStepper from "../ProfileStepper";
-import { handleBack, handleNext, getSteps, getWizardContent } from "../../../actions/profile-wizard"
+import ProfileStepper from "./ProfileStepper";
+import { handleBack, handleNext, getSteps, getWizardContent } from "../../actions/profile-wizard"
 import { Redirect } from "react-router-dom";
 
 /* Component for profile wizard page */

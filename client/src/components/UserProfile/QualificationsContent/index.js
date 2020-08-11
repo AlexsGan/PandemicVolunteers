@@ -16,7 +16,7 @@ import {
 import DriveEtaIcon from '@material-ui/icons/DriveEta';
 import FitnessCenterIcon from '@material-ui/icons/FitnessCenter';
 import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import { QualificationList } from "../../Register/ProfileStepper/PreferenceStep";
+import { QualificationList } from "../../ProfileWizard/ProfileStepper/PreferenceStep";
 
 
 class QualificationsContent extends React.Component {

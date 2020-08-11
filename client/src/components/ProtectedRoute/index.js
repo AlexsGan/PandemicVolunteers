@@ -11,7 +11,7 @@ class ProtectedRoute extends React.Component {
                 {...rest}
                 exact path={path}
                 render={(props) => (
-                    isAuthenticated ? <Component {...props} app={app}/> : <Redirect to={fallbackPath} />
+                    isAuthenticated ? <Component {...props} app={app}/> : <Redirect to={fallbackPath}/>
                 )}
             />
         );

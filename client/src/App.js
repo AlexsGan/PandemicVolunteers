@@ -10,14 +10,18 @@ import GroupChat from "./components/GroupChat";
 import Home from "./components/Home";
 import Requests from "./components/Requests";
 import Register from "./components/Register";
-import ProfileWizard from "./components/Register/ProfileWizard";
+import ProfileWizard from "./components/ProfileWizard";
 import UserProfile from "./components/UserProfile";
 import Login from './components/Login';
 import Navbar from "./components/Navbar";
 
+// Import cookie checker function
+import { checkCookie } from "./actions/user";
+
 class App extends React.Component {
     constructor(props) {
         super(props)
+        checkCookie(this);
     }
 
     state = {
@@ -28,7 +32,7 @@ class App extends React.Component {
         return (
             <BrowserRouter>
                 <>
-                    <Navbar loggedIn={this.state.currentUser !== null} />
+                    <Navbar loggedIn={this.state.currentUser !== null}/>
                     <Switch>
                         <Route exact path={['/', '/home', '/about', '/map']} component={Home}/>
                         <Route exact path='/home' component={Home}/>

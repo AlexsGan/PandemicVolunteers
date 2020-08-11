@@ -1,4 +1,3 @@
-
 // A function to send a GET request to the web server,
 // and then loop through them and add a list element for each request
 export const getRequests = (requestList) => {

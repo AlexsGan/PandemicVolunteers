@@ -1,34 +1,36 @@
-/* server.js for react-express-authentication */
 "use strict";
 const log = console.log;
 
 const express = require("express");
-// starting the express server
+// Start express
 const app = express();
 
-// mongoose and mongo connection
+// Mongoose & MongoDB
 const { mongoose } = require("./db/mongoose");
-mongoose.set('bufferCommands', false);  // don't buffer db requests if the db server isn't connected
-mongoose.set('useFindAndModify', false); // for some deprecation issues
+mongoose.set('bufferCommands', false);  // Don't buffer if not connected
+mongoose.set('useFindAndModify', false); // Deprecation
 
-// import the mongoose models
+// Mongoose models
 const { Request } = require("./models/request");
 const { User } = require("./models/user");
 const { Profile } = require("./models/profile");
 
-// to validate object IDs
+// ObjectID validation
 const { ObjectID } = require("mongodb");
 
-/** Middleware **/
+/**
+ * Middleware
+ **/
 
-// body-parser: middleware for parsing HTTP JSON body into a usable object
+// Parses HTTP JSON body into JS object
 const bodyParser = require("body-parser");
 app.use(bodyParser.json());
-
-// express-session for managing user sessions
-const session = require("express-session");
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// Manages user sessions
+const session = require("express-session");
+
+// Mongoose connection check middleware
 const mongoConnectCheck = (req, res, next) => {
     if (mongoose.connection.readyState !== 1) {
         res.status(500).send('Internal Server Error');
@@ -55,7 +57,9 @@ const authenticate = (req, res, next) => {
     }
 }
 
-/** Helpers **/
+/**
+ * Helpers
+ **/
 
 // Check if user is an admin
 function isAdmin(id) {
@@ -75,19 +79,19 @@ function isAdmin(id) {
 }
 
 // Send mongoose validation errors
-function handleValidationError(err, res) {
+function handleValidationError(err) {
     let errorsToSend = [];
     if (err.name === 'ValidationError') {
-        for (const error of err.errors) {
+        for (const errorPath of Object.keys(err.errors)) {
             // Send each error
             errorsToSend.push({
-                type: error.path,
-                message: error.message
+                type: errorPath,
+                message: err.errors[errorPath].message
             });
         }
-        res.status(400).send(errorsToSend);
+        return errorsToSend;
     } else {
-        res.status(500).send('Internal Server Error');
+        return null;
     }
 }
 
@@ -96,7 +100,9 @@ function isMongoError(error) {
     return typeof error === 'object' && error !== null && error.name === "MongoNetworkError"
 }
 
-/** Session Handling **/
+/**
+ * Session Handling
+ **/
 
 // Create a session cookie
 app.use(
@@ -113,8 +119,9 @@ app.use(
 
 // A GET route to check if a user is logged into session
 app.get("/check-session", (req, res) => {
-    if (req.session.user) {
-        User.findById(req.session.user)
+    const session = req.session || {};
+    if (session.user) {
+        User.findById(session.user)
             .then(user => {
                 res.send({ currentUser: user });
             })
@@ -128,8 +135,8 @@ app.get("/check-session", (req, res) => {
 
 // A POST route to login to a user account and create a session
 app.post("/login", mongoConnectCheck, (req, res) => {
-    const username = req.body.username;
-    const password = req.body.password;
+    const username = req.body.username || '';
+    const password = req.body.password || '';
 
     // Get user account by username and password
     User.getUser(username, password)
@@ -157,38 +164,54 @@ app.post("/logout", (req, res) => {
     }
 });
 
-/** API Routes **/
+/**
+ *  API Routes
+ **/
 
 // A POST route to register a new user account
-app.post("/api/users", mongoConnectCheck, (req, res) => {
-    const userObject = res.body.userObject;
+app.post("/api/users", bodyParser.json(), mongoConnectCheck, (req, res) => {
+    const userObject = req.body.userObject || {};
+    // Prevent creation of admin account through POST route
+    userObject.isAdmin = false;
 
     // Create new user account
-    User.create(userObject, (err) => {
-            handleValidationError(err);
-        })
-        .then((result) => {
-            res.send(result);
+    User.create(userObject)
+        .then((user) => {
+            res.send({
+                username: user.username,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                birthday: user.birthday
+            })
         })
         .catch((err) => {
-            res.status(500).send('Internal Server Error');
+                const validationErrors = handleValidationError(err);
+                if (!validationErrors) {
+                    if (err.name === 'MongoError' && err.code === 11000) {
+                        res.status(403).send(`User '${userObject.username}' already exists on server.`)
+                    } else {
+                        res.status(500).send('Internal Server Error');
+                    }
+                } else {
+                    res.status(400).send(validationErrors);
+                }
         });
 });
 
 // A POST route to save a user profile
 app.post("/api/users/:username/profile", mongoConnectCheck, authenticate, (req, res) => {
-    const creator = res.user;
-    const username = res.params.username;
-    const profile = res.body.profile;
+    const creator = req.user || '';
+    const username = req.params.username || '';
+    const profile = req.body.profile || {};
     // Find user by username
     User.findOne({ username: username })
         .then((user) => {
             if (!user) {
-                res.status(400).send(`User ${username} not found.`);
+                res.status(400).send(`User '${username}' not found.`);
             } else {
                 // Attempt to save profile to a different user by a non admin
                 if (user._id !== creator && !isAdmin(creator)) {
-                    res.status(401).send(`Not authorized to create profile for ${username}.`);
+                    res.status(401).send(`Not authorized to create profile for '${username}'.`);
                 } else {
                     // Add profile to user
                     user.profile.push(profile);
@@ -208,17 +231,17 @@ app.post("/api/users/:username/profile", mongoConnectCheck, authenticate, (req, 
 
 // A GET route to get a user profile
 app.get("/api/users/:username/profile", mongoConnectCheck, authenticate, (req, res) => {
-    const username = res.params.username;
-    const creator = res.user;
+    const username = req.params.username || '';
+    const creator = req.user || '';
     // Find user by username
     User.findOne({ username: username })
         .then((user) => {
             if (!user) {
-                res.status(400).send(`User ${username} not found.`);
+                res.status(400).send(`User '${username}' not found.`);
             } else {
                 const profile = user.profile;
                 if (!profile) {
-                    res.status(404).send(`Profile for user ${username} not found.`)
+                    res.status(404).send(`Profile for user '${username}' not found.`)
                 } else {
                     // Attempt to view different user's invisible profile by a non admin
                     if (user._id !== creator && !isAdmin(creator) && !profile.isVisible) {
@@ -240,12 +263,11 @@ app.get("/api/users/:username/profile", mongoConnectCheck, authenticate, (req, r
         });
 });
 
-
 // a GET route to get all requests
 app.get("/api/requests", mongoConnectCheck, authenticate, (req, res) => {
     Request.find()
         .then((requests) => {
-            res.send({ requests }); // can wrap in object if want to add more properties
+            res.send({ requests });
         })
         .catch((err) => {
                 res.status(500).send('Internal Server Error'); // server error
@@ -253,18 +275,21 @@ app.get("/api/requests", mongoConnectCheck, authenticate, (req, res) => {
         );
 });
 
-/** Webpage Routes **/
+/**
+ * Webpage Routes
+ **/
+
 app.use(express.static(__dirname + "/client/build"));
 
-// All routes other than above will go to index.html
+// Serve index.html for all other routes
 app.get("*", (req, res) => {
-    const goodPageRoutes = ["/", "/home", "/register", "/register/create-profile", "/my-requests", "/feed", "/login"];
-    if (!goodPageRoutes.includes(req.url)) {
-        // if url not in expected page routes, set status to 404.
+    /*const validRoutes = ["/", "/home", "/register", "/register/create-profile", "/my-requests", "/feed", "/login"];
+    if (!validRoutes.includes(req.url)) {
+        // Url not in expected page routes
         res.status(404);
-    }
+    }*/
 
-    // send index.html
+    // Serve index.html
     res.sendFile(__dirname + "/client/build/index.html");
 });
 

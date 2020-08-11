@@ -202,8 +202,8 @@ class Requests extends React.Component {
                 date: date + '/' + month + '/' + year + ' ' + hours + ':' + min + ':' + sec,
             };
             this.setState(prevState => ({
-                messageList: [newRequest, ...prevState.messageList],
-            })
+                    messageList: [newRequest, ...prevState.messageList],
+                })
             );
             this.clearData()
         }
@@ -235,7 +235,7 @@ class Requests extends React.Component {
         return (
             <>
                 <Grid className="messages-grid">
-                    <Grid item xs="2" />
+                    <Grid item xs="2"/>
                     <Grid item xs="7">
                         <Container className="requests-box" maxWidth="md">
                             <Container className="requests-container" maxWidth="md">
@@ -291,7 +291,7 @@ class Requests extends React.Component {
                         <Container
                             display="flex"
                         >
-                            <br />
+                            <br/>
                             <Button
                                 variant="contained"
                                 onClick={this.acceptAssistance}
@@ -299,8 +299,8 @@ class Requests extends React.Component {
                             >
                                 Accept Request Assistence from User 1
                             </Button>
-                            <br />
-                            <br />
+                            <br/>
+                            <br/>
                             <Button
                                 variant="contained"
                                 onClick={this.acceptAssistance}

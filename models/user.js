@@ -5,33 +5,26 @@ const bcrypt = require('bcryptjs');
 const ProfileSchema = require('./profile').ProfileSchema;
 
 // Validation functions
-const validateUsername = function(value) {
-    let isDuplicate = false;
-    // Check for duplicates
-    this.find({username: value})
-        .then((users) => {
-            if (users.length === 0) {
-                isDuplicate = true;
-            }
-        });
-
-    if (isDuplicate) {
-        throw new Error('Username already exists');
-    }
+const validateUsername = function (value) {
     if (!value.match(/^\w+$/)) {
         throw new Error('Username can only contain alphanumerics and underscores.');
     }
     return true;
+
 }
 
-const validatePassword = function(value) {
+const validatePassword = function (value) {
     if (value.match(/^\S+$/)) {
         return true;
     }
     throw new Error('Password cannot contain spaces.');
 }
 
-const validateBirthday = function(value) {
+const validateName = function (value) {
+    return value.trim().length > 0;
+}
+
+const validateBirthday = function (value) {
     // Ensure age is 18 or older
     const today = new Date();
     const adjustedBirthday = new Date(value.getFullYear() + 18, value.getMonth() - 1, value.getDate());
@@ -59,6 +52,20 @@ const UserSchema = new mongoose.Schema({
         maxlength: 20,
         validate: validatePassword
     },
+    firstName: {
+        type: String,
+        required: true,
+        minlength: 1,
+        trim: true,
+        validate: validateName
+    },
+    lastName: {
+        type: String,
+        required: true,
+        minlength: 1,
+        trim: true,
+        validate: validateName
+    },
     birthday: {
         type: Date,
         required: true,
@@ -72,21 +79,21 @@ const UserSchema = new mongoose.Schema({
     profile: ProfileSchema
 });
 
-UserSchema.pre('save', function(next) {
-   const User = this;
-   if (User.isModified('password')) {
-       bcrypt.genSalt(10, (err, salt) => {
-           bcrypt.hash(User.password, salt, (err, hash) => {
-               User.password = hash;
-               next();
-           });
-       });
-   } else {
-       next();
-   }
+UserSchema.pre('save', function (next) {
+    const User = this;
+    if (User.isModified('password')) {
+        bcrypt.genSalt(10, (err, salt) => {
+            bcrypt.hash(User.password, salt, (err, hash) => {
+                User.password = hash;
+                next();
+            });
+        });
+    } else {
+        next();
+    }
 });
 
-UserSchema.statics.getUser = function(username, password) {
+UserSchema.statics.getUser = function (username, password) {
     const User = this;
     // Find by username
     return User.findOne({ username: username }).then((user) => {

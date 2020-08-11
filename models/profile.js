@@ -2,26 +2,7 @@
 
 const mongoose = require('mongoose')
 
-// Validation functions
-const validateName = function(value) {
-    return value.trim().length > 0;
-}
-
 const ProfileSchema = new mongoose.Schema({
-    firstName: {
-        type: String,
-        required: true,
-        minlength: 1,
-        trim: true,
-        validate: validateName
-    },
-    lastName: {
-        type: String,
-        required: true,
-        minlength: 1,
-        trim: true,
-        validate: validateName
-    },
     isVisible: {
         type: Boolean,
         required: true,

@@ -51,7 +51,7 @@ class LoginForm extends React.Component {
                         User Login
                     </Button>
                 </Grid>
-                <Grid item xs={12}>
+                {/*<Grid item xs={12}>
                     <Button
                         name="loginAdmin"
                         variant="contained"
@@ -60,7 +60,7 @@ class LoginForm extends React.Component {
                     >
                         ADMIN Login
                     </Button>
-                </Grid>
+                </Grid>*/}
                 <Grid item xs={12}>
                     <Typography variant="subtitle1">
                         or
