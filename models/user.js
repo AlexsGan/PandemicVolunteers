@@ -113,6 +113,18 @@ UserSchema.statics.getUser = function (username, password) {
     })
 }
 
+UserSchema.set('toJSON', {
+    transform: function(doc, ret) {
+        return {
+            username: ret.username,
+            firstName: ret.firstName,
+            lastName: ret.lastName,
+            birthday: ret.birthday,
+            isAdmin: ret.isAdmin
+        };
+    }
+});
+
 const User = mongoose.model('User', UserSchema);
 module.exports = { User }
 

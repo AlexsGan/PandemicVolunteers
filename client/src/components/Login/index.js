@@ -19,14 +19,10 @@ class Login extends React.Component {
 
     render() {
         if (this.state.loginSuccess) {
-            return (
-                <Redirect
-                    to={{
-                        pathname: "/profile",
-                        // state: { userObject: this.state.userObject }
-                    }}
-                />
-            );
+            // Redirect to profile creation if profile is missing
+            const missingProfile = !this.props.app.state.currentUser.profile;
+            const redirectPath = missingProfile ? "/register/create-profile" : "/login";
+            return <Redirect to={{ pathname: redirectPath }}/>;
         }
 
         return (

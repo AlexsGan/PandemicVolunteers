@@ -127,7 +127,7 @@ app.get("/check-session", (req, res) => {
     if (session.user) {
         User.findById(session.user)
             .then(user => {
-                res.send({ currentUser: user });
+                res.send(user.toJSON());
             })
             .catch((err) => {
                 res.status(500).send('Internal Server Error');
@@ -146,7 +146,7 @@ app.post("/login", mongoConnectCheck, (req, res) => {
     User.getUser(username, password)
         .then(user => {
             req.session.user = user._id;
-            res.send({ currentUser: user });
+            res.send(user.toJSON());
         })
         .catch((err) => {
             if (isMongoError(err)) {
@@ -184,12 +184,8 @@ app.post("/api/users", bodyParser.json(), mongoConnectCheck, (req, res) => {
     // Create new user account
     User.create(userObject)
         .then((user) => {
-            res.send({
-                username: user.username,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                birthday: user.birthday
-            })
+            // Simplified user object
+            res.send(user.toJSON());
         })
         .catch((err) => {
             const validationErrors = handleValidationError(err);
@@ -202,6 +198,37 @@ app.post("/api/users", bodyParser.json(), mongoConnectCheck, (req, res) => {
             } else {
                 res.status(400).send(validationErrors);
             }
+        });
+});
+
+// A GET route to get a user account
+app.get("/api/users/:username", mongoConnectCheck, authenticate, (req, res) => {
+    const username = req.params.username || '';
+    const creator = req.user || '';
+    // Find user by username
+    User.findOne({ username: username })
+        .then((user) => {
+            if (!user) {
+                res.status(400).send(`User '${username}' not found.`);
+            } else {
+                const profile = user.profile;
+                const userJson = user.toJSON();
+                if (!profile) {
+                    res.send(userJson);
+                } else {
+                    // Attempt to view different user's invisible account by a non admin
+                    if (user._id !== creator && !isAdmin(creator) && !profile.isVisible) {
+                        // Redact birthday
+                        delete userJson.birthday;
+                        res.send(userJson);
+                    } else {
+                        res.send(userJson);
+                    }
+                }
+            }
+        })
+        .catch((err) => {
+            res.status(500).send('Internal Server Error');
         });
 });
 
@@ -221,9 +248,12 @@ app.post("/api/users/:username/profile", mongoConnectCheck, authenticate, (req, 
                     res.status(401).send(`Not authorized to create profile for '${username}'.`);
                 } else {
                     // Add profile to user
-                    user.profile.push(profile);
+                    user.profile = profile;
                     user.save((err) => {
                             handleValidationError(err);
+                        })
+                        .then((user) => {
+                            res.send(user.profile.toJSON());
                         })
                         .catch((err) => {
                             res.status(500).send('Internal Server Error')
@@ -252,15 +282,10 @@ app.get("/api/users/:username/profile", mongoConnectCheck, authenticate, (req, r
                 } else {
                     // Attempt to view different user's invisible profile by a non admin
                     if (user._id !== creator && !isAdmin(creator) && !profile.isVisible) {
-                        // Unauthorized, send redacted profile
-                        res.status(401).send({
-                            profile: {
-                                firstName: profile.firstName,
-                                lastName: profile.lastName
-                            }
-                        })
+                        // Unauthorized
+                        res.status(401).send("Unauthorized to view profile.");
                     } else {
-                        res.send(profile);
+                        res.send(profile.toJSON());
                     }
                 }
             }
