@@ -5,6 +5,9 @@ import Button from "@material-ui/core/Button";
 import { Container, Box, Grid } from "@material-ui/core";
 import { Redirect } from "react-router-dom";
 
+// Importing actions/required methods
+import { updateRequestForm, addRequest } from "../../actions/requests";
+
 import "./styles.css";
 
 /* Component for Requests */
@@ -128,61 +131,61 @@ class Requests extends React.Component {
         }
     }
 
-    hardCodedExample() {
-        if (this.state.firstTime) {
-            this.setState({
-                firstTime: false,
-                hardCodedMsg: ' Request content: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
-            });
+    // hardCodedExample() {
+    //     if (this.state.firstTime) {
+    //         this.setState({
+    //             firstTime: false,
+    //             hardCodedMsg: ' Request content: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+    //         });
 
-            const date = new Date().getDate(); //Current Date
-            const month = new Date().getMonth() + 1; //Current Month
-            const year = new Date().getFullYear(); //Current Year
-            const hours = new Date().getHours(); //Current Hours
-            const min = new Date().getMinutes(); //Current Minutes
-            const sec = new Date().getSeconds(); //Current Seconds
+    //         const date = new Date().getDate(); //Current Date
+    //         const month = new Date().getMonth() + 1; //Current Month
+    //         const year = new Date().getFullYear(); //Current Year
+    //         const hours = new Date().getHours(); //Current Hours
+    //         const min = new Date().getMinutes(); //Current Minutes
+    //         const sec = new Date().getSeconds(); //Current Seconds
 
-            const newRequest = {
-                text: this.state.hardCodedMsg,
-                key: Date.now(),
-                date: date + '/' + month + '/' + year + ' ' + hours + ':' + min + ':' + sec,
-            };
-            this.setState(prevState => ({ messageList: [newRequest] }));
-            // this.setState({
-            //   messageList: [newRequest, ...this.state.messageList],
-            // });
-            return <Box>
-                <Box
-                    className="posted-chats"
-                    component="span"
-                    display="flex"
-                    bgcolor="grey.300"
-                    borderRadius={10}
-                    p={1}
-                >
-                    {newRequest.text}{""}
-                    <Button
-                        variant="outlined"
-                        onClick={() => this.assistRequest(newRequest.key)}
-                        color="primary"
-                    >
-                        Assist Request
-                    </Button>
-                </Box>
-                <Button
-                    variant="outlined"
-                    onClick={() => this.deleteRequest(newRequest.key)}
-                >
-                    Delete request
-                </Button>
-                <Box
-                    style={{ float: "right" }}
-                >
-                    {newRequest.date}
-                </Box>
-            </Box>
-        }
-    }
+    //         const newRequest = {
+    //             text: this.state.hardCodedMsg,
+    //             key: Date.now(),
+    //             date: date + '/' + month + '/' + year + ' ' + hours + ':' + min + ':' + sec,
+    //         };
+    //         this.setState(prevState => ({ messageList: [newRequest] }));
+    //         // this.setState({
+    //         //   messageList: [newRequest, ...this.state.messageList],
+    //         // });
+    //         return <Box>
+    //             <Box
+    //                 className="posted-chats"
+    //                 component="span"
+    //                 display="flex"
+    //                 bgcolor="grey.300"
+    //                 borderRadius={10}
+    //                 p={1}
+    //             >
+    //                 {newRequest.text}{""}
+    //                 <Button
+    //                     variant="outlined"
+    //                     onClick={() => this.assistRequest(newRequest.key)}
+    //                     color="primary"
+    //                 >
+    //                     Assist Request
+    //                 </Button>
+    //             </Box>
+    //             <Button
+    //                 variant="outlined"
+    //                 onClick={() => this.deleteRequest(newRequest.key)}
+    //             >
+    //                 Delete request
+    //             </Button>
+    //             <Box
+    //                 style={{ float: "right" }}
+    //             >
+    //                 {newRequest.date}
+    //             </Box>
+    //         </Box>
+    //     }
+    // }
 
     onSubmit(e) {
         console.log("onSubmit() called")
