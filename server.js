@@ -274,6 +274,9 @@ app.post("/requests", (req, res) => {
         requestContent: req.body.requestContent,
     });
 
+    console.log("posting a request")
+    console.log(helpRequest)
+
     // Save helpRequest to the database
     helpRequest.save().then(
         result => {
@@ -286,8 +289,8 @@ app.post("/requests", (req, res) => {
 });
 
 // a GET route to get all helpRequest
-app.get("/api/requests", mongoConnectCheck, authenticate, (req, res) => {
-    Request.find()
+app.get("/api/requests", mongoConnectCheck, (req, res) => {
+    HelpRequest.find()
         .then((helpRequests) => {
             res.send({ helpRequests });
         })
@@ -296,6 +299,16 @@ app.get("/api/requests", mongoConnectCheck, authenticate, (req, res) => {
             }
         );
 });
+// app.get("/api/requests", mongoConnectCheck, authenticate, (req, res) => {
+//     HelpRequest.find()
+//         .then((helpRequests) => {
+//             res.send({ helpRequests });
+//         })
+//         .catch((err) => {
+//                 res.status(500).send('Internal Server Error'); // server error
+//             }
+//         );
+// });
 
 /// a DELETE route to remove a helpRequest by their id.
 app.delete("/requests/:id", (req, res) => {

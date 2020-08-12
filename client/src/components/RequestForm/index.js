@@ -28,7 +28,7 @@ class RequestForm extends React.Component {
                 <Grid className="student-form" container spacing={4}>
                     {/* Inputs to add student */}
                     <Input
-                        name="name"
+                        name="requestContent"
                         value={requestContent}
                         onChange={e => updateRequestForm(this, e.target)}
                         label="Request contents"

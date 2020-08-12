@@ -16,7 +16,7 @@ export const getRequests = (requestList) => {
         })
         .then(json => {
             // the resolved promise with the JSON body
-            requestList.setState({ requestList: json.requests });
+            requestList.setState({ requestList: json.helpRequests });
         })
         .catch(error => {
             console.log(error);
