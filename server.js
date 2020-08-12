@@ -263,11 +263,33 @@ app.get("/api/users/:username/profile", mongoConnectCheck, authenticate, (req, r
         });
 });
 
-// a GET route to get all requests
+/**
+ * Webpage Routes
+ **/
+
+// a POST route to *create* a helpRequest
+app.post("/requests", (req, res) => {
+    // Create a new helpRequest using the HelpRequest mongoose model
+    const helpRequest = new HelpRequest({
+        requestContent: req.body.requestContent,
+    });
+
+    // Save helpRequest to the database
+    helpRequest.save().then(
+        result => {
+            res.send(result);
+        },
+        error => {
+            res.status(400).send(error); // 400 for bad request
+        }
+    );
+});
+
+// a GET route to get all helpRequest
 app.get("/api/requests", mongoConnectCheck, authenticate, (req, res) => {
     Request.find()
-        .then((requests) => {
-            res.send({ requests });
+        .then((helpRequests) => {
+            res.send({ helpRequests });
         })
         .catch((err) => {
                 res.status(500).send('Internal Server Error'); // server error
@@ -275,9 +297,30 @@ app.get("/api/requests", mongoConnectCheck, authenticate, (req, res) => {
         );
 });
 
-/**
- * Webpage Routes
- **/
+/// a DELETE route to remove a helpRequest by their id.
+app.delete("/requests/:id", (req, res) => {
+    const id = req.params.id;
+
+    // Validate id
+    if (!ObjectID.isValid(id)) {
+        res.status(404).send();
+        return;
+    }
+
+    // Delete a helpRequest by their id
+    HelpRequest.findByIdAndRemove(id)
+        .then(helpRequest => {
+            if (!helpRequest) {
+                res.status(404).send();
+            } else {
+                res.send(helpRequest);
+            }
+        })
+        .catch(error => {
+            res.status(500).send(); // server error, could not delete.
+        });
+});
+
 
 app.use(express.static(__dirname + "/client/build"));
 
@@ -291,30 +334,6 @@ app.get("*", (req, res) => {
 
     // Serve index.html
     res.sendFile(__dirname + "/client/build/index.html");
-});
-
-/// a DELETE route to remove a request by their id.
-app.delete("/requests/:id", (req, res) => {
-    const id = req.params.id;
-
-    // Validate id
-    if (!ObjectID.isValid(id)) {
-        res.status(404).send();
-        return;
-    }
-
-    // Delete a request by their id
-    Request.findByIdAndRemove(id)
-        .then(request => {
-            if (!request) {
-                res.status(404).send();
-            } else {
-                res.send(request);
-            }
-        })
-        .catch(error => {
-            res.status(500).send(); // server error, could not delete.
-        });
 });
 
 

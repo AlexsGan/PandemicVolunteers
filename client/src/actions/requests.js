@@ -2,7 +2,7 @@
 // and then loop through them and add a list element for each helpRequest
 export const getRequests = (requestList) => {
     // the URL for the request
-    const url = "/requests";
+    const url = "/api/requests";
 
     // Since this is a GET request, simply call fetch on the URL
     fetch(url)
@@ -36,7 +36,7 @@ export const updateRequestForm = (formComp, field) => {
 // A function to send a POST request with a new helpRequest
 export const addRequest = (formComp, dashboardComp) => {
     // the URL for the request
-    const url = "/students";
+    const url = "/requests";
 
     // The data we are going to send in our request
     const helpRequest = formComp.state

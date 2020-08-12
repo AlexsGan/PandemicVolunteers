@@ -2,12 +2,12 @@
 'use strict';
 
 const mongoose = require('mongoose');
-// const UserSchema = mongoose.model('User').schema;
+// const User = mongoose.model('User');
 
 const HelpRequest = mongoose.model('HelpRequest', {
 	requestHost: {
-		type: String, // TODO: should be the user object
-		required: true,
+		type: String, // TODO: the user who created the helpRequest
+		// required: true,
 		minlength: 1,
 		trim: true
 	},
