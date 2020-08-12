@@ -8,6 +8,10 @@ import { handleChange, handleSubmit } from "../../actions/register";
 
 /* Component for register page */
 class Register extends React.Component {
+    constructor(props) {
+        super(props);
+        this.app = this.props.app;
+    }
     state = {
         firstName: "",
         lastName: "",

@@ -9,7 +9,7 @@ export const handleTextChange = (event, form) => {
 
 export const handleSubmit = (event, form) => {
     const state = form.state;
-    const app = form.props.app;
+    const app = form.app;
     if (login({ username: state.username, password: state.password }, app)) {
         // Trigger redirect
         form.setState({

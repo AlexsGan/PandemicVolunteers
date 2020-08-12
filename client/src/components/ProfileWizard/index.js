@@ -9,6 +9,11 @@ import { Redirect } from "react-router-dom";
 
 /* Component for profile wizard page */
 class ProfileWizard extends React.Component {
+    constructor(props) {
+        super(props);
+        this.app = this.props.app;
+    }
+
     state = {
         slideIn: true,
         slideDirection: "right",

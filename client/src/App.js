@@ -29,6 +29,7 @@ class App extends React.Component {
     }
 
     render() {
+        const loggedIn = !!this.state.currentUser;
         return (
             <BrowserRouter>
                 <>
@@ -36,13 +37,18 @@ class App extends React.Component {
                     <Switch>
                         <Route exact path={['/', '/home', '/about', '/map']} component={Home}/>
                         <Route exact path='/home' component={Home}/>
-                        <Route exact path='/login' render={(props) => <Login {...props} app={this}/>}/>
-                        <Route exact path='/register' render={(props) => <Register {...props} app={this}/>}/>
-                        <ProtectedRoute path='/register/create-profile' component={ProfileWizard}
+                        <ProtectedRoute authenticated={!loggedIn} path='/login' component={Login}
+                                        fallbackPath='/profile' app={this}/>
+                        <ProtectedRoute authenticated={!loggedIn} path='/register' component={Register}
+                                        fallbackPath='/profile' app={this}/>
+                        <ProtectedRoute authenticated={loggedIn} path='/register/create-profile'
+                                        component={ProfileWizard}
                                         fallbackPath='/register' app={this}/>
                         }/>
-                        <ProtectedRoute path='/profile' component={UserProfile} fallbackPath='/login' app={this}/>
-                        <ProtectedRoute path='/my-requests' component={GroupChat} fallbackPath='/login' app={this}/>
+                        <ProtectedRoute authenticated={loggedIn} path='/profile' component={UserProfile}
+                                        fallbackPath='/login' app={this}/>
+                        <ProtectedRoute authenticated={loggedIn} path='/my-requests' component={GroupChat}
+                                        fallbackPath='/login' app={this}/>
                         <Route exact path='/feed' render={(props) => <Requests {...props} app={this}/>}/>
                         <Route render={() => <div>404 Not found</div>}/>
                     </Switch>

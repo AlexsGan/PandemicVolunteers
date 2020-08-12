@@ -11,6 +11,9 @@ import "./styles.css";
 class Requests extends React.Component {
     constructor(props) {
         super(props)
+        this.props.history.push('/feed');
+        this.app = this.props.app;
+
         this.state = {
             requestMessage: '',
             // city: '',
@@ -60,7 +63,7 @@ class Requests extends React.Component {
 
     assistRequest(key) {
         // Wait for request host to accept assistance, then proceeds
-        if (this.props.app.state.currentUser === null) {
+        if (this.app.state.currentUser === null) {
             alert("You must be a registered user")
             return
         }
@@ -111,11 +114,11 @@ class Requests extends React.Component {
 
     deleteRequest(key) {
         // if (admin) then delete message
-        if (this.props.app.state.currentUser == null) {
+        if (this.app.state.currentUser == null) {
             alert("You must be a registered user")
             return
         }
-        if (this.props.app.state.currentUser.isAdmin) {
+        if (this.app.state.currentUser.isAdmin) {
             const filteredMessageList = this.state.messageList.filter(function (item) {
                 return (item.key !== key);
             });
@@ -221,7 +224,7 @@ class Requests extends React.Component {
     }
 
     render() {
-        const currentUser = this.props.app.state.currentUser;
+        const currentUser = this.app.state.currentUser;
         if (this.state.redirect) {
             return (
                 <Redirect

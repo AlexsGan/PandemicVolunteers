@@ -4,14 +4,13 @@ import { Route, Redirect } from "react-router-dom";
 
 class ProtectedRoute extends React.Component {
     render() {
-        const { path, component: Component, fallbackPath, app, ...rest } = this.props;
-        const isAuthenticated = app.state.currentUser;
+        const { authenticated, path, component: Component, fallbackPath, app, ...rest } = this.props;
         return (
             <Route
                 {...rest}
                 exact path={path}
                 render={(props) => (
-                    isAuthenticated ? <Component {...props} app={app}/> : <Redirect to={fallbackPath}/>
+                    authenticated ? <Component {...props} app={app}/> : <Redirect to={fallbackPath}/>
                 )}
             />
         );

@@ -8,6 +8,10 @@ import "./styles.css";
 // import Navbar from "../Navbar";
 
 class Login extends React.Component {
+    constructor(props) {
+        super(props);
+        this.app = this.props.app;
+    }
 
     state = {
         username: "",

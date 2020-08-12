@@ -6,9 +6,13 @@ import ProfileHeader from "./ProfileHeader";
 import ProfileBody from "./ProfileBody";
 
 class UserProfile extends React.Component {
+    constructor(props) {
+        super(props);
+        this.props.history.push("/profile");
+        this.app = this.props.app;
+    }
 
     render() {
-        const app = this.props.app;
         return (
             <>
                 {/*<Navbar
@@ -16,11 +20,11 @@ class UserProfile extends React.Component {
                     currentPath={this.props.location.pathname}
                 />*/}
                 <Container className="profile" maxWidth="md">
-                    <ProfileHeader userObject={app.state.currentUser}/>
+                    <ProfileHeader userObject={this.app.state.currentUser}/>
                     {
                         app.state.currentUser.isAdmin ? null : (
                             <ProfileBody
-                                app={app}
+                                app={this.app}
                                 handleSaveEdit={(event, body) => handleSaveEdit(event, body, this)}
                             />
                         )
