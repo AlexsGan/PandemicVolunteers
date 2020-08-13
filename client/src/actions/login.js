@@ -10,15 +10,34 @@ export const handleTextChange = (event, form) => {
 export const handleSubmit = (event, form) => {
     const state = form.state;
     const app = form.app;
-    if (login({ username: state.username, password: state.password }, app)) {
-        // Trigger redirect
-        form.setState({
-            credentialError: false,
-            loginSuccess: true
+    login({ username: state.username, password: state.password }, app)
+        .then((res) => {
+            // Set user object
+            app.setState({ currentUser: res }, () => {
+                // Trigger redirect
+                form.setState({
+                    credentialError: false,
+                    errorText: ''
+                }, form.props.handleRedirect);
+            });
+        })
+        .catch((err) => {
+            if (err.message === 'username') {
+                form.setState({
+                    loginSuccess: false,
+                    credentialError: true,
+                    errorText: 'Invalid username or password.'
+                });
+            } else {
+                form.setState({ errorText: err.message })
+            }
         });
-    } else {
-        form.setState({ loginSuccess: false, credentialError: true });
-    }
+}
+
+export const handleRedirect = (form) => {
+    form.setState({
+        loginSuccess: true
+    });
 }
 
 const getUserObject = () => {
@@ -49,14 +68,4 @@ const getUserObject = () => {
             additionalQuals: ["Access to pickup truck", "Designs homemade face masks"]
         }
     });
-}
-
-const validateCredentials = (username, password, isAdmin) => {
-    // BACKEND: check if username exists on server and password matches
-    // FIXME: Temporary hardcoded username & password
-    if (isAdmin) {
-        return (username === "admin" && password === "admin");
-    } else {
-        return (username === "user" && password === "user");
-    }
 }

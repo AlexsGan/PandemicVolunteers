@@ -1,6 +1,6 @@
 import React from "react";
-import { handleTextChange, handleSubmit } from "../../actions/login";
 import { Typography, Container } from "@material-ui/core";
+import { handleRedirect } from "../../actions/login";
 import { Redirect } from "react-router-dom";
 import LoginForm from "./LoginForm";
 import "./styles.css";
@@ -14,19 +14,12 @@ class Login extends React.Component {
     }
 
     state = {
-        username: "",
-        password: "",
-        credentialError: false,
-        loginSuccess: false,
-        redirectToRegister: false
+        loginSuccess: false
     }
 
     render() {
         if (this.state.loginSuccess) {
-            // Redirect to profile creation if profile is missing
-            const missingProfile = !this.props.app.state.currentUser.profile;
-            const redirectPath = missingProfile ? "/register/create-profile" : "/login";
-            return <Redirect to={{ pathname: redirectPath }}/>;
+            return <Redirect to={{ pathname: "/register/create-profile" }}/>;
         }
 
         return (
@@ -40,11 +33,8 @@ class Login extends React.Component {
                 </Typography>
                 <Container className="login__form" maxWidth="xs">
                     <LoginForm
-                        username={this.state.username}
-                        password={this.state.password}
-                        credentialError={this.state.credentialError}
-                        handleTextChange={(event) => handleTextChange(event, this)}
-                        handleSubmit={(event) => handleSubmit(event, this)}
+                        app={this.app}
+                        handleRedirect={(e) => handleRedirect(this)}
                     />
                 </Container>
             </>

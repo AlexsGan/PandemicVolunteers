@@ -4,7 +4,7 @@ export const checkCookie = (app) => {
 
     fetch(url)
         .then(res => {
-            if (res.status === 200) {
+            if (res.ok) {
                 return res.json();
             }
         })
@@ -13,58 +13,56 @@ export const checkCookie = (app) => {
                 app.setState({ currentUser: json.currentUser });
             }
         })
-        .catch(error => {
-            console.error(error);
+        .catch(() => {
         });
 }
 
 // Send request to server to login a user
-export const login = (loginObject, app) => {
+export const login = async (loginObject) => {
     const url = "/login";
-    let success = false;
     // Create request
     const request = new Request(url, {
         method: "post",
-        body: JSON.stringify({
-            username: loginObject.username,
-            password: loginObject.password
-        }),
+        body: JSON.stringify(loginObject),
         headers: {
             Accept: "application/json, text/plan, */*",
             "Content-Type": "application/json"
         }
     });
     // Send request
-    fetch(request)
-        .then(res => {
-            if (res.status === 200) {
-                return res.json();
+    try {
+        const res = await fetch(request);
+        const body = await res.json();
+        if (res.ok) {
+            if (body !== undefined) {
+                return body;
+            } else {
+                return Promise.reject(new Error('Login Response Empty'));
             }
-        })
-        .then(json => {
-            if (json.currentUser !== undefined) {
-                app.setState({ currentUser: json.currentUser });
-                success = true;
+        } else {
+            if (res.status === 400) {
+                return Promise.reject('credentials')
             }
-        })
-        .catch(error => {
-            console.log(error);
-            success = false;
-        });
-    return success;
+
+            return Promise.reject(new Error(body));
+        }
+    } catch (error) {
+        console.error(error);
+        return Promise.reject(error);
+    }
 }
 
 // A function to send a GET request to logout the current user
-export const logout = (app) => {
+export const logout = async (app) => {
     const url = "/logout";
 
-    fetch(url)
-        .then(res => {
-            app.setState({
-                currentUser: null
-            });
-        })
-        .catch(error => {
-            console.error(error);
+    try {
+        await fetch(url);
+        app.setState({
+            currentUser: null
         });
+    } catch (error) {
+        console.error(error);
+        return Promise.reject(error);
+    }
 };

@@ -249,14 +249,17 @@ app.post("/api/users/:username/profile", mongoConnectCheck, authenticate, (req, 
                 } else {
                     // Add profile to user
                     user.profile = profile;
-                    user.save((err) => {
-                            handleValidationError(err);
-                        })
+                    user.save()
                         .then((user) => {
                             res.send(user.profile.toJSON());
                         })
                         .catch((err) => {
-                            res.status(500).send('Internal Server Error')
+                            const validationErrors = handleValidationError(err);
+                            if (!validationErrors) {
+                                res.status(500).send('Internal Server Error');
+                            } else {
+                                res.status(400).send(validationErrors);
+                            }
                         });
                 }
             }
