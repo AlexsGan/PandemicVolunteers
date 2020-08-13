@@ -12,6 +12,38 @@ import "./styles.css";
 
 /* Component for Requests */
 class Requests extends React.Component {
+
+    constructor(props) {
+        super(props);
+        // this.props.history.push("/dashboard");
+    }
+
+    state = {
+        message: { type: "", body: "" }
+    }
+
+    render() {
+        const { history, app } = this.props;
+
+        return (
+            <div className="App">
+                <Grid className="messages-grid">
+                    <Grid item xs="2"></Grid>
+                    <Grid item xs="7">
+                        <Container className="requests-box" maxWidth="md">
+                            {/* The RequestForm */}
+                            <RequestForm dashboard={this} />
+
+                            {/* The RequestList */}
+                            <RequestList />
+                        </Container>
+                    </Grid>
+                    <Grid item xs="2"></Grid>
+                </Grid>
+            </div>
+        );
+    }
+
     // constructor(props) {
     //     super(props)
     //     this.state = {
@@ -317,30 +349,6 @@ class Requests extends React.Component {
     //         </>
     //     );
     // }
-
-    constructor(props) {
-        super(props);
-        // this.props.history.push("/dashboard");
-    }
-
-    state = {
-        message: { type: "", body: "" }
-    }
-
-    render() {
-        const { history, app } = this.props;
-
-        return (
-            <div className="App">
-
-                {/* The RequestForm */}
-                <RequestForm dashboard={this} />
-
-                {/* The RequestList */}
-                <RequestList />
-            </div>
-        );
-    }
 }
 
 export default Requests;

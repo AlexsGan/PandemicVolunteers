@@ -1,12 +1,14 @@
 /* Student mongoose model */
 'use strict';
 
+require('./user'); // we'll use the User schema
+
 const mongoose = require('mongoose');
-// const User = mongoose.model('User');
+const UserSchema = mongoose.model('User').schema;
 
 const HelpRequest = mongoose.model('HelpRequest', {
 	requestHost: {
-		type: String, // TODO: the user who created the helpRequest
+		type: UserSchema, // TODO: the user who created the helpRequest
 		// required: true,
 		minlength: 1,
 		trim: true
@@ -20,9 +22,9 @@ const HelpRequest = mongoose.model('HelpRequest', {
 		required: true,
 		trim: true,
     },
-    // acceptedUsers: {
-    //     type: [UserSchema],
-    // }
+    acceptedUsers: {
+        type: [UserSchema],
+    }
 })
 
 module.exports = { HelpRequest }
