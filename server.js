@@ -204,7 +204,7 @@ app.post("/api/users", bodyParser.json(), mongoConnectCheck, (req, res) => {
 // A GET route to get a user account
 app.get("/api/users/:username", mongoConnectCheck, authenticate, (req, res) => {
     const username = req.params.username || '';
-    const creator = req.user || '';
+    const creator = req.user && req.user.username ? req.user.username : '';
     // Find user by username
     User.findOne({ username: username })
         .then((user) => {
@@ -217,7 +217,7 @@ app.get("/api/users/:username", mongoConnectCheck, authenticate, (req, res) => {
                     res.send(userJson);
                 } else {
                     // Attempt to view different user's invisible account by a non admin
-                    if (user._id !== creator && !isAdmin(creator) && !profile.isVisible) {
+                    if (user.username !== creator && !isAdmin(creator) && !profile.isVisible) {
                         // Redact birthday
                         delete userJson.birthday;
                         res.send(userJson);
@@ -234,7 +234,7 @@ app.get("/api/users/:username", mongoConnectCheck, authenticate, (req, res) => {
 
 // A POST route to save a user profile
 app.post("/api/users/:username/profile", mongoConnectCheck, authenticate, (req, res) => {
-    const creator = req.user || '';
+    const creator = req.user && req.user.username ? req.user.username : '';
     const username = req.params.username || '';
     const profile = req.body.profile || {};
     // Find user by username
@@ -244,8 +244,8 @@ app.post("/api/users/:username/profile", mongoConnectCheck, authenticate, (req, 
                 res.status(400).send(`User '${username}' not found.`);
             } else {
                 // Attempt to save profile to a different user by a non admin
-                if (user._id !== creator && !isAdmin(creator)) {
-                    res.status(401).send(`Not authorized to create profile for '${username}'.`);
+                if (user.username !== creator && !isAdmin(creator)) {
+                    res.status(401).send(`${creator} Not authorized to create profile for '${username}'.`);
                 } else {
                     // Add profile to user
                     user.profile = profile;

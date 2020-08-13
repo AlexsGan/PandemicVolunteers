@@ -22,7 +22,7 @@ class UserProfile extends React.Component {
                 <Container className="profile" maxWidth="md">
                     <ProfileHeader userObject={this.app.state.currentUser}/>
                     {
-                        app.state.currentUser.isAdmin ? null : (
+                        this.app.state.currentUser.isAdmin ? null : (
                             <ProfileBody
                                 app={this.app}
                                 handleSaveEdit={(event, body) => handleSaveEdit(event, body, this)}

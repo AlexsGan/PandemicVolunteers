@@ -32,7 +32,7 @@ class App extends React.Component {
     render() {
         const loggedIn = !!this.state.currentUser;
         const protectedProfileProps = {
-            authenticated: loggedIn && this.state.currentUser.profile,
+            authenticated: loggedIn && !!this.state.currentUser.profile,
             path: '/profile',
             component: UserProfile,
             fallbackPath: '/register/create-profile',

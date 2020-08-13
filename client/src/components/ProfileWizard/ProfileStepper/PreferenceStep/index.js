@@ -42,7 +42,7 @@ class PreferenceStep extends React.Component {
             description,
             hasBiography,
             biographyField,
-            hasVisibleProfile,
+            isVisible,
             hasVulnerable,
             additionalQuals,
             handleSwitch,
@@ -100,9 +100,9 @@ class PreferenceStep extends React.Component {
                         </Grid>
                         <Grid item xs={2}>
                             <Switch
-                                checked={hasVisibleProfile}
+                                checked={isVisible}
                                 onChange={handleSwitch}
-                                name="hasVisibleProfile"
+                                name="isVisible"
                                 color="primary"
                             />
                         </Grid>

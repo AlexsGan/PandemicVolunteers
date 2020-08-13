@@ -49,7 +49,6 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: 4,
-        maxlength: 20,
         validate: validatePassword
     },
     firstName: {
@@ -120,7 +119,8 @@ UserSchema.set('toJSON', {
             firstName: ret.firstName,
             lastName: ret.lastName,
             birthday: ret.birthday,
-            isAdmin: ret.isAdmin
+            isAdmin: ret.isAdmin,
+            profile: ret.profile
         };
     }
 });
