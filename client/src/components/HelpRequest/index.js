@@ -13,15 +13,8 @@ class HelpRequest extends React.Component {
     const { requestContent } = helpRequest;
 
     return (
-      // <TableRow className="helpRequest">
-      //   {/* <TableCell component="th" scope="row">
-      //     {name}
-      //   </TableCell> */}
-      //   <TableCell component="th" scope="row">
-      //     {requestContent}
-      //   </TableCell>
-      // </TableRow>
-      <Grid container spacing={1}>
+      // this container allows the gray request contents to have fixed size
+      <Container className="requests-container" maxWidth="lg" fixed="true">
 
         <Box
           className="posted-chats"
@@ -42,7 +35,7 @@ class HelpRequest extends React.Component {
         </Box>
         <Button
           variant="outlined"
-          // onClick={() => this.deleteRequest(item.key)}
+        // onClick={() => this.deleteRequest(item.key)}
         >
           Delete request
         </Button>
@@ -52,8 +45,8 @@ class HelpRequest extends React.Component {
           {/* {item.date} */}
           TODO: posted date
         </Box>
-      </Grid>
 
+      </Container>
     );
   }
 }

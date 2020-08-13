@@ -26,21 +26,17 @@ class Requests extends React.Component {
         const { history, app } = this.props;
 
         return (
-            <div className="App">
-                <Grid className="messages-grid">
-                    <Grid item xs="2"></Grid>
-                    <Grid item xs="7">
-                        <Container className="requests-box" maxWidth="md">
-                            {/* The RequestForm */}
-                            <RequestForm dashboard={this} />
+            <Grid className="requests-grid">
+                <Grid item xs="2"></Grid>
+                <Grid item xs="7">
+                    {/* The RequestForm */}
+                    <RequestForm dashboard={this} />
 
-                            {/* The RequestList */}
-                            <RequestList />
-                        </Container>
-                    </Grid>
-                    <Grid item xs="2"></Grid>
+                    {/* The RequestList */}
+                    <RequestList />
                 </Grid>
-            </div>
+                <Grid item xs="2"></Grid>
+            </Grid>
         );
     }
 

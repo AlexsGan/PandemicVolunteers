@@ -4,6 +4,8 @@ import Button from "@material-ui/core/Button";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 
+import { Container, Box, Grid } from "@material-ui/core";
+
 import HelpRequest from "./../HelpRequest";
 
 // Importing actions/required methods
@@ -30,8 +32,8 @@ class RequestList extends React.Component {
                 >
                     Get Requests
                 </Button>
-                <Table className="student-list">
-                    <TableBody>
+                {/* <Table className="student-list">
+                    <TableBody> */}
                         {this.state.requestList.map(helpRequest => (
                             <HelpRequest
                                 key={uid(
@@ -40,8 +42,8 @@ class RequestList extends React.Component {
                                 helpRequest={helpRequest}
                             />
                         ))}
-                    </TableBody>
-                </Table>
+                    {/* </TableBody>
+                </Table> */}
             </React.Fragment>
         );
     }
