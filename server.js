@@ -41,7 +41,7 @@ const mongoConnectCheck = (req, res, next) => {
 
 // Authentication middleware
 const authenticate = (req, res, next) => {
-    if (req.session.user) {
+    if (req.session && req.session.user) {
         User.findById(req.session.user).then((user) => {
             if (!user) {
                 return Promise.reject();
@@ -53,10 +53,11 @@ const authenticate = (req, res, next) => {
             if (isMongoError(err)) {
                 res.status(500).send("Internal Server Error");
             }
-            res.status(401).send("Unauthorized user.")
+            res.status(401).send("Unauthorized user.");
         })
     } else {
-        res.status(401).send("Unauthorized user.")
+        console.error('UNAUTHORIZED');
+        res.status(401).send("Unauthorized user.");
     }
 }
 
@@ -152,7 +153,7 @@ app.post("/login", mongoConnectCheck, (req, res) => {
             if (isMongoError(err)) {
                 res.status(500).send("Internal Server Error");
             }
-            res.status(400).send('Invalid username or password.');
+            res.status(401).send('Invalid username or password.');
         });
 });
 

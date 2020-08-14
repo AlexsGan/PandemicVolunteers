@@ -1,7 +1,6 @@
 import React from "react";
 import { Typography, Container } from "@material-ui/core";
 import { handleRedirect } from "../../actions/login";
-import { Redirect } from "react-router-dom";
 import LoginForm from "./LoginForm";
 import "./styles.css";
 
@@ -13,15 +12,7 @@ class Login extends React.Component {
         this.app = this.props.app;
     }
 
-    state = {
-        loginSuccess: false
-    }
-
     render() {
-        if (this.state.loginSuccess) {
-            return <Redirect to={{ pathname: "/register/create-profile" }}/>;
-        }
-
         return (
             <>
                 {/*<Navbar
@@ -34,7 +25,6 @@ class Login extends React.Component {
                 <Container className="login__form" maxWidth="xs">
                     <LoginForm
                         app={this.app}
-                        handleRedirect={(e) => handleRedirect(this)}
                     />
                 </Container>
             </>

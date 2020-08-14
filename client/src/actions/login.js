@@ -12,19 +12,17 @@ export const handleSubmit = (event, form) => {
     const app = form.app;
     login({ username: state.username, password: state.password }, app)
         .then((res) => {
-            // Set user object
-            app.setState({ currentUser: res }, () => {
-                // Trigger redirect
+            // Trigger app user update & redirect
+            app.setState({ userUpdated: true }, () => {
                 form.setState({
                     credentialError: false,
                     errorText: ''
-                }, form.props.handleRedirect);
+                });
             });
         })
         .catch((err) => {
-            if (err.message === 'username') {
+            if (err === 'credentials') {
                 form.setState({
-                    loginSuccess: false,
                     credentialError: true,
                     errorText: 'Invalid username or password.'
                 });
@@ -32,12 +30,6 @@ export const handleSubmit = (event, form) => {
                 form.setState({ errorText: err.message })
             }
         });
-}
-
-export const handleRedirect = (form) => {
-    form.setState({
-        loginSuccess: true
-    });
 }
 
 const getUserObject = () => {

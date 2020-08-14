@@ -21,7 +21,10 @@ const validatePassword = function (value) {
 }
 
 const validateName = function (value) {
-    return value.trim().length > 0;
+    if (value.trim().length > 0) {
+        return true;
+    }
+    throw new Error('First/last name cannot be empty.')
 }
 
 const validateBirthday = function (value) {
@@ -113,7 +116,7 @@ UserSchema.statics.getUser = function (username, password) {
 }
 
 UserSchema.set('toJSON', {
-    transform: function(doc, ret) {
+    transform: function (doc, ret) {
         return {
             username: ret.username,
             firstName: ret.firstName,

@@ -7,7 +7,7 @@ class Logout extends React.Component {
     constructor(props) {
         super(props)
         // If logged in
-        if (this.props.app.state.currentUser) {
+        if (props.app.state.currentUser) {
             logout(props.app)
                 .catch(() => {
                     console.error("Logout Failed")

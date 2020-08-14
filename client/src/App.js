@@ -26,46 +26,60 @@ class App extends React.Component {
     }
 
     state = {
-        currentUser: null
+        currentUser: null,
+        userUpdated: false
+    }
+
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        // currentUser state needs to be updated
+        if (this.state.userUpdated) {
+            // Update state if session is still valid
+            checkCookie(this);
+        }
     }
 
     render() {
-        const loggedIn = !!this.state.currentUser;
-        const protectedProfileProps = {
-            authenticated: loggedIn && !!this.state.currentUser.profile,
-            path: '/profile',
-            component: UserProfile,
-            fallbackPath: '/register/create-profile',
-            app: this
-        };
-        return (
-            <BrowserRouter>
-                <>
-                    <Navbar loggedIn={loggedIn}/>
-                    <Switch>
-                        <Route exact path={['/', '/home', '/about', '/map']} component={Home}/>
-                        <Route exact path='/home' component={Home}/>
-                        <ProtectedRoute authenticated={!loggedIn} exact path='/login' component={Login}
-                                        fallbackPath='/profile' app={this}/>
-                        <ProtectedRoute authenticated={!loggedIn} exact path='/register' component={Register}
-                                        fallbackPath='/home' app={this}/>
-                        <ProtectedRoute authenticated={loggedIn && !this.state.currentUser.profile}
-                                        exact path='/register/create-profile'
-                                        component={ProfileWizard}
-                                        fallbackPath='/home' app={this}/>
-                        <ProtectedRoute authenticated={loggedIn} exact path='/profile' component={ProtectedRoute}
-                                        componentProps={protectedProfileProps}
-                                        fallbackPath='/login' app={this}/>
-                        <ProtectedRoute authenticated={loggedIn} exact path='/my-requests' component={GroupChat}
-                                        fallbackPath='/login' app={this}/>
-                        <Route exact path='/logout' render={(props) => <Logout {...props} app={this}/>}/>
-                        <Route exact path='/feed' render={(props) => <Requests {...props} app={this}/>}/>
-                        {/*No match*/}
-                        <Route render={() => <h1>404 Not found</h1>}/>
-                    </Switch>
-                </>
-            </BrowserRouter>
-        );
+        if (!this.state.userUpdated) {
+            const loggedIn = !!this.state.currentUser;
+            const protectedProfileProps = {
+                authenticated: loggedIn && !!this.state.currentUser.profile,
+                path: '/profile',
+                component: UserProfile,
+                fallbackPath: '/register/create-profile',
+                app: this
+            };
+            return (
+                <BrowserRouter>
+                    <>
+                        <Navbar loggedIn={loggedIn}/>
+                        <Switch>
+                            <Route exact path={['/', '/home', '/about', '/map']} component={Home}/>
+                            <Route exact path='/home' component={Home}/>
+                            <ProtectedRoute authenticated={!loggedIn} exact path='/login' component={Login}
+                                            fallbackPath='/profile' app={this}/>
+                            <ProtectedRoute authenticated={!loggedIn} exact path='/register' component={Register}
+                                            fallbackPath='/home' app={this}/>
+                            <ProtectedRoute authenticated={loggedIn && !this.state.currentUser.profile}
+                                            exact path='/register/create-profile'
+                                            component={ProfileWizard}
+                                            fallbackPath='/login' app={this}/>
+                            <ProtectedRoute authenticated={loggedIn} exact path='/profile' component={ProtectedRoute}
+                                            componentProps={protectedProfileProps}
+                                            fallbackPath='/login' app={this}/>
+                            <ProtectedRoute authenticated={loggedIn} exact path='/my-requests' component={GroupChat}
+                                            fallbackPath='/login' app={this}/>
+                            <ProtectedRoute authenticated={loggedIn} exact path='/logout' component={Logout}
+                                            fallbackPath='/home' app={this}/>
+                            <Route exact path='/feed' render={(props) => <Requests {...props} app={this}/>}/>
+                            {/*No match*/}
+                            <Route render={() => <h1>404 Not found</h1>}/>
+                        </Switch>
+                    </>
+                </BrowserRouter>
+            );
+        } else {
+            return null;
+        }
     }
 }
 

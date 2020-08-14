@@ -5,7 +5,6 @@ import Box from "@material-ui/core/Box";
 import { Typography, Grid, Paper, Button, Container } from "@material-ui/core";
 import ProfileStepper from "./ProfileStepper";
 import { handleBack, handleNext, getSteps, getWizardContent } from "../../actions/profile-wizard"
-import { Redirect } from "react-router-dom";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -23,6 +22,7 @@ class ProfileWizard extends React.Component {
             activeStep: 0,
             rejectProfile: false,
             rejectErrors: [],
+            authFailed: false,
             isVisible: false,
             city: "",
             province: "",
@@ -46,6 +46,39 @@ class ProfileWizard extends React.Component {
             userObject: {}
         }
         this.state = { ...this.initialState };
+    }
+
+    RedirectDialog() {
+        return (
+            <Dialog
+                open={this.state.finished}
+                onClose={() => {
+                    this.app.setState({ userUpdated: true });
+                }}
+            >
+                <DialogTitle>
+                    {this.state.authFailed ? (
+                        "Login Session Expired"
+                    ) : (
+                        "Profile Successfully Created!"
+                    )}
+                </DialogTitle>
+                <DialogContent>
+                    {this.state.authFailed ? (
+                        <DialogContentText>
+                            Redirecting to login page...
+                        </DialogContentText>
+                    ) : null}
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={() => {
+                        this.app.setState({ userUpdated: true });
+                    }} color="primary" autoFocus>
+                        OK
+                    </Button>
+                </DialogActions>
+            </Dialog>
+        )
     }
 
     ErrorDialog() {
@@ -77,15 +110,10 @@ class ProfileWizard extends React.Component {
     }
 
     render() {
-        if (this.state.finished) {
-            return <Redirect to={{
-                pathname: "/profile"
-            }}/>;
-        }
-
         return (
             <>
                 {this.ErrorDialog()}
+                {this.RedirectDialog()}
                 <Slide direction={this.state.slideDirection} in={this.state.slideIn} mountOnEnter unmountOnExit>
                     <Box>
                         <Box className="header">

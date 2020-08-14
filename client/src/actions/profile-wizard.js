@@ -2,7 +2,7 @@ import React from "react";
 import LocationStep from "../components/ProfileWizard/ProfileStepper/LocationStep";
 import QualificationStep from "../components/ProfileWizard/ProfileStepper/QualificationStep";
 import PreferenceStep from "../components/ProfileWizard/ProfileStepper/PreferenceStep";
-import { registerProfile } from "./user";
+import { checkCookie, registerProfile } from "./user";
 
 export function getSteps() {
     return ['Location', 'Qualifications', 'Preferences'];
@@ -73,17 +73,17 @@ const handleSubmit = (wizard) => {
     // BACKEND: Send user profile information to server
     registerProfile(app.state.currentUser.username, profile)
         .then((res) => {
-            // Set user object
-            app.setState({currentUser: res}, () => {
-                // Trigger redirect
-                wizard.setState({finished: true});
-            });
+            // Trigger finish dialog
+            wizard.setState({ finished: true });
         })
         .catch((err) => {
             if (err && err.validationError) {
-                wizard.setState({rejectProfile: true, rejectErrors: err.validationError});
+                wizard.setState({ rejectProfile: true, rejectErrors: err.validationError });
+            } else if (err === 'unauthorized') {
+                // Session expired, trigger re-login and dialog
+                wizard.setState({ finished: true, authFailed: true });
             } else {
-                wizard.setState({rejectProfile: true, rejectErrors: [err]});
+                wizard.setState({ rejectProfile: true, rejectErrors: [err] });
             }
         });
 }
