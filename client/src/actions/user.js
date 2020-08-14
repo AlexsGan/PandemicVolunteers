@@ -1,20 +1,23 @@
 // Check if a user is logged in on the session cookie
 export const checkCookie = (app) => {
     const url = "/check-session";
-
     fetch(url)
         .then(res => {
             if (res.ok) {
                 return res.json();
+            } else {
+                app.setState({ currentUser: null, userUpdated: false });
+                throw new Error();
             }
         })
         .then(json => {
-            if (json && json.currentUser) {
-                app.setState({ currentUser: json.currentUser });
+            if (json) {
+                app.setState({ currentUser: json, userUpdated: false });
+            } else {
+                app.setState({ currentUser: null, userUpdated: false });
             }
         })
-        .catch(() => {
-        });
+        .catch();
 }
 
 // Send request to server to login a user
@@ -32,19 +35,18 @@ export const login = async (loginObject) => {
     // Send request
     try {
         const res = await fetch(request);
-        const body = await res.json();
         if (res.ok) {
+            const body = await res.json();
             if (body !== undefined) {
                 return body;
             } else {
                 return Promise.reject(new Error('Login Response Empty'));
             }
         } else {
-            if (res.status === 400) {
+            if (res.status === 401) {
                 return Promise.reject('credentials')
             }
-
-            return Promise.reject(new Error(body));
+            return Promise.reject(new Error('Internal Server Error'));
         }
     } catch (error) {
         console.error(error);
@@ -55,12 +57,23 @@ export const login = async (loginObject) => {
 // A function to send a GET request to logout the current user
 export const logout = async (app) => {
     const url = "/logout";
-
+    // Create request
+    const request = new Request(url, {
+        method: "post",
+        headers: {
+            Accept: "application/json, text/plan, */*",
+            "Content-Type": "application/json"
+        }
+    });
     try {
-        await fetch(url);
-        app.setState({
-            currentUser: null
-        });
+        const res = await fetch(request);
+        if (res.ok) {
+            app.setState({
+                userUpdated: true
+            });
+        } else {
+            return Promise.reject(new Error('Internal Server Error'));
+        }
     } catch (error) {
         console.error(error);
         return Promise.reject(error);
@@ -94,13 +107,13 @@ export const getUser = async (username) => {
 
 }
 
-export const registerProfile = async (username, profileObject) => {
-    const url = `/api/users/${username}/profile`;
+export const registerUser = async (userObject) => {
+    const url = `/api/users`;
 
     // Create request
     const request = new Request(url, {
         method: "post",
-        body: JSON.stringify({profile: profileObject}),
+        body: JSON.stringify({ userObject: userObject }),
         headers: {
             Accept: "application/json, text/plan, */*",
             "Content-Type": "application/json"
@@ -109,8 +122,47 @@ export const registerProfile = async (username, profileObject) => {
     // Send request
     try {
         const res = await fetch(request);
-        const body = await res.json();
         if (res.ok) {
+            const body = await res.json();
+            if (body !== undefined) {
+                // Resolve promise
+                return true;
+            } else {
+                return Promise.reject(new Error('Register Profile Response Empty'));
+            }
+        } else {
+            if (res.status === 400) {
+                const body = await res.json();
+                console.error("Error creating user.");
+                return Promise.reject({ validationError: body });
+            } else if (res.status === 403) {
+                return Promise.reject('exists');
+            }
+            return Promise.reject(new Error("Internal Server Error"));
+        }
+    } catch (error) {
+        console.error(error);
+        return Promise.reject(error);
+    }
+}
+
+export const registerProfile = async (username, profileObject) => {
+    const url = `/api/users/${username}/profile`;
+
+    // Create request
+    const request = new Request(url, {
+        method: "post",
+        body: JSON.stringify({ profile: profileObject }),
+        headers: {
+            Accept: "application/json, text/plan, */*",
+            "Content-Type": "application/json"
+        }
+    });
+    // Send request
+    try {
+        const res = await fetch(request);
+        if (res.ok) {
+            const body = await res.json();
             if (body !== undefined) {
                 // Get user object with newly created profile
                 const updatedUser = await getUser(username);
@@ -126,13 +178,14 @@ export const registerProfile = async (username, profileObject) => {
             }
         } else {
             if (res.status === 400) {
+                const body = await res.json();
                 console.error("Error creating profile.");
                 return Promise.reject({ validationError: body });
             } else if (res.status === 401) {
                 return Promise.reject('unauthorized');
             }
 
-            return Promise.reject(new Error(body));
+            return Promise.reject(new Error("Internal Server Error"));
         }
     } catch (error) {
         console.error(error);

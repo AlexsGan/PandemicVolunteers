@@ -18,11 +18,12 @@ class Register extends React.Component {
         username: "",
         password: "",
         birthday: null,
-        firstNameError: false,
-        lastNameError: false,
-        usernameError: false,
-        passwordError: false,
-        birthdayError: false,
+        firstNameError: '',
+        lastNameError: '',
+        usernameError: '',
+        passwordError: '',
+        birthdayError: '',
+        serverError: '',
         slideIn: true,
         slideDirection: "right",
         redirect: false
@@ -57,6 +58,7 @@ class Register extends React.Component {
                             usernameError={this.state.usernameError}
                             passwordError={this.state.passwordError}
                             birthdayError={this.state.birthdayError}
+                            serverError={this.state.serverError}
                             handleChange={(event) => handleChange(event, this)}
                             handleSubmit={(event) => handleSubmit(event, this)}
                         />

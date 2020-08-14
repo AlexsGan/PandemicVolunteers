@@ -1,3 +1,5 @@
+import { registerUser } from "./user";
+
 export const handleChange = (event, form) => {
     const target = event.target;
     form.setState({
@@ -6,59 +8,76 @@ export const handleChange = (event, form) => {
 }
 
 export const handleSubmit = (event, form) => {
-    const app = form.app;
     const state = form.state;
     if (validateInput(form.state, form)) {
         // BACKEND: Send user info to server
-        app.setState({
-            currentUser: {
-                username: state.username,
-                password: state.password,
-                firstName: state.firstName,
-                lastName: state.lastName,
-                birthday: state.birthday,
-                isAdmin: false,
-            }
-        }, () => {
-            form.setState({ slideIn: false, slideDirection: "left" },
-                () => {
-                    form.setState({ redirect: true });
-                });
-        });
+        const userObject = {
+            username: state.username,
+            password: state.password,
+            firstName: state.firstName,
+            lastName: state.lastName,
+            birthday: state.birthday,
+            isAdmin: false,
+        }
+        registerUser(userObject)
+            .then(() => {
+                // Trigger redirect to login
+                form.setState({ slideIn: false, slideDirection: "left" },
+                    () => {
+                        form.setState({ redirect: true });
+                    });
+            })
+            .catch((err) => {
+                if (err && err.validationError) {
+                    // Any validation errors should have been caught by the client's input validation
+                    console.error('Database validation error not caught by client:');
+                    err.validationError.map((error) => {
+                        console.error(error.message);
+                    });
+                    form.setState({serverError: 'Internal Server Error occurred, try again.'});
+                } else if (err === 'exists') {
+                    // Username already exists
+                    form.setState({ usernameError: 'Username already exists.' });
+                } else {
+                    console.error(err);
+                    form.setState({serverError: 'Internal Server Error occurred, try again.'});
+                }
+            })
+
     }
 }
 
 export const validateInput = (state, registerForm) => {
     let validInput = true;
-    if (state.firstName.match(/^\S+$/) === null) {
-        registerForm.setState({ firstNameError: true });
+    if (state.firstName.trim().length === 0) {
+        registerForm.setState({ firstNameError: 'Missing first name.' });
         validInput = false;
     } else {
-        registerForm.setState({ firstNameError: false });
+        registerForm.setState({ firstNameError: '' });
     }
-    if (state.lastName.match(/^\S+$/) === null) {
-        registerForm.setState({ lastNameError: true });
+    if (state.lastName.trim().length === 0) {
+        registerForm.setState({ lastNameError: 'Missing last name.' });
         validInput = false;
     } else {
-        registerForm.setState({ lastNameError: false });
+        registerForm.setState({ lastNameError: '' });
     }
-    if (validateUsername(state.username) === false) {
-        registerForm.setState({ usernameError: true });
+    if (!state.username.match(/^\w+$/)) {
+        registerForm.setState({ usernameError: 'Username can only contain alphanumerics and underscores.' });
         validInput = false;
     } else {
-        registerForm.setState({ usernameError: false });
+        registerForm.setState({ usernameError: '' });
     }
-    if (state.password.match(/^\S+$/) === null) {
-        registerForm.setState({ passwordError: true });
+    if (!state.password.match(/^\S+$/)) {
+        registerForm.setState({ passwordError: 'Password cannot contain spaces.' });
         validInput = false;
     } else {
-        registerForm.setState({ passwordError: false });
+        registerForm.setState({ passwordError: '' });
     }
     if (state.birthday === "" || !isOfAge(state.birthday)) {
-        registerForm.setState({ birthdayError: true });
+        registerForm.setState({ birthdayError: 'You must be 18 years or older.' });
         validInput = false;
     } else {
-        registerForm.setState({ birthdayError: false });
+        registerForm.setState({ birthdayError: '' });
     }
     return validInput;
 }
@@ -68,15 +87,4 @@ const isOfAge = dateStr => {
     const today = new Date();
     const adjustedBirthday = new Date(parseInt(dateArr[0]) + 18, parseInt(dateArr[1]) - 1, parseInt(dateArr[2]));
     return adjustedBirthday <= today;
-}
-
-const validateUsername = username => {
-    if (username.match(/^\w+$/) === null) {
-        return false;
-    }
-    // BACKEND:
-    // else if (*SERVER CALL TO CHECK IF USERNAME EXISTS) {
-    //  return false;
-    // }
-    return true;
 }
