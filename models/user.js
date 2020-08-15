@@ -70,7 +70,8 @@ const UserSchema = new mongoose.Schema({
     },
     birthday: {
         type: Date,
-        required: true,
+        // Birthday only required for non-admins
+        required: !this.isAdmin,
         min: '1900-01-01',
         validate: validateBirthday
     },

@@ -6,12 +6,12 @@ import { Typography, Grid, Button, Slide, Switch, TextField } from "@material-ui
 export class QualificationList extends React.Component {
     render() {
         const {
-            additionalQuals,
+            customQualifications,
             handleTextChange,
             isEditable
         } = this.props;
 
-        let textFields = additionalQuals.map((qualification, index) =>
+        let textFields = customQualifications.map((qualification, index) =>
             <Grid key={index} item xs={6}>
                 <TextField
                     name={index.toString()}
@@ -44,7 +44,7 @@ class PreferenceStep extends React.Component {
             biographyField,
             isVisible,
             hasVulnerable,
-            additionalQuals,
+            customQualifications,
             handleSwitch,
             handleTextChange,
             handleAdd,
@@ -143,7 +143,7 @@ class PreferenceStep extends React.Component {
                         <Grid item xs={1}/>
                         {/* Render text inputs for additional qualifications */}
                         <QualificationList
-                            additionalQuals={additionalQuals}
+                            customQualifications={customQualifications}
                             handleTextChange={handleQualTextChange}
                             isEditable={true}
                         />

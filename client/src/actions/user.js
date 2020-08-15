@@ -1,6 +1,6 @@
 // Check if a user is logged in on the session cookie
 export const checkCookie = (app) => {
-    const url = "/check-session";
+    const url = "/session/check-session";
     fetch(url)
         .then(res => {
             if (res.ok) {
@@ -22,13 +22,13 @@ export const checkCookie = (app) => {
 
 // Send request to server to login a user
 export const login = async (loginObject) => {
-    const url = "/login";
+    const url = "/session/login";
     // Create request
     const request = new Request(url, {
-        method: "post",
+        method: "POST",
         body: JSON.stringify(loginObject),
         headers: {
-            Accept: "application/json, text/plan, */*",
+            "Accept": "application/json, text/plan, */*",
             "Content-Type": "application/json"
         }
     });
@@ -56,12 +56,12 @@ export const login = async (loginObject) => {
 
 // A function to send a GET request to logout the current user
 export const logout = async (app) => {
-    const url = "/logout";
+    const url = "/session/logout";
     // Create request
     const request = new Request(url, {
-        method: "post",
+        method: "POST",
         headers: {
-            Accept: "application/json, text/plan, */*",
+            "Accept": "application/json, text/plan, */*",
             "Content-Type": "application/json"
         }
     });
@@ -112,10 +112,10 @@ export const registerUser = async (userObject) => {
 
     // Create request
     const request = new Request(url, {
-        method: "post",
+        method: "POST",
         body: JSON.stringify({ userObject: userObject }),
         headers: {
-            Accept: "application/json, text/plan, */*",
+            "Accept": "application/json, text/plan, */*",
             "Content-Type": "application/json"
         }
     });
@@ -131,14 +131,17 @@ export const registerUser = async (userObject) => {
                 return Promise.reject(new Error('Register Profile Response Empty'));
             }
         } else {
-            if (res.status === 400) {
-                const body = await res.json();
-                console.error("Error creating user.");
-                return Promise.reject({ validationError: body });
-            } else if (res.status === 403) {
-                return Promise.reject('exists');
+            switch (res.status) {
+                case 400:
+                case 403:
+                    const body = await res.json();
+                    console.error("Error creating user.");
+                    return Promise.reject({ validationError: body });
+                case 409:
+                    return Promise.reject('exists');
+                default:
+                    return Promise.reject(new Error("Internal Server Error"));
             }
-            return Promise.reject(new Error("Internal Server Error"));
         }
     } catch (error) {
         console.error(error);
@@ -151,10 +154,10 @@ export const registerProfile = async (username, profileObject) => {
 
     // Create request
     const request = new Request(url, {
-        method: "post",
+        method: "PUT",
         body: JSON.stringify({ profile: profileObject }),
         headers: {
-            Accept: "application/json, text/plan, */*",
+            "Accept": "application/json, text/plan, */*",
             "Content-Type": "application/json"
         }
     });
@@ -184,8 +187,97 @@ export const registerProfile = async (username, profileObject) => {
             } else if (res.status === 401) {
                 return Promise.reject('unauthorized');
             }
-
             return Promise.reject(new Error("Internal Server Error"));
+        }
+    } catch (error) {
+        console.error(error);
+        return Promise.reject(error);
+    }
+}
+
+export const updateUser = async (username, userObject) => {
+    const url = `/api/users/${username}`;
+
+    // Create request
+    const request = new Request(url, {
+        method: "PATCH",
+        body: JSON.stringify({ props: userObject }),
+        headers: {
+            "Accept": "application/json, text/plan, */*",
+            "Content-Type": "application/json"
+        }
+    });
+    // Send request
+    try {
+        const res = await fetch(request);
+        if (res.ok) {
+            const body = await res.json();
+            if (body !== undefined) {
+                // Return the updated user object
+                return body;
+            } else {
+                return Promise.reject(new Error('Update User Response Empty'));
+            }
+        } else {
+            switch (res.status) {
+                case 400:
+                case 403:
+                case 404:
+                    const body = await res.json();
+                    console.error("Error updating user.");
+                    return Promise.reject({ validationError: body });
+                case 401:
+                    return Promise.reject('unauthorized');
+                case 409:
+                    return Promise.reject('exists');
+                default:
+                    return Promise.reject(new Error("Internal Server Error"));
+            }
+        }
+    } catch (error) {
+        console.error(error);
+        return Promise.reject(error);
+    }
+}
+
+export const updateProfile = async (username, profileObject) => {
+    const url = `/api/users/${username}/profile`;
+
+    // Create request
+    const request = new Request(url, {
+        method: "PATCH",
+        body: JSON.stringify({ props: profileObject }),
+        headers: {
+            "Accept": "application/json, text/plan, */*",
+            "Content-Type": "application/json"
+        }
+    });
+    // Send request
+    try {
+        const res = await fetch(request);
+        if (res.ok) {
+            const body = await res.json();
+            if (body !== undefined) {
+                // Return the updated profile object
+                return body;
+            } else {
+                return Promise.reject(new Error('Update Profile Response Empty'));
+            }
+        } else {
+            switch (res.status) {
+                case 400:
+                case 403:
+                case 404:
+                    const body = await res.json();
+                    console.error("Error updating profile.");
+                    return Promise.reject({ validationError: body });
+                case 401:
+                    return Promise.reject('unauthorized');
+                case 409:
+                    return Promise.reject('exists');
+                default:
+                    return Promise.reject(new Error("Internal Server Error"));
+            }
         }
     } catch (error) {
         console.error(error);

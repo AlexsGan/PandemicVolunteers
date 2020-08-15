@@ -30,11 +30,18 @@ export const handleSubmit = (event, form) => {
             .catch((err) => {
                 if (err && err.validationError) {
                     // Any validation errors should have been caught by the client's input validation
-                    console.error('Database validation error not caught by client:');
-                    err.validationError.map((error) => {
-                        console.error(error.message);
-                    });
-                    form.setState({serverError: 'Internal Server Error occurred, try again.'});
+                    console.error('Database validation errors were not caught by client:');
+                    const errorStateToSet = {};
+                    const acceptedErrors = ['firstName', 'lastName', 'username', 'password', 'birthday'];
+                    for (const error of err) {
+                        if (!acceptedErrors.includes(error.type)) {
+                            form.setState({serverError: 'Internal Server Error occurred, try again.'});
+                            break;
+                        }
+                        errorStateToSet[`${error.type}Error`] = error.message;
+                    }
+                    form.setState(errorStateToSet);
+
                 } else if (err === 'exists') {
                     // Username already exists
                     form.setState({ usernameError: 'Username already exists.' });

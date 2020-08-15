@@ -58,9 +58,9 @@ const newProfileFromState = (state) => {
         customQualifications: []
     }
     // Remove extraneous/empty qualifications and add to user object
-    for (let i = 0; i < state.additionalQuals.length; i++) {
-        if (state.additionalQuals[i].trim() !== "") {
-            profile.customQualifications.push(state.additionalQuals[i].trim());
+    for (let i = 0; i < state.customQualifications.length; i++) {
+        if (state.customQualifications[i].trim() !== "") {
+            profile.customQualifications.push(state.customQualifications[i].trim());
         }
     }
     return profile;
@@ -142,7 +142,7 @@ export const getWizardContent = (step, wizard) => {
                 description="Extra information used toward to your personal profile."
                 isVisible={state.isVisible}
                 hasVulnerable={state.hasVulnerable}
-                additionalQuals={state.additionalQuals}
+                customQualifications={state.customQualifications}
                 hasBiography={state.hasBiography}
                 biographyField={state.biographyField}
                 handleSwitch={(event) => {
@@ -178,9 +178,9 @@ const handleTextChange = (event, wizard) => {
 const handleQualTextChange = (event, wizard) => {
     const state = wizard.state;
     const target = event.target;
-    const newAdditionalQuals = [...state.additionalQuals];
-    newAdditionalQuals[parseInt(target.name)] = target.value
-    wizard.setState({ additionalQuals: newAdditionalQuals });
+    const newCustomQualifications = [...state.customQualifications];
+    newCustomQualifications[parseInt(target.name)] = target.value
+    wizard.setState({ customQualifications: newCustomQualifications });
 }
 
 const handleSwitch = (event, wizard) => {
@@ -192,7 +192,7 @@ const handleSwitch = (event, wizard) => {
 
 const handleAdd = (event, wizard) => {
     const state = wizard.state;
-    wizard.setState({ additionalQuals: [...state.additionalQuals, ""] });
+    wizard.setState({ customQualifications: [...state.customQualifications, ""] });
 }
 
 const validateQualification = wizard => {

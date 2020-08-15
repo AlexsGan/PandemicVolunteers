@@ -36,7 +36,7 @@ class ProfileWizard extends React.Component {
             hasBiography: false,
             biographyField: "",
             hasVulnerable: false,
-            additionalQuals: [],
+            customQualifications: [],
             employmentFieldError: false,
             liftFieldError: false,
             cityError: false,

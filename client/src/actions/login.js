@@ -57,7 +57,7 @@ const getUserObject = () => {
             biography: "Marketing analyst doing nothing at home. I'm eager to help others during the COVID-19 pandemic!",
             hasVisibleProfile: true,
             isVulnerable: false,
-            additionalQuals: ["Access to pickup truck", "Designs homemade face masks"]
+            customQualifications: ["Access to pickup truck", "Designs homemade face masks"]
         }
     });
 }

@@ -30,7 +30,7 @@ class App extends React.Component {
         userUpdated: false
     }
 
-    componentDidUpdate(prevProps, prevState, snapshot) {
+    componentDidUpdate(_prevProps, _prevState, _ss) {
         // currentUser state needs to be updated
         if (this.state.userUpdated) {
             // Update state if session is still valid
@@ -43,6 +43,7 @@ class App extends React.Component {
             const loggedIn = !!this.state.currentUser;
             const protectedProfileProps = {
                 authenticated: loggedIn && !!this.state.currentUser.profile,
+                exact: true,
                 path: '/profile',
                 component: UserProfile,
                 fallbackPath: '/register/create-profile',
@@ -63,16 +64,15 @@ class App extends React.Component {
                                             exact path='/register/create-profile'
                                             component={ProfileWizard}
                                             fallbackPath='/login' app={this}/>
-                            <ProtectedRoute authenticated={loggedIn} exact path='/profile' component={ProtectedRoute}
-                                            componentProps={protectedProfileProps}
-                                            fallbackPath='/login' app={this}/>
+                            <Route exact path='/profile/:username?'
+                                   render={(props) => <UserProfile {...props} app={this} />} />
                             <ProtectedRoute authenticated={loggedIn} exact path='/my-requests' component={GroupChat}
                                             fallbackPath='/login' app={this}/>
                             <ProtectedRoute authenticated={loggedIn} exact path='/logout' component={Logout}
                                             fallbackPath='/home' app={this}/>
                             <Route exact path='/feed' render={(props) => <Requests {...props} app={this}/>}/>
                             {/*No match*/}
-                            <Route render={() => <h1>404 Not found</h1>}/>
+                            <Route render={() => <h1>404 Not Found</h1>}/>
                         </Switch>
                     </>
                 </BrowserRouter>
