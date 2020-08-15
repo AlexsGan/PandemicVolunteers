@@ -36,7 +36,7 @@ class UserProfile extends React.Component {
         }
         getUser(username)
             .then((user) => {
-                if (!user.profile && defaultUser) {
+                if (!user.profile && defaultUser && !user.isAdmin) {
                     this.setState({redirectToCreateProfile: true})
                 } else {
                     this.setState({ userObject: user });
