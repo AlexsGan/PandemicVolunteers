@@ -21,6 +21,7 @@
 .requests-box {
     display: flex;
     align-items: center;
+    align-self: center;
     padding-top: 5%;
     padding-bottom: 20%;
     max-width: 50px;

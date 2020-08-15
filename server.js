@@ -10,8 +10,8 @@ const { mongoose } = require("./db/mongoose");
 mongoose.set('bufferCommands', false);  // Don't buffer if not connected
 mongoose.set('useFindAndModify', false); // Deprecation
 
-// Mongoose models
-const { Request } = require("./models/request");
+// import the mongoose models
+const { HelpRequest } = require("./models/request");
 const { User } = require("./models/user");
 const { Profile } = require("./models/profile");
 
@@ -270,21 +270,110 @@ app.get("/api/users/:username/profile", mongoConnectCheck, authenticate, (req, r
         });
 });
 
-// a GET route to get all requests
-app.get("/api/requests", mongoConnectCheck, authenticate, (req, res) => {
-    Request.find()
-        .then((requests) => {
-            res.send({ requests });
+/**
+ * Webpage Routes
+ **/
+
+// a POST route to *create* a helpRequest
+app.post("/requests", (req, res) => {
+    // Create a new helpRequest using the HelpRequest mongoose model
+    const helpRequest = new HelpRequest({
+        requestContent: req.body.requestContent,
+    });
+
+    console.log("posting a request")
+    console.log(helpRequest)
+
+    // Save helpRequest to the database
+    helpRequest.save().then(
+        result => {
+            res.send(result);
+        },
+        error => {
+            res.status(400).send(error); // 400 for bad request
+        }
+    );
+});
+
+// a GET route to get all helpRequest
+app.get("/api/requests", mongoConnectCheck, (req, res) => {
+    HelpRequest.find()
+        .then((helpRequests) => {
+            res.send({ helpRequests });
         })
         .catch((err) => {
                 res.status(500).send('Internal Server Error'); // server error
             }
         );
 });
+// app.get("/api/requests", mongoConnectCheck, authenticate, (req, res) => {
+//     HelpRequest.find()
+//         .then((helpRequests) => {
+//             res.send({ helpRequests });
+//         })
+//         .catch((err) => {
+//                 res.status(500).send('Internal Server Error'); // server error
+//             }
+//         );
+// });
 
-/**
- * Webpage Routes
- **/
+// TODO
+// a POST route to add a pending user to the request they want to help
+// app.post('/requests/:id', (req, res) => {    
+//     const id = req.params.id
+    
+// 	if (!ObjectID.isValid(id)) {
+// 		res.status(404).send()  // if invalid id, definitely can't find resource, 404.
+// 		return;  // so that we don't run the rest of the handler.
+// 	}
+	
+// 	HelpRequest.findById(id).then((helpRequest) => {
+// 		if (!helpRequest) {
+// 			res.status(404).send()
+// 		} else {   
+// 			// add the new helpRequest 
+// 			helpRequest.pendingUsers.push(req.body) // push the User to pendingUsers
+
+// 			helpRequest.save().then((result) => {
+// 				res.send({"helpRequest": result})
+// 			})
+// 		}
+// 	})
+// 	.catch((error) => {
+// 		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+// 			res.status(500).send('Internal server error')
+// 		} else {
+// 			log(error) // log server error to the console, not to the client.
+// 			res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
+// 		}
+// 	})
+// })
+
+// TODO
+/// a DELETE route to remove a helpRequest by their id.
+// app.delete("/requests/:id", (req, res) => {
+//     const id = req.params.id;
+
+//     // Validate id
+//     if (!ObjectID.isValid(id)) {
+//         res.status(404).send();
+//         return;
+//     }
+
+//     // Delete a helpRequest by their id
+//     HelpRequest.findByIdAndRemove(id)
+//         .then(helpRequest => {
+//             if (!helpRequest) {
+//                 res.status(404).send();
+//             } else {
+//                 res.send(helpRequest);
+//             }
+//         })
+//         .catch(error => {
+//             res.status(500).send(); // server error, could not delete.
+//         });
+// });
+
 
 app.use(express.static(__dirname + "/client/build"));
 

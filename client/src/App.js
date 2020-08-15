@@ -40,10 +40,13 @@ class App extends React.Component {
                         <Route exact path='/register' render={(props) => <Register {...props} app={this}/>}/>
                         <ProtectedRoute path='/register/create-profile' component={ProfileWizard}
                                         fallbackPath='/register' app={this}/>
-                        }/>
+                        
                         <ProtectedRoute path='/profile' component={UserProfile} fallbackPath='/login' app={this}/>
                         <ProtectedRoute path='/my-requests' component={GroupChat} fallbackPath='/login' app={this}/>
-                        <Route exact path='/feed' render={(props) => <Requests {...props} app={this}/>}/>
+                        <Route 
+                            exact path='/feed' 
+                            render={(props) => <Requests {...props} app={this}/>}
+                        />
                         <Route render={() => <div>404 Not found</div>}/>
                     </Switch>
                 </>
