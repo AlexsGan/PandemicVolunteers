@@ -69,6 +69,12 @@ const ProfileSchema = new mongoose.Schema({
         }]
     }
 });
+ProfileSchema.set('toJSON', {
+    transform: function(doc, ret) {
+        delete ret._id;
+        return ret;
+    }
+});
 
 const Profile = mongoose.model('Profile', ProfileSchema);
 module.exports = { Profile, ProfileSchema }

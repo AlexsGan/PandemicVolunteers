@@ -8,28 +8,33 @@ import { handleChange, handleSubmit } from "../../actions/register";
 
 /* Component for register page */
 class Register extends React.Component {
+    constructor(props) {
+        super(props);
+        this.app = this.props.app;
+    }
     state = {
         firstName: "",
         lastName: "",
         username: "",
         password: "",
         birthday: null,
-        firstNameError: false,
-        lastNameError: false,
-        usernameError: false,
-        passwordError: false,
-        birthdayError: false,
+        firstNameError: '',
+        lastNameError: '',
+        usernameError: '',
+        passwordError: '',
+        birthdayError: '',
+        serverError: '',
         slideIn: true,
         slideDirection: "right",
         redirect: false
     };
 
     render() {
-        // Redirect to profile creation component
+        // Redirect to login
         if (this.state.redirect) {
             return (
                 <Redirect to={{
-                    pathname: "/register/create-profile"
+                    pathname: "/login"
                 }}/>
             );
         }
@@ -53,6 +58,7 @@ class Register extends React.Component {
                             usernameError={this.state.usernameError}
                             passwordError={this.state.passwordError}
                             birthdayError={this.state.birthdayError}
+                            serverError={this.state.serverError}
                             handleChange={(event) => handleChange(event, this)}
                             handleSubmit={(event) => handleSubmit(event, this)}
                         />

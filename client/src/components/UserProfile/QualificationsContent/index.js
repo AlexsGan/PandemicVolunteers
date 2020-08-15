@@ -128,12 +128,12 @@ class QualificationsContent extends React.Component {
                         ) : null
                     }
                     <ListItem>
-                        <Typography className="bold" variant="h6">Additional Qualifications</Typography>
+                        <Typography className="bold" variant="h6">Custom Qualifications</Typography>
                     </ListItem>
                     <ListItem>
-                        <Grid container spacing={2} className="additional-qualifications__grid">
+                        <Grid container spacing={2} className="custom-qualifications__grid">
                             <QualificationList
-                                additionalQuals={editableUserProfile.additionalQuals}
+                                customQualifications={editableUserProfile.customQualifications}
                                 handleTextChange={handleQualTextChange}
                                 isEditable={getEditStatus()}
                             />
@@ -143,7 +143,7 @@ class QualificationsContent extends React.Component {
                 {getEditStatus() ?
                     (
                         <Button
-                            className="additional-qualifications__button"
+                            className="custom-qualifications__button"
                             color="primary"
                             variant="contained"
                             onClick={handleAddQual}

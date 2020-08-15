@@ -1,6 +1,7 @@
 import React from "react";
 import { Grid, TextField } from "@material-ui/core";
 import "../styles.css";
+import { getFormattedBirthday } from "../../../actions/user-profile";
 
 class BasicContent extends React.Component {
     render() {
@@ -26,7 +27,7 @@ class BasicContent extends React.Component {
                         value={editableUserObject.firstName}
                         onChange={handleTextChange}
                         error={firstNameError}
-                        helperText={firstNameError === true ? 'Invalid first name.' : ''}
+                        helperText={firstNameError}
                         fullWidth
                         inputProps={{
                             readOnly: !getEditStatus()
@@ -40,7 +41,7 @@ class BasicContent extends React.Component {
                         label="Last Name"
                         value={editableUserObject.lastName}
                         error={lastNameError}
-                        helperText={lastNameError === true ? 'Invalid last name.' : ''}
+                        helperText={lastNameError}
                         onChange={handleTextChange}
                         fullWidth
                         inputProps={{
@@ -56,7 +57,7 @@ class BasicContent extends React.Component {
                         value={editableUserObject.username}
                         onChange={handleTextChange}
                         error={usernameError}
-                        helperText={usernameError === true ? 'Username already in use or invalid.' : ''}
+                        helperText={usernameError}
                         fullWidth
                         inputProps={{
                             readOnly: !getEditStatus()
@@ -69,9 +70,9 @@ class BasicContent extends React.Component {
                         variant="outlined"
                         label="Password"
                         type="password"
-                        value={getEditStatus() ? editableUserObject.password : "placeholder"}
+                        value={editableUserObject.password}
                         error={passwordError}
-                        helperText={passwordError === true ? 'Invalid password.' : ''}
+                        helperText={passwordError ? passwordError : 'Changes your password.'}
                         onChange={handleTextChange}
                         fullWidth
                         inputProps={{
@@ -85,9 +86,9 @@ class BasicContent extends React.Component {
                         variant="outlined"
                         label="Birthday"
                         type="date"
-                        value={editableUserObject.birthday}
+                        value={getFormattedBirthday(editableUserObject.birthday)}
                         error={birthdayError}
-                        helperText={birthdayError === true ? 'You must be 18 years or older.' : ''}
+                        helperText={birthdayError}
                         onChange={handleTextChange}
                         inputProps={{
                             readOnly: !getEditStatus()

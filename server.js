@@ -41,24 +41,35 @@ const mongoConnectCheck = (req, res, next) => {
 
 // Authentication middleware
 const authenticate = (req, res, next) => {
-    if (req.session.user) {
+    if (req.session && req.session.user) {
         User.findById(req.session.user).then((user) => {
             if (!user) {
                 return Promise.reject();
             } else {
-                req.user = user;
+                req.user = user.username;
                 next();
             }
         }).catch((err) => {
             if (isMongoError(err)) {
                 res.status(500).send("Internal Server Error");
             }
-            res.status(401).send("Unauthorized user.")
+            res.status(401).send("Unauthorized user.");
         })
     } else {
-        res.status(401).send("Unauthorized user.")
+        console.error(`UNAUTHORIZED ATTEMPT TO ${req.method}`);
+        res.status(401).send("Unauthorized user.");
     }
 }
+
+// Log new requests to console
+app.use((req, res, next) => {
+    res.on('finish', function() {
+        if (['api', 'session'].includes(req.path.split('/')[1])) {
+            log(`${req.method} Request to ${req.path} by user "${req.user || ''}"`);
+        }
+    })
+    next();
+})
 
 /**
  * Helpers
@@ -99,6 +110,36 @@ function handleValidationError(err) {
     }
 }
 
+function handleUserCreationErrors(err, res) {
+    if (isMongoError(err)) {
+        res.status(500).send("Internal Server Error");
+        return;
+    }
+    const validationErrors = handleValidationError(err);
+    if (validationErrors) {
+        res.status(400).send(validationErrors);
+    } else {
+        if (err.name === 'MongoError' && err.code === 11000) {
+            res.status(409).send(`Specified username conflicts with existing user.`)
+        } else {
+            res.status(500).send('Internal Server Error');
+        }
+    }
+}
+
+function handleProfileCreationErrors(err, res) {
+    if (isMongoError(err)) {
+        res.status(500).send("Internal Server Error");
+        return;
+    }
+    const validationErrors = handleValidationError(err);
+    if (validationErrors) {
+        res.status(400).send(validationErrors);
+        return;
+    }
+    res.status(500).send('Internal Server Error');
+}
+
 // Check for mongo database disconnection
 function isMongoError(error) {
     return typeof error === 'object' && error !== null && error.name === "MongoNetworkError"
@@ -115,19 +156,19 @@ app.use(
         resave: false,
         saveUninitialized: false,
         cookie: {
-            expires: 60000,
+            maxAge: 30 * 60 * 1000, // 30 minutes
             httpOnly: true
         }
     })
 );
 
 // A GET route to check if a user is logged into session
-app.get("/check-session", (req, res) => {
+app.get("/session/check-session", (req, res) => {
     const session = req.session || {};
     if (session.user) {
         User.findById(session.user)
             .then(user => {
-                res.send({ currentUser: user });
+                res.send(user.toJSON());
             })
             .catch((err) => {
                 res.status(500).send('Internal Server Error');
@@ -138,7 +179,7 @@ app.get("/check-session", (req, res) => {
 });
 
 // A POST route to login to a user account and create a session
-app.post("/login", mongoConnectCheck, (req, res) => {
+app.post("/session/login", mongoConnectCheck, (req, res) => {
     const username = req.body.username || '';
     const password = req.body.password || '';
 
@@ -146,18 +187,20 @@ app.post("/login", mongoConnectCheck, (req, res) => {
     User.getUser(username, password)
         .then(user => {
             req.session.user = user._id;
-            res.send({ currentUser: user });
+            log(`LOGIN: ${user.username} was logged in`);
+            res.send(user.toJSON());
         })
         .catch((err) => {
             if (isMongoError(err)) {
                 res.status(500).send("Internal Server Error");
+                return;
             }
-            res.status(400).send('Invalid username or password.');
+            res.status(401).send('Invalid username or password.');
         });
 });
 
 // A POST route to logout a user and delete the session
-app.post("/logout", (req, res) => {
+app.post("/session/logout", (req, res) => {
     if (req.session) {
         req.session.destroy(error => {
             if (error) {
@@ -176,63 +219,200 @@ app.post("/logout", (req, res) => {
  **/
 
 // A POST route to register a new user account
-app.post("/api/users", bodyParser.json(), mongoConnectCheck, (req, res) => {
+app.post("/api/users", mongoConnectCheck, (req, res) => {
     const userObject = req.body.userObject || {};
     // Prevent creation of admin account through POST route
-    userObject.isAdmin = false;
+    if (userObject.isAdmin) {
+        res.status(403).send('Unauthorized to create admin user');
+        return;
+    } else {
+        // Explicitly set isAdmin to false to be safe
+        userObject.isAdmin = false;
+    }
 
     // Create new user account
     User.create(userObject)
         .then((user) => {
-            res.send({
-                username: user.username,
-                firstName: user.firstName,
-                lastName: user.lastName,
-                birthday: user.birthday
-            })
+            // Simplified user object
+            res.send(user.toJSON());
         })
         .catch((err) => {
-            const validationErrors = handleValidationError(err);
-            if (!validationErrors) {
-                if (err.name === 'MongoError' && err.code === 11000) {
-                    res.status(403).send(`User '${userObject.username}' already exists on server.`)
-                } else {
-                    res.status(500).send('Internal Server Error');
-                }
-            } else {
-                res.status(400).send(validationErrors);
-            }
+            handleUserCreationErrors(err, res);
         });
 });
 
-// A POST route to save a user profile
-app.post("/api/users/:username/profile", mongoConnectCheck, authenticate, (req, res) => {
+// A PATCH route to replace properties of an existing user account
+app.patch("/api/users/:username", mongoConnectCheck, authenticate, (req, res) => {
     const creator = req.user || '';
     const username = req.params.username || '';
-    const profile = req.body.profile || {};
+    const props = req.body.props || {};
+    // Prevent creation of admin account through PATCH route
+    if (props.isAdmin) {
+        res.status(403).send('Unauthorized to create admin user');
+        return;
+    } else {
+        // Explicitly set isAdmin to false to be safe
+        props.isAdmin = false;
+    }
+    // Attempt by a non-admin to update a different user
+    if (username !== creator && !isAdmin(creator)) {
+        res.status(401).send(`${creator} Not authorized to create profile for '${username}'.`);
+        return;
+    }
+    // All attributes in schema
+    const propPaths = Object.keys(User.schema.paths);
+
+    // Find the fields to update and their values
+    const propsToUpdate = {}
+    for (const prop of Object.keys(props)) {
+        if (prop.charAt(0) === '_' || !propPaths.includes(prop)) {
+            res.status(403).send(`Setting attribute ${prop} is forbidden.`);
+            return;
+        }
+        propsToUpdate[prop] = props[prop];
+    }
+
+    // Find user by username and update its properties
+    User.findOne({ username: username })
+        .then((user) => {
+            if (!user) {
+                res.status(404).send(`User '${username}' not found.`);
+            } else {
+                user.set(propsToUpdate);
+                return user.save();
+            }
+        })
+        .then((user) => {
+            if (user) {
+                res.send(user.toJSON());
+            }
+        })
+        .catch((err) => {
+            handleUserCreationErrors(err, res);
+        });
+});
+
+// A GET route to get a user account
+app.get("/api/users/:username", mongoConnectCheck, authenticate, (req, res) => {
+    const username = req.params.username || '';
+    const creator = req.user || '';
     // Find user by username
     User.findOne({ username: username })
         .then((user) => {
             if (!user) {
                 res.status(400).send(`User '${username}' not found.`);
             } else {
-                // Attempt to save profile to a different user by a non admin
-                if (user._id !== creator && !isAdmin(creator)) {
-                    res.status(401).send(`Not authorized to create profile for '${username}'.`);
+                const profile = user.profile;
+                const userJson = user.toJSON();
+                if (!profile) {
+                    res.send(userJson);
                 } else {
-                    // Add profile to user
-                    user.profile.push(profile);
-                    user.save((err) => {
-                            handleValidationError(err);
-                        })
-                        .catch((err) => {
-                            res.status(500).send('Internal Server Error')
-                        });
+                    // Attempt to view different user's invisible account by a non admin
+                    if (user.username !== creator && !isAdmin(creator) && !profile.isVisible) {
+                        // Redact profile
+                        const profileJson = {
+                            biography: userJson.profile.biography,
+                        }
+                        userJson.profile = profileJson;
+                        res.send(userJson);
+                    } else {
+                        res.send(userJson);
+                    }
                 }
             }
         })
         .catch((err) => {
             res.status(500).send('Internal Server Error');
+        });
+});
+
+// A PUT route to create/overwrite a user profile
+app.put("/api/users/:username/profile", mongoConnectCheck, authenticate, (req, res) => {
+    const creator = req.user || '';
+    const username = req.params.username || '';
+    const profile = req.body.profile || {};
+
+    // Attempt by a non-admin to update a different user's profile
+    if (username !== creator && !isAdmin(creator)) {
+        res.status(401).send(`${creator} Not authorized to create profile for '${username}'.`);
+        return;
+    }
+
+    // Find user by username
+    User.findOne({ username: username })
+        .then((user) => {
+            if (!user) {
+                res.status(400).send(`User '${username}' not found.`);
+            } else {
+                // Add profile to user
+                user.profile = profile;
+                return user.save()
+            }
+        })
+        .then((user) => {
+            if (user && user.profile) {
+                res.send(user.profile.toJSON());
+            }
+        })
+        .catch((err) => {
+            if (isMongoError(err)) {
+                res.status(500).send("Internal Server Error");
+                return;
+            }
+            const validationErrors = handleValidationError(err);
+            if (!validationErrors) {
+                res.status(400).send(validationErrors);
+                return;
+            }
+            res.status(500).send('Internal Server Error');
+        });
+});
+
+// A PATCH route to replace properties of an existing user profile
+app.patch("/api/users/:username/profile", mongoConnectCheck, authenticate, (req, res) => {
+    const creator = req.user || '';
+    const username = req.params.username || '';
+    const props = req.body.props || {};
+
+    // Attempt by a non-admin to update a different user
+    if (username !== creator && !isAdmin(creator)) {
+        res.status(401).send(`${creator} Not authorized to create profile for '${username}'.`);
+    }
+    // All attributes in schema
+    const propPaths = Object.keys(Profile.schema.paths);
+
+    // Find the fields to update and their values
+    const propsToUpdate = {}
+    for (const prop of Object.keys(props)) {
+        if (prop.charAt(0) === '_' || !propPaths.includes(prop)) {
+            res.status(403).send(`Setting attribute ${prop} is forbidden.`);
+            return;
+        }
+        propsToUpdate[prop] = props[prop];
+    }
+    // Find user by username
+    User.findOne({username: username})
+        .then((user) => {
+            if (!user) {
+                res.status(404).send(`User ${username} does not exist.`);
+            } else {
+                // Update profile fields
+                const profile = user.profile;
+                if (!profile) {
+                    res.status(404).send(`Profile of user ${username} does not exist.`);
+                } else {
+                    profile.set(propsToUpdate);
+                    return user.save();
+                }
+            }
+        })
+        .then((user) => {
+            if (user && user.profile) {
+                res.send(user.profile.toJSON());
+            }
+        })
+        .catch((err) => {
+            handleProfileCreationErrors(err, res);
         });
 });
 
@@ -252,15 +432,10 @@ app.get("/api/users/:username/profile", mongoConnectCheck, authenticate, (req, r
                 } else {
                     // Attempt to view different user's invisible profile by a non admin
                     if (user._id !== creator && !isAdmin(creator) && !profile.isVisible) {
-                        // Unauthorized, send redacted profile
-                        res.status(401).send({
-                            profile: {
-                                firstName: profile.firstName,
-                                lastName: profile.lastName
-                            }
-                        })
+                        // Unauthorized
+                        res.status(401).send("Unauthorized to view profile.");
                     } else {
-                        res.send(profile);
+                        res.send(profile.toJSON());
                     }
                 }
             }

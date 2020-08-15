@@ -19,6 +19,10 @@ import { handleQualTextChange } from "../../../actions/user-profile";
 import BasicContent from "../BasicContent";
 
 class ProfileBody extends React.Component {
+    constructor(props) {
+        super(props);
+        this.app = props.app;
+    }
 
     state = {
         // Default category expanded
@@ -27,22 +31,21 @@ class ProfileBody extends React.Component {
             doEdit: false,
             content: ""
         },
-        editableUserObject: {
-            ...this.props.app.state.currentUser
-        },
-        firstNameError: false,
-        lastNameError: false,
-        usernameError: false,
-        passwordError: false,
-        birthdayError: false
+        editableUserObject: { ...this.props.userObject, password: null },
+        firstNameError: '',
+        lastNameError: '',
+        usernameError: '',
+        passwordError: '',
+        birthdayError: ''
     }
 
     render() {
         const {
             app,
+            isDefaultUser,
+            userObject,
             handleSaveEdit
         } = this.props;
-        const userObject = app.state.currentUser;
 
         return (
             <Paper className="profile-body" elevation={4}>
@@ -64,7 +67,8 @@ class ProfileBody extends React.Component {
                             />
                         }
                         toExpand={this.state.contentToExpand}
-                        isEditable={true}
+                        isHidden={!isDefaultUser}
+                        isEditable={isDefaultUser}
                         isPrivate={true}
                         getEditStatus={(categoryName) => getEditStatus(categoryName, this)}
                         handleChange={(event, isExpanded, categoryName) => {
@@ -90,6 +94,7 @@ class ProfileBody extends React.Component {
                                 handleSwitch={(event) => handleSwitch(event, this)}
                             />
                         }
+                        isHidden={!isDefaultUser}
                         toExpand={this.state.contentToExpand}
                         isPrivate={true}
                         handleChange={(event, isExpanded, categoryName) => {
@@ -109,7 +114,7 @@ class ProfileBody extends React.Component {
                         />
                     }
                     toExpand={this.state.contentToExpand}
-                    isEditable={true}
+                    isEditable={isDefaultUser}
                     getEditStatus={(categoryName) => getEditStatus(categoryName, this)}
                     handleChange={(event, isExpanded, categoryName) => {
                         handleExpansion(event, isExpanded, categoryName, this)
@@ -131,7 +136,7 @@ class ProfileBody extends React.Component {
                         />
                     }
                     toExpand={this.state.contentToExpand}
-                    isEditable={true}
+                    isEditable={isDefaultUser}
                     getEditStatus={(categoryName) => getEditStatus(categoryName, this)}
                     handleChange={(event, isExpanded, categoryName) => {
                         handleExpansion(event, isExpanded, categoryName, this)
@@ -155,7 +160,7 @@ class ProfileBody extends React.Component {
                         />
                     }
                     toExpand={this.state.contentToExpand}
-                    isEditable={true}
+                    isEditable={isDefaultUser}
                     getEditStatus={(categoryName) => getEditStatus(categoryName, this)}
                     handleChange={(event, isExpanded, categoryName) => {
                         handleExpansion(event, isExpanded, categoryName, this)
