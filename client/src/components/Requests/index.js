@@ -33,14 +33,14 @@ class Requests extends React.Component {
                 <Grid item xs="2"></Grid>
                 <Grid item xs="7">
                     {/* The RequestForm */}
-                    <RequestForm dashboard={this} />
+                    <RequestForm dashboard={this} app={this.app} />
 
                     {/* The RequestList */}
                     <RequestList />
                 </Grid>
                 <Grid item xs="2">
                     {/* The pending helpRequests*/}
-                    <RequestPending />
+                    <RequestPending app={this.app}/>
                 </Grid>
             </Grid>
         );

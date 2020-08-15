@@ -11,6 +11,10 @@ import "./styles.css";
 
 /* Component for the Request Form */
 class RequestForm extends React.Component {
+    constructor(props) {
+        super(props);
+        this.app = app;
+    }
 
     // helpRequest form state
     state = {
