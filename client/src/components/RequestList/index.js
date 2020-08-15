@@ -35,7 +35,7 @@ class RequestList extends React.Component {
                 {getRequests(this)}
 
                 {this.state.requestList.map(helpRequest => (
-                    <HelpRequest
+                    <PendingRequest
                         key={uid(
                             helpRequest
                         )} /* unique id required to help React render more efficiently when we delete helpRequests. */

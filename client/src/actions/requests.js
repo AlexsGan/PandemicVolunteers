@@ -31,10 +31,17 @@ export const updateRequestForm = (formComp, field) => {
     formComp.setState({
         [name]: value
     });
+
+    formComp.setState({
+        [requestHost]: formComp.app.state.currentUser
+    })
 };
 
 // A function to send a POST request with a new helpRequest
 export const addRequest = (formComp, dashboardComp) => {
+
+    console.log(formComp.app.state.currentUser)
+
     // the URL for the request
     const url = "/requests";
 

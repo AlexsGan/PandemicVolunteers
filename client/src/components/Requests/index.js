@@ -40,7 +40,7 @@ class Requests extends React.Component {
                 </Grid>
                 <Grid item xs="2">
                     {/* The pending helpRequests*/}
-                    {/* <RequestPending /> */}
+                    <RequestPending />
                 </Grid>
             </Grid>
         );
