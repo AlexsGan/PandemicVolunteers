@@ -1,19 +1,33 @@
 /* Student mongoose model */
 'use strict';
 
-const mongoose = require('mongoose')
+require('./user'); // we'll use the User schema
 
-const Request = mongoose.model('Request', {
+const mongoose = require('mongoose');
+const UserSchema = mongoose.model('User').schema;
+
+const HelpRequest = mongoose.model('HelpRequest', {
 	requestHost: {
-		type: String, // TODO: this should be the user object
-		required: true,
+		type: UserSchema, // TODO: the user who created the helpRequest
+		// required: true,
 		minlength: 1,
 		trim: true
 	},
 	time: {
 		type: String,
+		// required: true,
+	},
+	requestContent: {
+		type: String,
 		required: true,
-	}
+		trim: true,
+    },
+    // acceptedUsers: { // list of users approved by the requestHost
+    //     type: [UserSchema],
+	// },
+	// pendingUsers: {	 // list of users waiting to be approved by the requestHost
+	// 	type: [UserSchema],
+	// }
 })
 
-module.exports = { Request }
+module.exports = { HelpRequest }

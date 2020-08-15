@@ -41,6 +41,7 @@ class App extends React.Component {
     render() {
         if (!this.state.userUpdated) {
             const loggedIn = !!this.state.currentUser;
+          /*
             const protectedProfileProps = {
                 authenticated: loggedIn && !!this.state.currentUser.profile,
                 exact: true,
@@ -49,6 +50,7 @@ class App extends React.Component {
                 fallbackPath: '/register/create-profile',
                 app: this
             };
+            */
             return (
                 <BrowserRouter>
                     <>
