@@ -5,6 +5,8 @@ import TableRow from "@material-ui/core/TableRow";
 import Button from "@material-ui/core/Button";
 import { Container, Box, Grid } from "@material-ui/core";
 
+import { assistRequest, deleteRequest } from "../../actions/requests";
+
 import "./styles.css";
 
 class HelpRequest extends React.Component {
@@ -27,7 +29,7 @@ class HelpRequest extends React.Component {
           {requestContent}
           <Button
             variant="outlined"
-            // onClick={() => this.assistRequest(item.key)}
+            onClick={() => assistRequest(this)}
             color="primary"
           >
             Assist Request
@@ -35,7 +37,7 @@ class HelpRequest extends React.Component {
         </Box>
         <Button
           variant="outlined"
-        // onClick={() => this.deleteRequest(item.key)}
+        // onClick={() => this.deleteRequest(item.key)} // TODO
         >
           Delete request
         </Button>

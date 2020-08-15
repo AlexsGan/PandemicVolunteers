@@ -14,8 +14,8 @@ import { getRequests } from "../../actions/requests";
 import "./../../App.css";
 import "./styles.css";
 
-/* Component for the List of helpRequests */
-class RequestList extends React.Component {
+/* Component for the List of users that wants to help this user's helpRequests */
+class RequestPending extends React.Component {
 
     // helpRequest list state
     state = {
@@ -25,15 +25,12 @@ class RequestList extends React.Component {
     render() {
         return (
             <React.Fragment>
-                {/* <Button
-                    onClick={() => getRequests(this)}
-                    className="student-list__button app__horizontal-center"
-                    variant="contained"
-                >
-                    Get Requests
-                </Button> */}
-                {getRequests(this)}
+                {/* fill requestList with the saved requests */}
+                {getRequests(this)} 
 
+                {/* TODO */}
+
+                {/* filter out and display the current user's helpRequests that are accepted by other Users */}
                 {this.state.requestList.map(helpRequest => (
                     <HelpRequest
                         key={uid(

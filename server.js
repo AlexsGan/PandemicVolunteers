@@ -310,6 +310,38 @@ app.get("/api/requests", mongoConnectCheck, (req, res) => {
 //         );
 // });
 
+// add a pending user to the request they want to help
+app.post('/requests/:id', (req, res) => {    
+	const id = req.params.id
+	// Good practise: Validate id immediately.
+	if (!ObjectID.isValid(id)) {
+		res.status(404).send()  // if invalid id, definitely can't find resource, 404.
+		return;  // so that we don't run the rest of the handler.
+	}
+	
+	HelpRequest.findById(id).then((helpRequest) => {
+		if (!helpRequest) {
+			res.status(404).send()
+		} else {   
+			// add the new helpRequest 
+			helpRequest.pendingUsers.push(req.body) // push the User to pendingUsers
+
+			helpRequest.save().then((result) => {
+				res.send({"helpRequest": result})
+			})
+		}
+	})
+	.catch((error) => {
+		if (isMongoError(error)) { // check for if mongo server suddenly dissconnected before this request.
+			res.status(500).send('Internal server error')
+		} else {
+			log(error) // log server error to the console, not to the client.
+			res.status(400).send('Bad Request') // 400 for bad request gets sent to client.
+		}
+	})
+})
+
+
 /// a DELETE route to remove a helpRequest by their id.
 app.delete("/requests/:id", (req, res) => {
     const id = req.params.id;

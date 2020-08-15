@@ -24,7 +24,10 @@ const HelpRequest = mongoose.model('HelpRequest', {
     },
     acceptedUsers: {
         type: [UserSchema],
-    }
+	},
+	pendingUsers: {
+		type: [UserSchema],
+	}
 })
 
 module.exports = { HelpRequest }

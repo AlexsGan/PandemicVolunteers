@@ -7,6 +7,7 @@ import { Redirect } from "react-router-dom";
 
 import RequestList from "./../RequestList";
 import RequestForm from "./../RequestForm";
+import RequestPending from "./../RequestPending";
 
 import "./styles.css";
 
@@ -35,7 +36,10 @@ class Requests extends React.Component {
                     {/* The RequestList */}
                     <RequestList />
                 </Grid>
-                <Grid item xs="2"></Grid>
+                <Grid item xs="2">
+                    {/* The pending helpRequests*/}
+                    <RequestPending />
+                </Grid>
             </Grid>
         );
     }
