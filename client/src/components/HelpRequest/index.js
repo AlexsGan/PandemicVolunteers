@@ -29,7 +29,7 @@ class HelpRequest extends React.Component {
           {requestContent}
           <Button
             variant="outlined"
-            onClick={() => assistRequest(this)}
+            // onClick={() => assistRequest(this)}
             color="primary"
           >
             Assist Request

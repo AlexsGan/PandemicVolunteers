@@ -22,12 +22,12 @@ const HelpRequest = mongoose.model('HelpRequest', {
 		required: true,
 		trim: true,
     },
-    acceptedUsers: {
-        type: [UserSchema],
-	},
-	pendingUsers: {
-		type: [UserSchema],
-	}
+    // acceptedUsers: { // list of users approved by the requestHost
+    //     type: [UserSchema],
+	// },
+	// pendingUsers: {	 // list of users waiting to be approved by the requestHost
+	// 	type: [UserSchema],
+	// }
 })
 
 module.exports = { HelpRequest }
