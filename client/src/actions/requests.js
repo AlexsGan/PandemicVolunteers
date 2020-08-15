@@ -27,12 +27,13 @@ export const getRequests = (requestList) => {
 export const updateRequestForm = (formComp, field) => {
     const value = field.value;
     const name = field.name;
+    const requestHost = requestHost;
 
     formComp.setState({
         [name]: value
     });
 
-    formComp.setState({
+    formComp.setState({ // set requestHost
         [requestHost]: formComp.app.state.currentUser
     })
 };
