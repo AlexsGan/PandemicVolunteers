@@ -5,6 +5,11 @@ import "./styles.css"
 
 /* Component for home page */
 class Home extends React.Component {
+    constructor(props) {
+        super(props);
+        this.props.history.push("/home");
+        this.app = this.props.app;
+    }
     render() {
         return (
             <div className="home-view">

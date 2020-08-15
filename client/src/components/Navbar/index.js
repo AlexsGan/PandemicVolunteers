@@ -39,7 +39,11 @@ class Navbar extends React.Component {
                     <Tab label="My Requests" component={Link} to="/my-requests" value="/my-requests"/>
                     {
                         loggedIn ? (
-                            <Tab label="Profile" component={Link} to="/profile" value="/profile"/>
+                            <>
+                                <Tab label="Profile" component={Link} to="/profile" value="/profile"/>
+                                <Tab label="Logout" component={Link} to="/logout" state={{ referralPath: currentPath }}
+                                     value="/logout"/>
+                            </>
                         ) : (
                             <Tab label="Login" component={Link} to="/login" value="/login"/>
                         )

@@ -10,11 +10,11 @@
     text-decoration: underline;
 }
 
-.MuiGrid-root.additional-qualifications__grid {
+.MuiGrid-root.custom-qualifications__grid {
     margin-top: 10px;
 }
 
-.MuiButton-root.additional-qualifications__button {
+.MuiButton-root.custom-qualifications__button {
     align-self: flex-start;
     margin-left: 16px;
     margin-bottom: 10px;

@@ -2,6 +2,7 @@ import React from "react";
 import Grid from "@material-ui/core/Grid"
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import { Typography } from "@material-ui/core";
 
 /* Component for register form */
 class RegisterForm extends React.Component {
@@ -17,6 +18,7 @@ class RegisterForm extends React.Component {
             usernameError,
             passwordError,
             birthdayError,
+            serverError,
             handleChange,
             handleSubmit,
         } = this.props;
@@ -31,7 +33,7 @@ class RegisterForm extends React.Component {
                         value={firstName}
                         onChange={handleChange}
                         error={firstNameError}
-                        helperText={firstNameError === true ? 'Invalid first name.' : ''}
+                        helperText={firstNameError}
                         required
                         fullWidth
                     />
@@ -44,7 +46,7 @@ class RegisterForm extends React.Component {
                         value={lastName}
                         onChange={handleChange}
                         error={lastNameError}
-                        helperText={lastNameError === true ? 'Invalid last name.' : ''}
+                        helperText={lastNameError}
                         required
                         fullWidth
                     />
@@ -57,7 +59,7 @@ class RegisterForm extends React.Component {
                         value={username}
                         onChange={handleChange}
                         error={usernameError}
-                        helperText={usernameError === true ? 'Username already in use or invalid.' : ''}
+                        helperText={usernameError}
                         required
                         fullWidth
                     />
@@ -70,7 +72,7 @@ class RegisterForm extends React.Component {
                         type="password"
                         value={password}
                         error={passwordError}
-                        helperText={passwordError === true ? 'Invalid password.' : ''}
+                        helperText={passwordError}
                         onChange={handleChange}
                         required
                         fullWidth
@@ -84,7 +86,7 @@ class RegisterForm extends React.Component {
                         type="date"
                         value={birthday}
                         error={birthdayError}
-                        helperText={birthdayError === true ? 'You must be 18 years or older.' : ''}
+                        helperText={birthdayError}
                         onChange={handleChange}
                         required
                         InputLabelProps={{
@@ -102,6 +104,11 @@ class RegisterForm extends React.Component {
                     >
                         Register
                     </Button>
+                </Grid>
+                <Grid item xs={12}>
+                    <Typography color="error" variant="subtitle2" align="center">
+                        {serverError}
+                    </Typography>
                 </Grid>
             </Grid>
         );

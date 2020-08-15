@@ -21,7 +21,10 @@ const validatePassword = function (value) {
 }
 
 const validateName = function (value) {
-    return value.trim().length > 0;
+    if (value.trim().length > 0) {
+        return true;
+    }
+    throw new Error('First/last name cannot be empty.')
 }
 
 const validateBirthday = function (value) {
@@ -49,7 +52,6 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
         minlength: 4,
-        maxlength: 20,
         validate: validatePassword
     },
     firstName: {
@@ -68,7 +70,8 @@ const UserSchema = new mongoose.Schema({
     },
     birthday: {
         type: Date,
-        required: true,
+        // Birthday only required for non-admins
+        required: !this.isAdmin,
         min: '1900-01-01',
         validate: validateBirthday
     },
@@ -112,6 +115,19 @@ UserSchema.statics.getUser = function (username, password) {
         });
     })
 }
+
+UserSchema.set('toJSON', {
+    transform: function (doc, ret) {
+        return {
+            username: ret.username,
+            firstName: ret.firstName,
+            lastName: ret.lastName,
+            birthday: ret.birthday,
+            isAdmin: ret.isAdmin,
+            profile: ret.profile
+        };
+    }
+});
 
 const User = mongoose.model('User', UserSchema);
 module.exports = { User }

@@ -16,6 +16,8 @@ class Requests extends React.Component {
 
     constructor(props) {
         super(props);
+        this.props.history.push('/feed');
+        this.app = this.props.app;
         // this.props.history.push("/dashboard");
     }
 

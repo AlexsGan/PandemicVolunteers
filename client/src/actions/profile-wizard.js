@@ -2,6 +2,7 @@ import React from "react";
 import LocationStep from "../components/ProfileWizard/ProfileStepper/LocationStep";
 import QualificationStep from "../components/ProfileWizard/ProfileStepper/QualificationStep";
 import PreferenceStep from "../components/ProfileWizard/ProfileStepper/PreferenceStep";
+import { checkCookie, registerProfile } from "./user";
 
 export function getSteps() {
     return ['Location', 'Qualifications', 'Preferences'];
@@ -39,52 +40,52 @@ export const handleNext = (event, wizard) => {
     }
 }
 
+const newProfileFromState = (state) => {
+    const profile = {
+        isVisible: state.isVisible,
+        city: state.city,
+        province: state.province,
+        isEmployed: state.hasEmployment,
+        isWorkingRemotely: state.hasRemoteWork,
+        isDriver: state.hasVehicle,
+        isLifter: state.hasLiftAbility,
+        isShopper: state.hasShoppingAbility,
+        isVulnerable: state.hasVulnerable,
+        hasBiography: state.hasBiography,
+        employment: state.employmentField.trim(),
+        liftingAbility: parseInt(state.liftField.trim()),
+        biography: state.biographyField.trim(),
+        customQualifications: []
+    }
+    // Remove extraneous/empty qualifications and add to user object
+    for (let i = 0; i < state.customQualifications.length; i++) {
+        if (state.customQualifications[i].trim() !== "") {
+            profile.customQualifications.push(state.customQualifications[i].trim());
+        }
+    }
+    return profile;
+}
+
 const handleSubmit = (wizard) => {
     const app = wizard.props.app;
     const state = wizard.state;
-    // User containing basic info from Register
-    const basicUser = app.state.currentUser;
-    // FIXME: Temporary phase 1 user object
-    const currentUser = {
-        isAdmin: false,
-        firstName: basicUser.firstName,
-        lastName: basicUser.lastName,
-        username: basicUser.username,
-        password: basicUser.password,
-        birthday: basicUser.birthday,
-        requestsAccepted: 0,
-        requestsSent: 0,
-        requestsCompleted: 0,
-        profile: {
-            location: { city: state.city, province: state.province },
-            isEmployed: state.hasEmployment,
-            isWorkingRemotely: state.hasRemoteWork,
-            employment: state.employmentField.trim(),
-            isDriver: state.hasVehicle,
-            isLifter: state.hasLiftAbility,
-            liftingAbility: parseInt(state.liftField.trim()),
-            isShopper: state.hasShoppingAbility,
-            hasBiography: state.hasBiography,
-            biography: state.biographyField.trim(),
-            hasVisibleProfile: state.hasVisibleProfile,
-            isVulnerable: state.hasVulnerable,
-            additionalQuals: []
-        }
-    }
-    // Remove extraneous/empty qualifications and add to user object
-    for (let i = 0; i < state.additionalQuals.length; i++) {
-        if (state.additionalQuals[i].trim() !== "") {
-            currentUser.profile.additionalQuals.push(state.additionalQuals[i].trim());
-        }
-    }
-
+    const profile = newProfileFromState(state);
     // BACKEND: Send user profile information to server
-    console.log("Profile submitted");
-    app.setState({ currentUser: currentUser },
-        () => {
+    registerProfile(app.state.currentUser.username, profile)
+        .then((res) => {
+            // Trigger finish dialog
             wizard.setState({ finished: true });
-        }
-    );
+        })
+        .catch((err) => {
+            if (err && err.validationError) {
+                wizard.setState({ rejectProfile: true, rejectErrors: err.validationError });
+            } else if (err === 'unauthorized') {
+                // Session expired, trigger re-login and dialog
+                wizard.setState({ finished: true, authFailed: true });
+            } else {
+                wizard.setState({ rejectProfile: true, rejectErrors: [err] });
+            }
+        });
 }
 
 const handleValidate = (step, wizard) => {
@@ -139,9 +140,9 @@ export const getWizardContent = (step, wizard) => {
             return (<PreferenceStep
                 header="Preferences &amp; Additional Info"
                 description="Extra information used toward to your personal profile."
-                hasVisibleProfile={state.hasVisibleProfile}
+                isVisible={state.isVisible}
                 hasVulnerable={state.hasVulnerable}
-                additionalQuals={state.additionalQuals}
+                customQualifications={state.customQualifications}
                 hasBiography={state.hasBiography}
                 biographyField={state.biographyField}
                 handleSwitch={(event) => {
@@ -177,9 +178,9 @@ const handleTextChange = (event, wizard) => {
 const handleQualTextChange = (event, wizard) => {
     const state = wizard.state;
     const target = event.target;
-    const newAdditionalQuals = [...state.additionalQuals];
-    newAdditionalQuals[parseInt(target.name)] = target.value
-    wizard.setState({ additionalQuals: newAdditionalQuals });
+    const newCustomQualifications = [...state.customQualifications];
+    newCustomQualifications[parseInt(target.name)] = target.value
+    wizard.setState({ customQualifications: newCustomQualifications });
 }
 
 const handleSwitch = (event, wizard) => {
@@ -191,7 +192,7 @@ const handleSwitch = (event, wizard) => {
 
 const handleAdd = (event, wizard) => {
     const state = wizard.state;
-    wizard.setState({ additionalQuals: [...state.additionalQuals, ""] });
+    wizard.setState({ customQualifications: [...state.customQualifications, ""] });
 }
 
 const validateQualification = wizard => {
