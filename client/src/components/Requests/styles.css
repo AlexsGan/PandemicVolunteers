@@ -8,7 +8,7 @@
 }
 
 .posted-chats {
-    display: flex;
+    display: block;
     margin-top: 50px;
     margin-bottom: 0px;
 }
