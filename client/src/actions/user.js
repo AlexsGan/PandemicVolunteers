@@ -7,7 +7,7 @@ export const checkCookie = (app) => {
                 return res.json();
             } else {
                 app.setState({ currentUser: null, userUpdated: false });
-                throw new Error();
+                Promise.reject(new Error());
             }
         })
         .then(json => {

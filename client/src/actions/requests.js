@@ -27,15 +27,10 @@ export const getRequests = (requestList) => {
 export const updateRequestForm = (formComp, field) => {
     const value = field.value;
     const name = field.name;
-    const requestHost = requestHost;
 
     formComp.setState({
         [name]: value
     });
-
-    formComp.setState({ // set requestHost
-        [requestHost]: formComp.app.state.currentUser
-    })
 };
 
 // A function to send a POST request with a new helpRequest
@@ -43,11 +38,13 @@ export const addRequest = (formComp, dashboardComp) => {
 
     console.log(formComp.app.state.currentUser)
 
+
     // the URL for the request
     const url = "/requests";
 
     // The data we are going to send in our request
-    const helpRequest = formComp.state
+    const helpRequest = {requestContent: formComp.state.requestContent,
+                        requestHost: formComp.app.state.currentUser}
 
     // Create our request constructor with all the parameters we need
     const request = new Request(url, {

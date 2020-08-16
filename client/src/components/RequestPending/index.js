@@ -13,8 +13,12 @@
 
 // import "./../../App.css";
 
-// /* Component for the List of users that wants to help this user's helpRequests */
+/* Component for the List of users that wants to help this user's helpRequests */
 // class RequestPending extends React.Component {
+//     constructor(props) {
+//         super(props);
+//         this.app = app;
+//     }
 
 //     // helpRequest list state
 //     state = {
