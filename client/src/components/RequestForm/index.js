@@ -11,6 +11,10 @@ import "./styles.css";
 
 /* Component for the Request Form */
 class RequestForm extends React.Component {
+    constructor(props) {
+        super(props);
+        this.app = props.app;
+    }
 
     // helpRequest form state
     state = {
@@ -56,7 +60,7 @@ class RequestForm extends React.Component {
                             onClick={() => addRequest(this, dashboard)}
                             className="student-form__submit-button"
                         >
-                            Add HelpRequest
+                            Add Request
                         </Button>
                     </Grid>
                 </Grid>

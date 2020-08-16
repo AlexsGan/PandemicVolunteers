@@ -2,7 +2,7 @@
 // and then loop through them and add a list element for each helpRequest
 export const getRequests = (requestList) => {
     // the URL for the request
-    const url = "/api/requests";
+    const url = "/requests";
 
     // Since this is a GET request, simply call fetch on the URL
     fetch(url)
@@ -15,8 +15,10 @@ export const getRequests = (requestList) => {
             }
         })
         .then(json => {
-            // the resolved promise with the JSON body
-            requestList.setState({ requestList: json.helpRequests });
+            if (json) {
+                // the resolved promise with the JSON body
+                requestList.setState({ requestList: json.helpRequests });
+            }
         })
         .catch(error => {
             console.log(error);
@@ -39,24 +41,28 @@ export const addRequest = (formComp, dashboardComp) => {
     const url = "/requests";
 
     // The data we are going to send in our request
-    const helpRequest = formComp.state
+    const helpRequest = {
+        requestHost: formComp.app.state.currentUser.username,
+        requestContent: formComp.state.requestContent
+    };
 
     // Create our request constructor with all the parameters we need
     const request = new Request(url, {
-        method: "post",
+        method: "POST",
         body: JSON.stringify(helpRequest),
         headers: {
             Accept: "application/json, text/plain, */*",
             "Content-Type": "application/json"
         }
     });
-
+    console.log("ADD REQUEST FETCH");
+    console.log(helpRequest);
     // Send the request with fetch()
     fetch(request)
-        .then(function (res) {
+        .then((res) => {
             // Handle response we get from the API.
             // Usually check the error codes to see what happened.
-            if (res.status === 200) {
+            if (res.ok) {
                 // If helpRequest was added successfully, tell the user.
                 dashboardComp.setState({
                     message: {
@@ -64,6 +70,8 @@ export const addRequest = (formComp, dashboardComp) => {
                         type: "success"
                     }
                 });
+                console.log("ADD REQUEST SUCCESS");
+                console.log(res);
             } else {
                 // If server couldn't add the helpRequest, tell the user.
                 // Here we are adding a generic message, but you could be more specific in your app.
@@ -73,6 +81,7 @@ export const addRequest = (formComp, dashboardComp) => {
                         type: "error"
                     }
                 });
+                console.log("ADD REQUEST FAIL")
             }
         })
         .catch(error => {

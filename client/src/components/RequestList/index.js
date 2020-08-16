@@ -1,5 +1,4 @@
 import React from "react";
-import { uid } from "react-uid";
 import Button from "@material-ui/core/Button";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -16,7 +15,11 @@ import "./styles.css";
 
 /* Component for the List of helpRequests */
 class RequestList extends React.Component {
-
+    constructor(props) {
+        super(props)
+        this.app = props.app;
+        getRequests(this);
+    }
     // helpRequest list state
     state = {
         requestList: []
@@ -25,23 +28,24 @@ class RequestList extends React.Component {
     render() {
         return (
             <React.Fragment>
-                {/* <Button
+                <Button
                     onClick={() => getRequests(this)}
                     className="student-list__button app__horizontal-center"
                     variant="contained"
                 >
                     Get Requests
-                </Button> */}
-                {getRequests(this)}
-
-                {this.state.requestList.map(helpRequest => (
-                    <HelpRequest
-                        key={uid(
-                            helpRequest
-                        )} /* unique id required to help React render more efficiently when we delete helpRequests. */
-                        helpRequest={helpRequest}
-                    />
-                ))}
+                </Button>
+                {this.state.requestList.map((helpRequest, index) => {
+                        if (helpRequest) {
+                            return (
+                                <HelpRequest
+                                    key={index}
+                                    helpRequest={helpRequest}
+                                />
+                            );
+                        }
+                    })
+                }
             </React.Fragment>
         );
     }
