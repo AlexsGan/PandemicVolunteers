@@ -8,7 +8,7 @@ const UserSchema = mongoose.model('User').schema;
 
 const HelpRequest = mongoose.model('HelpRequest', {
 	requestHost: {
-		type: UserSchema, // TODO: the user who created the helpRequest
+		type: String, // TODO: the user who created the helpRequest
 		// required: true,
 		minlength: 1,
 		trim: true
