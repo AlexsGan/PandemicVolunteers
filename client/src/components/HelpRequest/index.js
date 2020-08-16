@@ -9,6 +9,7 @@ import { assistRequest, deleteRequest } from "../../actions/requests";
 
 import "./styles.css";
 import Typography from "@material-ui/core/Typography";
+import { Link } from "react-router-dom";
 
 class HelpRequest extends React.Component {
     render() {
@@ -19,17 +20,20 @@ class HelpRequest extends React.Component {
             <Container className="requests-container" maxWidth="lg" fixed="true">
 
                 <Box
+                    component="div"
                     className="posted-chats"
                     bgcolor="grey.300"
                     borderRadius={10}
                     p={1}
                 >
-                    <Box>
-                        <Typography variant="subtitle1">
-                            {helpRequest.requestHost}'s Request
-                        </Typography>
+                    <Box component="div">
+                        <Link to={`/profile/${helpRequest.requestHost}`}>
+                            <Typography variant="h5">
+                                {helpRequest.requestHost}'s Request
+                            </Typography>
+                        </Link>
                     </Box>
-                    <Box>
+                    <Box component="div">
                         {helpRequest.requestContent}
                     </Box>
                 </Box>
