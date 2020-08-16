@@ -5,9 +5,6 @@ export const checkCookie = (app) => {
         .then(res => {
             if (res.ok) {
                 return res.json();
-            } else {
-                app.setState({ currentUser: null, userUpdated: false });
-                Promise.reject(new Error());
             }
         })
         .then(json => {
