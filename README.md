@@ -1,5 +1,7 @@
 # team33
 
+NOTE: one of our group member (Tony) dropped the course before phase 1 is due, and our group only has 2 members in total after that.
+
 **How to Use the Web App**
 
 If the rightmost tab in the navigation bar is "LOGIN" instead of "PROFILE", then user can only look at the request feed but cannot send or assist requests. 
@@ -16,8 +18,12 @@ After registering or logging in, user can see their profile in "PROFILE" as well
 
 (Note: the password field can only be used to change one's password.)
 
+A user can:
+* browse requests by clicking on "get requests" button
 A logged in user can:
-* in "FEED", browse and add requests, applying to help a request, and accept incoming request applications
-* in "MY REQUESTS", view your sent and accepted requests.
+* in "FEED":
+    * add request 
+    * applying to help a request by clicking on "assist request" button, and accept incoming request applications. (this part is not finished)
+* in "MY REQUESTS", view your sent and accepted requests (this part is not finished)
 
 If the user is an admin, they can delete requests posts and chat messages. Sign into the hardcoded admin account by using the username "admin" and password "admin", and clicking "Admin Login".
