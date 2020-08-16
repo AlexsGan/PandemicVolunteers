@@ -22,7 +22,8 @@ A user can:
 * browse requests by clicking on "get requests" button
 A logged in user can:
 * in "FEED":
-    * add request 
+    * add request
+    * View the profile of a request creator by clicking the user's name 
     * applying to help a request by clicking on "assist request" button, and accept incoming request applications. (this part is not finished)
 * in "MY REQUESTS", view your sent and accepted requests (this part is not finished)
 
