@@ -256,7 +256,7 @@ app.patch("/api/users/:username", mongoConnectCheck, authenticate, (req, res) =>
     }
     // Attempt by a non-admin to update a different user
     if (username !== creator && !isAdmin(creator)) {
-        res.status(401).send(`${creator} Not authorized to create profile for '${username}'.`);
+        res.status(403).send(`${creator} Forbidden to update profile of '${username}'.`);
         return;
     }
     // All attributes in schema
@@ -289,6 +289,30 @@ app.patch("/api/users/:username", mongoConnectCheck, authenticate, (req, res) =>
         })
         .catch((err) => {
             handleUserCreationErrors(err, res);
+        });
+});
+
+// A DELETE route to delete a user account
+app.delete("/api/users/:username", mongoConnectCheck, authenticate, (req, res) => {
+    const username = req.params.username || '';
+    const creator = req.user || '';
+    // Attempt by a non-admin to delete a different user
+    if (username !== creator && !isAdmin(creator)) {
+        res.status(403).send(`${creator} Forbidden to delete account of user '${username}'.`);
+        return;
+    }
+
+    // Find user by username and delete
+    User.findOneAndDelete({ username: username })
+        .then((user) => {
+            if (!user) {
+                res.status(404).send(`User '${username}' not found.`);
+            } else {
+                res.send(user.toJSON());
+            }
+        })
+        .catch((err) => {
+            res.status(500).send('Internal Server Error');
         });
 });
 
