@@ -1,6 +1,8 @@
 # team33
 
-NOTE: one of our group member (Tony) dropped the course before phase 1 is due, and our group only has 2 members in total after that.
+NOTE: one of our group member (Tony) dropped the course before phase 1 is due, so our group only has 2 members in total after that.
+
+link: guarded-ocean-44632.herokuapp.com
 
 **How to Use the Web App**
 
