@@ -63,7 +63,7 @@ const authenticate = (req, res, next) => {
 
 // Log new requests to console
 app.use((req, res, next) => {
-    res.on('finish', function() {
+    res.on('finish', function () {
         if (['api', 'session'].includes(req.path.split('/')[1])) {
             log(`${req.method} Request to ${req.path} by user "${req.user || ''}"`);
         }
@@ -256,7 +256,7 @@ app.patch("/api/users/:username", mongoConnectCheck, authenticate, (req, res) =>
     }
     // Attempt by a non-admin to update a different user
     if (username !== creator && !isAdmin(creator)) {
-        res.status(401).send(`${creator} Not authorized to create profile for '${username}'.`);
+        res.status(403).send(`${creator} Forbidden to update profile of '${username}'.`);
         return;
     }
     // All attributes in schema
@@ -289,6 +289,30 @@ app.patch("/api/users/:username", mongoConnectCheck, authenticate, (req, res) =>
         })
         .catch((err) => {
             handleUserCreationErrors(err, res);
+        });
+});
+
+// A DELETE route to delete a user account
+app.delete("/api/users/:username", mongoConnectCheck, authenticate, (req, res) => {
+    const username = req.params.username || '';
+    const creator = req.user || '';
+    // Attempt by a non-admin to delete a different user
+    if (username !== creator && !isAdmin(creator)) {
+        res.status(403).send(`${creator} Forbidden to delete account of user '${username}'.`);
+        return;
+    }
+
+    // Find user by username and delete
+    User.findOneAndDelete({ username: username })
+        .then((user) => {
+            if (!user) {
+                res.status(404).send(`User '${username}' not found.`);
+            } else {
+                res.send(user.toJSON());
+            }
+        })
+        .catch((err) => {
+            res.status(500).send('Internal Server Error');
         });
 });
 
@@ -391,7 +415,7 @@ app.patch("/api/users/:username/profile", mongoConnectCheck, authenticate, (req,
         propsToUpdate[prop] = props[prop];
     }
     // Find user by username
-    User.findOne({username: username})
+    User.findOne({ username: username })
         .then((user) => {
             if (!user) {
                 res.status(404).send(`User ${username} does not exist.`);
@@ -454,6 +478,7 @@ app.post("/requests", (req, res) => {
     // Create a new helpRequest using the HelpRequest mongoose model
     const helpRequest = new HelpRequest({
         requestContent: req.body.requestContent,
+        requestHost: req.body.requestContent,
     });
 
     console.log("posting a request")
@@ -463,11 +488,11 @@ app.post("/requests", (req, res) => {
     helpRequest.save().then(
         result => {
             res.send(result);
-        },
-        error => {
-            res.status(400).send(error); // 400 for bad request
         }
-    );
+    ).catch((err) => {
+        res.status(500).send('Internal Server Error'); // server error
+    }
+    )
 });
 
 // a GET route to get all helpRequest
@@ -477,8 +502,8 @@ app.get("/api/requests", mongoConnectCheck, (req, res) => {
             res.send({ helpRequests });
         })
         .catch((err) => {
-                res.status(500).send('Internal Server Error'); // server error
-            }
+            res.status(500).send('Internal Server Error'); // server error
+        }
         );
 });
 // app.get("/api/requests", mongoConnectCheck, authenticate, (req, res) => {
@@ -496,12 +521,12 @@ app.get("/api/requests", mongoConnectCheck, (req, res) => {
 // a POST route to add a pending user to the request they want to help
 // app.post('/requests/:id', (req, res) => {    
 //     const id = req.params.id
-    
+
 // 	if (!ObjectID.isValid(id)) {
 // 		res.status(404).send()  // if invalid id, definitely can't find resource, 404.
 // 		return;  // so that we don't run the rest of the handler.
 // 	}
-	
+
 // 	HelpRequest.findById(id).then((helpRequest) => {
 // 		if (!helpRequest) {
 // 			res.status(404).send()

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
+    "heroku-postbuild": "cd client && npm install && npm run build",
     "setup": "npm install && cd client && npm install && cd ..",
     "build-run": "cd client && npm run build && cd .. && node server.js",
     "build-run-nodemon": "cd client && npm run build && cd .. && nodemon server.js",
@@ -16,6 +17,8 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "mongodb": "^3.6.0",
-    "mongoose": "^5.10.0"
+    "mongoose": "^5.10.0",
+    "react": "^16.13.1",
+    "react-uid": "^2.3.0"
   }
 }

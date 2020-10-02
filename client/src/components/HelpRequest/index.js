@@ -12,7 +12,7 @@ import "./styles.css";
 class HelpRequest extends React.Component {
   render() {
     const { helpRequest } = this.props;
-    const { requestContent } = helpRequest;
+    const { requestContent } = helpRequest.requestContent;
 
     return (
       // this container allows the gray request contents to have fixed size
