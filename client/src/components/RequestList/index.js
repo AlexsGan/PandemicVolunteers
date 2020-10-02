@@ -25,14 +25,14 @@ class RequestList extends React.Component {
     render() {
         return (
             <React.Fragment>
-                {/* <Button
+                <Button
                     onClick={() => getRequests(this)}
                     className="student-list__button app__horizontal-center"
                     variant="contained"
                 >
-                    Get Requests
-                </Button> */}
-                {getRequests(this)}
+                    {getRequests(this)}
+                </Button>
+                {/* {getRequests(this)} */}
 
                 {this.state.requestList.map(helpRequest => (
                     <HelpRequest
