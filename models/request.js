@@ -1,20 +1,20 @@
 /* Student mongoose model */
 'use strict';
 
-require('./user'); // we'll use the User schema
+const UserSchema = require('./user').UserSchema;
 
 const mongoose = require('mongoose');
-const UserSchema = mongoose.model('User').schema;
 
 const HelpRequest = mongoose.model('HelpRequest', {
 	requestHost: {
-		type: UserSchema, // TODO: the user who created the helpRequest
+		type: String, // TODO: the user who created the helpRequest
 		// required: true,
 		minlength: 1,
 		trim: true
 	},
 	time: {
 		type: String,
+		default: new Date()
 		// required: true,
 	},
 	requestContent: {

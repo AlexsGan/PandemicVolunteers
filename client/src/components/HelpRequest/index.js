@@ -8,49 +8,57 @@ import { Container, Box, Grid } from "@material-ui/core";
 import { assistRequest, deleteRequest } from "../../actions/requests";
 
 import "./styles.css";
+import Typography from "@material-ui/core/Typography";
+import { Link } from "react-router-dom";
 
 class HelpRequest extends React.Component {
-  render() {
-    const { helpRequest } = this.props;
-    const { requestContent } = helpRequest;
+    render() {
+        const { helpRequest } = this.props;
 
-    return (
-      // this container allows the gray request contents to have fixed size
-      <Container className="requests-container" maxWidth="lg" fixed="true">
+        return (
+            // this container allows the gray request contents to have fixed size
+            <Container className="requests-container" maxWidth="lg" fixed="true">
 
-        <Box
-          className="posted-chats"
-          component="span"
-          display="flex"
-          bgcolor="grey.300"
-          borderRadius={10}
-          p={1}
-        >
-          {requestContent}
-          <Button
-            variant="outlined"
-            // onClick={() => assistRequest(this)}
-            color="primary"
-          >
-            Assist Request
-          </Button>
-        </Box>
-        <Button
-          variant="outlined"
-        // onClick={() => this.deleteRequest(item.key)} // TODO
-        >
-          Delete request
-        </Button>
-        <Box
-          style={{ float: "right" }}
-        >
-          {/* {item.date} */}
-          TODO: posted date
-        </Box>
+                <Box
+                    component="div"
+                    className="posted-chats"
+                    bgcolor="grey.300"
+                    borderRadius={10}
+                    p={1}
+                >
+                    <Box component="div">
+                        <Link to={`/profile/${helpRequest.requestHost}`}>
+                            <Typography variant="h5">
+                                {helpRequest.requestHost}'s Request
+                            </Typography>
+                        </Link>
+                    </Box>
+                    <Box component="div">
+                        {helpRequest.requestContent}
+                    </Box>
+                </Box>
+                <Button
+                    variant="outlined"
+                    // onClick={() => assistRequest(this)}
+                    color="primary"
+                >
+                    Assist Request
+                </Button>
+                <Button
+                    variant="outlined"
+                    // onClick={() => this.deleteRequest(item.key)} // TODO
+                >
+                    Delete request
+                </Button>
+                <Box
+                    style={{ float: "right" }}
+                >
+                    {helpRequest.date}
+                </Box>
 
-      </Container>
-    );
-  }
+            </Container>
+        );
+    }
 }
 
 export default HelpRequest;
